@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: white;
+    font-family: "Arial", Sans-serif;
+    font-size: 24px;
+}
+
+a {
+    color: white;
+}
+
+.first_text {
+    position: absolute;
+    top: 300px;
+    left: 200px;
+    
+}
+
+.first_image {
+    position: absolute;
+    top: 0px;
+    left: 900px;
+}
+
+.second_text {
+    position: absolute;
+    top: 1000px;
+    left: 200px;
+    
+}
+
+.second_image {
+    position: absolute;
+    top: 800px;
+    left: 900px;
+}
+
+.third_text {
+    position: absolute;
+    top: 1700px;
+    left: 200px;
+}
+
+.third_image {
+    position: absolute;
+    top: 1500px;
+    left: 900px;
+}
+
+.fourth_text {
+    position: absolute;
+    top: 2400px;
+    left: 200px;
+}
+
+.fourth_image {
+    position: absolute;
+    top: 2200px;
+    left: 900px;
+}
+
+.fifth_text {
+    position: absolute;
+    top: 3100px;
+    left: 200px;
+}
