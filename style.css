@@ -4,65 +4,74 @@ body {
     background-color: #000000;
     color: white;
     font-family: "Arial", Sans-serif;
-    font-size: 24px;
+    font-size: 22px;
 }
 
 a {
     color: white;
 }
 
-.first_text {
+::-webkit-scrollbar {
+    background-color: black; 
+}
+
+.intro_text {
     position: absolute;
     top: 300px;
     left: 200px;
-    
 }
 
-.first_image {
+.intro_image {
     position: absolute;
     top: 0px;
     left: 900px;
 }
 
-.second_text {
+.game_text {
     position: absolute;
-    top: 1000px;
+    top: 700px;
     left: 200px;
-    
 }
 
-.second_image {
+.game_image {
     position: absolute;
     top: 800px;
     left: 900px;
 }
 
-.third_text {
+.web_text {
     position: absolute;
     top: 1700px;
     left: 200px;
 }
 
-.third_image {
+.web_image {
     position: absolute;
     top: 1500px;
     left: 900px;
 }
 
-.fourth_text {
+.system_text {
     position: absolute;
     top: 2400px;
     left: 200px;
 }
 
-.fourth_image {
+.system_image {
     position: absolute;
-    top: 2200px;
+    top: 2100px;
     left: 900px;
 }
 
-.fifth_text {
+.look_text {
     position: absolute;
-    top: 3100px;
+    top: 3300px;
     left: 200px;
 }
+
+.look_image {
+    position: absolute;
+    top: 3100px;
+    left: 900px;
+}
+
