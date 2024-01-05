@@ -17,7 +17,7 @@ a {
 
 .intro_text {
     position: absolute;
-    top: 300px;
+    top: 200px;
     left: 200px;
 }
 
@@ -65,13 +65,13 @@ a {
 
 .look_text {
     position: absolute;
-    top: 3300px;
+    top: 3000px;
     left: 200px;
 }
 
 .look_image {
     position: absolute;
-    top: 3100px;
+    top: 2900px;
     left: 900px;
 }
 
