@@ -10,6 +10,10 @@
 </head>
 
 <body>
+    <div class="sticky">
+        <p><a href="#contact">Contact me</a></p>
+    </div>
+    
     <div class="intro">
         <div class="intro_text">
             <h1>Hi, I'm Anthony, <br> software developer</h1>
@@ -24,7 +28,7 @@
     </div>
 
     <div class="game">
-        <div class="game_text">
+        <div class="game_text" id="game">
             <h1>Game development</h1>
             <p>I've worked on next games:</p>
             <a href="https://store.steampowered.com/app/1191120/Growing_Up/">Growing up</a>
@@ -59,7 +63,7 @@
     </div>
 
     <div class="web">
-        <div class="web_text">
+        <div class="web_text" id="web">
             <h1>Web development</h1>
             <p>This website created by me using:</p>
             <ul>
@@ -82,7 +86,7 @@
 
     <div class="system">
 
-        <div class="system_text">
+        <div class="system_text" id="system">
             <h1>System administration</h1>
             <p>Previous experience:</p>
             <ul>
@@ -100,7 +104,7 @@
     </div>
 
     <div class="look">
-        <div class="look_text">
+        <div class="look_text" id="look">
             <h1>What I'm looking for?</h1>
             <p>Due to moving to a new country and time difference with Europe, <br />I am looking for a company for cooperation.</p>
 
@@ -125,21 +129,27 @@
     </div>
 
     <div class="contact">
-        <div class="contact_text">
+        <div class="contact_text" id="contact">
             <h1>Contact me</h1>
             <p>By email: anton.onokhin2@gmail.com</p>
             <p>Or by website form:</p>
 
             <form id="form" action="process_form.php" method="post">
                 <label for="name">Name:</label>
+                <br />
                 <input type="text" name="name" id="name" required>
-
+                <br />
+                <br />
                 <label for="email">Email:</label>
+                <br />
                 <input type="email" name="email" id="email" required>
-
+                <br />
+                <br />
                 <label for="message">Message:</label>
+                <br />
                 <textarea id="message" name="message" required></textarea>
-
+                <br />
+                <br />
                 <input onclick="showMessage()" type="submit" value="Submit">
             </form>
 
@@ -150,9 +160,9 @@
         </div>
 
     </div>
-    
+
     <div class="black_text">
-        <p>text</p>
+        <p>Invisible text</p>
     </div>
 
 </body>
