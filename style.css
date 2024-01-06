@@ -75,3 +75,27 @@ a {
     left: 900px;
 }
 
+.contact_text {
+    position: absolute;
+    top: 3800px;
+    left: 200px;
+}
+
+.contact_image {
+    position: absolute;
+    top: 3600px;
+    left: 900px;
+}
+
+.confirm {
+    position: absolute;
+    top: 4100px;
+    left: 200px;
+}
+
+.black_text {
+    color: black;
+    position: absolute;
+    top: 4200px;
+    left: 200px;
+}
