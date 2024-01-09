@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Onokin</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script src="script.js"></script>
 </head>
 
 <body>
-    <div class="sticky">
-        <p><a href="#contact">Contact me</a></p>
+    <div class="dropdown">
+        <button class="dropbtn">Fast links</button>
+        <div class="dropdown-content">
+            <a href="#contact">Contact</a>
+            <a href="document_managment.html">Doc Management</a>
+            <a href="digital_appeal.html">Stylization</a>
+            <a href="seo.html">Attracting Clients</a>
+            <a href="client.html">Client Base Creation</a>
+        </div>
     </div>
     
     <div class="intro">
         <div class="intro_text">
             <h1>Hi, I'm Anthony, <br> software developer</h1>
             <p>Dedicating my life to completing tasks quickly and efficiently.</p>
-            <p><a href="#contact">Contact me</a></p>
+            <a href="#contact" class="button">Contact me</a>
         </div>
 
         <div class="intro_image">
@@ -26,12 +33,16 @@
         </div>
     </div>
     
-    <div class="web">
+    <div class="promo">
         <div class="web_text">
             <h1>Young experienced developer <br /> It is a good solution for any team.</h1>
-            <p>My integration to your team will improve hard and soft group skills.  <br />Organize friendly and effective work environment, <br /> And increase team's overall performance.</p>
+            <p> 
+                My integration to your team will improve hard and soft group skills.<br />
+                Organize friendly and effective work environment,<br /> 
+                And increase team's overall performance.
+            </p>
             <ul>
-                <li>Over 5 years of commercial web development experience.</li>
+                <li>Extensive experience in commercial web development.</li>
                 <br />
                 <li>Using of the latest versions of frameworks and libraries <br /> to ensure high quality and fast development.</li>
                 <br />
@@ -42,64 +53,26 @@
         </div>
 
         <div class="web_image">
-            <img src="images/img_2.jpg" alt="cup" width="500" height="700">
+            <img src="images/img_2.jpg" alt="flower" width="500" height="700">
         </div>
     </div>
 
     <div class="solutions">
-        <div class="solutions_text">
+        <div class="solutions_text" id="solutions">
             <h1>My solutions:</h1>
             <ul>
-                <li>Document Management</li>
+                <li><a href="document_managment.html">Document Management</a></li>
                 <br />
-                <li>Introducing the company to potential client</li>
+                <li><a href="digital_appeal.html">Introducing the company to potential client</a></li>
                 <br />
-                <li>Attracting clients</li>
+                <li><a href="seo.html">Attracting clients</a></li>
                 <br />
-                <li>Receiving client contacts</li>
-                <br />
-                <li>Helping the client to buy</li>
-                <br />
-                <li>Formation of a permanent client base</li>
+                <li><a href="client.html">Formation of a permanent client base</a></li>
             </ul>
         </div>
 
         <div class="solutions_image">
-            <img src="images/img_4.jpg" alt="cup" width="500" height="700">
-        </div>
-    </div>
-
-    <div class="tools">
-        <div class="tools_text">
-            <h1>My realisation methods:</h1>
-            <ul>
-                <li>Searching algorithms improvement</li>
-                <br />
-                <li>Creating a stylized website design</li>
-                <br />
-                <li>Creating a database to store client information <br />or business documents</li>
-                <br />
-                <li>Creation of promotional materials and discounts.</li>
-                <br />
-                <li>Integration of payment systems</li>
-                <br />
-                <li>Creation of mobile applications for easy tracking <br />and use of customer points</li>
-            </ul>
-        </div>
-
-        <div class="tools_image">
-            <img src="images/img_3.jpg" alt="cup" width="500" height="700">
-        </div>
-    </div>
-
-    <div class="look">
-        <div class="look_text" id="look">
-            <h1>My needs</h1>
-            <p>I'm looking for a reliable colleagues with whom <br /> I could make other people's dreams come true!</p>
-        </div>
-
-        <div class="look_image">
-            <img src="images/img_5.jpg" alt="Cup_2" width="500" height="700" />
+            <img src="images/img_4.jpg" alt="rose" width="500" height="700">
         </div>
     </div>
 
@@ -125,13 +98,13 @@
                 <textarea id="message" name="message" required></textarea>
                 <br />
                 <br />
-                <input onclick="showMessage()" type="submit" value="Submit">
+                <input class="button" onclick="showMessage()" type="submit" value="Submit">
             </form>
 
         </div>
 
         <div class="contact_image">
-            <img src="images/img_6.jpg" alt="Cup_3" width="500" height="700" />
+            <img src="images/img_6.jpg" alt="cup" width="500" height="700" />
         </div>
 
     </div>

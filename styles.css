@@ -1,0 +1,217 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000;
+    color: white;
+    font-family: "Arial", Sans-serif;
+    font-size: 22px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid #2c3e50;
+    color: white;
+    background-color: #34495e;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+    background-color: #1d2833; 
+    }
+
+.dropdown {
+    position: fixed
+}
+
+.dropbtn {
+    background-color: #34495e;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #34495e;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #1d2833;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #1d2833;
+}
+
+.sticky {
+    position: fixed;
+    
+}
+
+textarea {
+    width: 300px;
+    height: 150px;
+}
+
+a {
+    color: white;
+}
+
+::-webkit-scrollbar {
+    background-color: black; 
+}
+
+.intro_text {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.intro_image {
+    position: absolute;
+    top: 0px;
+    left: 900px;
+}
+
+.web_text {
+    position: absolute;
+    top: 800px;
+    left: 200px;
+}
+
+.web_image {
+    position: absolute;
+    top: 700px;
+    left: 900px;
+}
+
+.solutions_text {
+    position: absolute;
+    top: 1700px;
+    left: 200px;
+}
+
+.solutions_image {
+    position: absolute;
+    top: 1400px;
+    left: 900px;
+}
+
+.contact_text {
+    position: absolute;
+    top: 2400px;
+    left: 200px;
+}
+
+.contact_image {
+    position: absolute;
+    top: 2300px;
+    left: 900px;
+}
+
+.black_text {
+    color: black;
+    position: absolute;
+    top: 3300px;
+    left: 200px;
+}
+
+.doc_manag_text {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.doc_manag_image {
+    position: absolute;
+    top: 0px;
+    left: 1100px;
+}
+
+.doc_manag_black_text {
+    color: black;
+    position: absolute;
+    top: 1500px;
+    left: 200px;
+}
+
+.digital_appeal_text {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.digital_appeal_image {
+    position: absolute;
+    top: -200px;
+    left: 1100px;
+}
+
+.digital_appeal_black_text {
+    color: black;
+    position: absolute;
+    top: 1200px;
+    left: 200px;
+}
+
+.seo_text {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.seo_image {
+    position: absolute;
+    top: 100px;
+    left: 1100px;
+}
+
+.seo_black_text {
+    color: black;
+    position: absolute;
+    top: 1200px;
+    left: 200px;
+}
+
+.client_rel_text {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.client_rel_image {
+    position: absolute;
+    top: 100px;
+    left: 1100px;
+}
+
+.client_rel_black_text {
+    color: black;
+    position: absolute;
+    top: 1300px;
+    left: 200px;
+}
