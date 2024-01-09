@@ -37,69 +37,69 @@ a {
     left: 900px;
 }
 
-.game_text {
-    position: absolute;
-    top: 700px;
-    left: 200px;
-}
-
-.game_image {
-    position: absolute;
-    top: 800px;
-    left: 900px;
-}
-
 .web_text {
     position: absolute;
-    top: 1700px;
+    top: 800px;
     left: 200px;
 }
 
 .web_image {
     position: absolute;
-    top: 1500px;
+    top: 700px;
     left: 900px;
 }
 
-.system_text {
+.solutions_text {
     position: absolute;
-    top: 2400px;
+    top: 1700px;
     left: 200px;
 }
 
-.system_image {
+.solutions_image {
     position: absolute;
-    top: 2100px;
+    top: 1400px;
+    left: 900px;
+}
+
+.tools_text {
+    position: absolute;
+    top: 2500px;
+    left: 200px;
+}
+
+.tools_image {
+    position: absolute;
+    top: 2400px;
     left: 900px;
 }
 
 .look_text {
     position: absolute;
-    top: 3000px;
+    top: 3300px;
     left: 200px;
 }
 
 .look_image {
     position: absolute;
-    top: 2900px;
+    top: 3100px;
     left: 900px;
 }
 
 .contact_text {
     position: absolute;
-    top: 3800px;
+    top: 3900px;
     left: 200px;
 }
 
 .contact_image {
     position: absolute;
-    top: 3700px;
+    top: 3800px;
     left: 900px;
 }
 
 .black_text {
     color: black;
     position: absolute;
-    top: 4500px;
+    top: 4800px;
     left: 200px;
 }
