@@ -3,21 +3,29 @@ body {
     color: white;
     font-family: "Arial", Sans-serif;
     font-size: 22px;
+}
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    body :not(dropdown > dropdown) {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+.dropdown {
+    position:fixed;
+    left:80%;
 }
 
 div {
     /*border: 1px solid #ccc;*/
-    margin: 50px;
+    margin: 3%;
 }
 
+
 ol, ul {
-    list-style-position: inside;
-    text-align:left;
+    text-align: left;
+    border: 1px solid #ccc;
 }
 
 .button {
@@ -28,14 +36,18 @@ ol, ul {
     font-size: 16px;
     font-weight: bold;
     border: none;
-
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
-.button:hover {
-    background-color: #1d2833; 
+    .button:hover {
+        background-color: #1d2833;
     }
+
+.dropdown {
+    margin: 10px;
+}
+
 
 .dropbtn {
     border-radius: 5px;
@@ -60,16 +72,16 @@ ol, ul {
     z-index: 1;
 }
 
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
 
-.dropdown-content a:hover {
-    background-color: #1d2833;
-}
+        .dropdown-content a:hover {
+            background-color: #1d2833;
+        }
 
 .dropdown:hover .dropdown-content {
     display: block;
@@ -86,10 +98,11 @@ a {
 }
 
 ::-webkit-scrollbar {
-    background-color: black; 
+    background-color: black;
 }
 
 @media (max-width: 600px) {
     body {
         font-size: 14px;
     }
+}

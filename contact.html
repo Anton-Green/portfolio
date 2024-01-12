@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthony Onokin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">Fast links</button>
+        <div class="dropdown-content">
+            <a href="index.html">Main Menu</a>
+            <a href="document_managment.html">Doc Management</a>
+            <a href="digital_appeal.html">Stylization</a>
+            <a href="seo.html">Attracting Clients</a>
+            <a href="client.html">Client Base Creation</a>
+        </div>
+
+    </div>
+    <div class="contact_text" id="contact">
+        <h1>Contact me</h1>
+        <p>By email: anton.onokhin2@gmail.com</p>
+        <p>Or by website form:</p>
+
+        <form id="form" action="process_form.php" method="post">
+            <label for="name">Name:</label>
+            <br />
+            <input type="text" name="name" id="name" required>
+            <br />
+            <br />
+            <label for="email">Email:</label>
+            <br />
+            <input type="email" name="email" id="email" required>
+            <br />
+            <br />
+            <label for="message">Message:</label>
+            <br />
+            <textarea id="message" name="message" required></textarea>
+            <br />
+            <br />
+            <input class="button" onclick="showMessage()" type="submit" value="Submit">
+        </form>
+
+    </div>
+
+    <div>
+        <a href="index.html" class="button">Main menu</a>
+    </div>
+
+</body>
+</html>

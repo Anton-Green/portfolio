@@ -12,12 +12,17 @@
 </head>
 <body>
 
-    <!--<p id="coords1"></p>-->
-
     <div class="dropdown">
+
+        <!--<div class="test">
+            <button>
+                <p>text</p>
+            </button>
+        </div>-->
+
         <button class="dropbtn">Fast links</button>
         <div class="dropdown-content">
-            <a href="index.html #contact">Contact</a>
+            <a href="contact.html">Contact</a>
             <a href="index.html">Main Menu</a>
             <a href="document_managment.html">Doc Management</a>
             <a href="digital_appeal.html">Stylization</a>
@@ -25,71 +30,72 @@
         </div>
     </div>
 
-    <div class="intro_text">
-        <h1>Hi, I'm Anthony, <br> software developer</h1>
-        <p>Dedicating my life to completing tasks quickly and efficiently.</p>
-        <a href="#contact" class="button">Contact me</a>
+    <div class="parent-element">
+        <div class="intro_text">
+            <h1>Hi, I'm Anthony, <br> software developer</h1>
+            <p>Dedicating my life to completing tasks quickly and efficiently.</p>
+            <a href="#contact" class="button">Contact me</a>
 
+        </div>
+
+
+        <div class="web_text">
+            <h1>Young experienced developer <br /> It is a good solution for any team.</h1>
+            <p>
+                My integration to your team will improve hard and soft group skills. <br />
+                Organize friendly and effective work environment, <br />
+                And increase team's overall performance. <br />
+            </p>
+            <ul>
+                <li>Extensive experience in commercial web development.</li>
+                <br />
+                <li>Using of the latest versions of frameworks and libraries <br /> to ensure high quality and fast development.</li>
+                <br />
+                <li>Experience in all development stages, <br /> from technical assessment to supporting finished product.</li>
+                <br />
+                <li>Quick integration to any working conditions and environments.</li>
+            </ul>
+        </div>
+
+        <div class="solutions_text" id="solution_id">
+            <h1>My solutions:</h1>
+            <ul>
+                <li><a href="document_managment.html">Document Management</a></li>
+                <br />
+                <li><a href="digital_appeal.html">Introducing the company to potential client</a></li>
+                <br />
+                <li><a href="seo.html">Attracting clients</a></li>
+                <br />
+                <li><a href="client.html">Formation of a permanent client base</a></li>
+            </ul>
+        </div>
+
+        <div class="contact_text" id="contact">
+            <h1>Contact me</h1>
+            <p>By email: anton.onokhin2@gmail.com</p>
+            <p>Or by website form:</p>
+
+            <form id="form" action="process_form.php" method="post">
+                <label for="name">Name:</label>
+                <br />
+                <input type="text" name="name" id="name" required>
+                <br />
+                <br />
+                <label for="email">Email:</label>
+                <br />
+                <input type="email" name="email" id="email" required>
+                <br />
+                <br />
+                <label for="message">Message:</label>
+                <br />
+                <textarea id="message" name="message" required></textarea>
+                <br />
+                <br />
+                <input class="button" onclick="showMessage()" type="submit" value="Submit">
+            </form>
+
+        </div>
     </div>
-
-
-    <div class="web_text">
-        <h1>Young experienced developer <br /> It is a good solution for any team.</h1>
-        <p>
-            My integration to your team will improve hard and soft group skills.<br />
-            Organize friendly and effective work environment,<br />
-            And increase team's overall performance.
-        </p>
-        <ul>
-            <li>Extensive experience in commercial web development.</li>
-            <br />
-            <li>Using of the latest versions of frameworks and libraries <br /> to ensure high quality and fast development.</li>
-            <br />
-            <li>Experience in all development stages, <br /> from technical assessment to supporting finished product.</li>
-            <br />
-            <li>Quick integration to any working conditions and environments.</li>
-        </ul>
-    </div>
-
-    <div class="solutions_text" id="solution_id">
-        <h1>My solutions:</h1>
-        <ul>
-            <li><a href="document_managment.html">Document Management</a></li>
-            <br />
-            <li><a href="digital_appeal.html">Introducing the company to potential client</a></li>
-            <br />
-            <li><a href="seo.html">Attracting clients</a></li>
-            <br />
-            <li><a href="client.html">Formation of a permanent client base</a></li>
-        </ul>
-    </div>
-
-    <div class="contact_text" id="contact">
-        <h1>Contact me</h1>
-        <p>By email: anton.onokhin2@gmail.com</p>
-        <p>Or by website form:</p>
-
-        <form id="form" action="process_form.php" method="post">
-            <label for="name">Name:</label>
-            <br />
-            <input type="text" name="name" id="name" required>
-            <br />
-            <br />
-            <label for="email">Email:</label>
-            <br />
-            <input type="email" name="email" id="email" required>
-            <br />
-            <br />
-            <label for="message">Message:</label>
-            <br />
-            <textarea id="message" name="message" required></textarea>
-            <br />
-            <br />
-            <input class="button" onclick="showMessage()" type="submit" value="Submit">
-        </form>
-
-    </div>
-
 
 </body>
 </html>
