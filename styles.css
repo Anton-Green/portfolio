@@ -7,6 +7,33 @@ body {
     font-size: 22px;
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-gap: 20px;
+    text-align:center;
+    align-items:center;
+
+}
+
+ul, ol {
+    list-style-position: inside;
+}
+
+/*    .grid-container > div {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+*/
+/*div {
+    margin: 100px;
+}
+*/
+/*@media only screen and (max-width: 600px) {
+body {
+    font-size:24px;
+}
+}*/
+
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -85,133 +112,7 @@ a {
     background-color: black; 
 }
 
-.intro_text {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
 
-.intro_image {
-    position: absolute;
-    top: 0px;
-    left: 900px;
-}
 
-.web_text {
-    position: absolute;
-    top: 800px;
-    left: 200px;
-}
 
-.web_image {
-    position: absolute;
-    top: 700px;
-    left: 900px;
-}
 
-.solutions_text {
-    position: absolute;
-    top: 1700px;
-    left: 200px;
-}
-
-.solutions_image {
-    position: absolute;
-    top: 1400px;
-    left: 900px;
-}
-
-.contact_text {
-    position: absolute;
-    top: 2400px;
-    left: 200px;
-}
-
-.contact_image {
-    position: absolute;
-    top: 2300px;
-    left: 900px;
-}
-
-.black_text {
-    color: black;
-    position: absolute;
-    top: 3300px;
-    left: 200px;
-}
-
-.doc_manag_text {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
-
-.doc_manag_image {
-    position: absolute;
-    top: 0px;
-    left: 1100px;
-}
-
-.doc_manag_black_text {
-    color: black;
-    position: absolute;
-    top: 1500px;
-    left: 200px;
-}
-
-.digital_appeal_text {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
-
-.digital_appeal_image {
-    position: absolute;
-    top: -200px;
-    left: 1100px;
-}
-
-.digital_appeal_black_text {
-    color: black;
-    position: absolute;
-    top: 1200px;
-    left: 200px;
-}
-
-.seo_text {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
-
-.seo_image {
-    position: absolute;
-    top: 100px;
-    left: 1100px;
-}
-
-.seo_black_text {
-    color: black;
-    position: absolute;
-    top: 1200px;
-    left: 200px;
-}
-
-.client_rel_text {
-    position: absolute;
-    top: 200px;
-    left: 200px;
-}
-
-.client_rel_image {
-    position: absolute;
-    top: 100px;
-    left: 1100px;
-}
-
-.client_rel_black_text {
-    color: black;
-    position: absolute;
-    top: 1300px;
-    left: 200px;
-}
