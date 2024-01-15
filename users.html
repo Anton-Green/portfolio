@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthony Onokin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="dropdown">
+        <button class="dropbtn">Fast links</button>
+        <div class="dropdown-content">
+            <a href="contact.html">Contact</a>
+            <a href="index.html">Main Menu</a>
+            <a href="document_managment.html">Doc Management</a>
+            <a href="digital_appeal.html">Stylization</a>
+            <a href="seo.html">Attracting Clients</a>
+        </div>
+    </div>
+    <div class="grid-container">
+        <div class="client_text">
+            <h1>User Registration</h1>
+            <form id="registrationForm" action="register.php" method="post">
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <br />
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <br />
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <br />
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <br />
+                <input type="submit" value="Register">
+            </form>
+        </div>
+
+        <div class="users_image">
+            <img src="images/img_10.jpg" alt="bulb" width="500" height="700" />
+        </div>
+    </div>
+    
+</body>
+</html>

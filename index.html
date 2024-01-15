@@ -6,20 +6,47 @@
     <title>Anthony Onokin</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </head>
 
 <body>
-    <div class="dropdown">
-        <button class="dropbtn">Fast links</button>
-        <div class="dropdown-content">
-            <a href="contact.html">Contact</a>
-            <a href="document_managment.html">Doc Management</a>
-            <a href="digital_appeal.html">Stylization</a>
-            <a href="seo.html">Attracting Clients</a>
-            <a href="client.html">Client Base Creation</a>
+    <div class="flex-container">
+        <div class="dropdown">
+            <button class="dropbtn">Fast links</button>
+            <div class="dropdown-content">
+                <a href="contact.html">Contact</a>
+                <a href="document_managment.html">Doc Management</a>
+                <a href="digital_appeal.html">Stylization</a>
+                <a href="seo.html">Attracting Clients</a>
+                <a href="client.html">Client Base Creation</a>
+                <a href="users.html">My users data base</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Fast links</button>
+            <div class="dropdown-content">
+                <a href="contact.html">Contact</a>
+                <a href="document_managment.html">Doc Management</a>
+                <a href="digital_appeal.html">Stylization</a>
+                <a href="seo.html">Attracting Clients</a>
+                <a href="client.html">Client Base Creation</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Fast links</button>
+            <div class="dropdown-content">
+                <a href="contact.html">Contact</a>
+                <a href="document_managment.html">Doc Management</a>
+                <a href="digital_appeal.html">Stylization</a>
+                <a href="seo.html">Attracting Clients</a>
+                <a href="client.html">Client Base Creation</a>
+            </div>
         </div>
     </div>
+
     <div class="grid-container">
         <div class="intro_text">
             <h1>Hi, I'm Anthony, <br> software developer</h1>
@@ -28,7 +55,7 @@
         </div>
 
         <div class="intro_image">
-            <img src="images/img_1.jpg" alt="cup" width="500" height="700">
+            <img src="images/img_1.jpg" alt="cup" width="30%" height="40%">
         </div>
 
         <div class="web_text">
@@ -63,6 +90,8 @@
                 <li><a href="seo.html">Attracting clients</a></li>
                 <br />
                 <li><a href="client.html">Formation of a permanent client base</a></li>
+                <br />
+                <li><a href="users.html">My user base</a></li>
             </ul>
         </div>
 
@@ -75,7 +104,7 @@
             <p>By email: anton.onokhin2@gmail.com</p>
             <p>Or by website form:</p>
 
-            <form id="form" action="process_form.php" method="post">
+            <form id="myForm">
                 <label for="name">Name:</label>
                 <br />
                 <input type="text" name="name" id="name" required>
@@ -91,7 +120,7 @@
                 <textarea id="message" name="message" required></textarea>
                 <br />
                 <br />
-                <input class="button" onclick="showMessage()" type="submit" value="Submit">
+                <input class="button" type="submit" value="Submit">
             </form>
 
         </div>
@@ -100,9 +129,6 @@
             <img src="images/img_6.jpg" alt="cup" width="500" height="700" />
         </div>
     </div>
-    
-
-
 
 </body>
 </html>
