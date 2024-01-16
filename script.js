@@ -182,6 +182,25 @@ $(document).ready(function () {
     if (window.location.pathname === '/user_cabinet.html') {
         checkLoginStatus();
     }
+
+    $("#resetPasswordForm").submit(function (event) {
+        event.preventDefault();
+
+        var email = $("#email").val();
+
+        $.ajax({
+            url: 'reset_password_request.php',
+            type: 'POST',
+            data: { email: email },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (error) {
+                alert("code is sented");
+            }
+        });
+    });
 });
 
 
