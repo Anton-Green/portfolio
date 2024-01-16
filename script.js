@@ -36,7 +36,19 @@ $(document).ready(function () {
     });
 });
 
+
 $(document).ready(function () {
+
+    
+
+    var storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+        // Отобразить информацию о пользователе
+        var user = JSON.parse(storedUser);
+        $('#user-info').html('Welcome back, ' + user.username);
+    }
+
     $("#loginForm").submit(function (event) {
         event.preventDefault();
 
@@ -49,18 +61,20 @@ $(document).ready(function () {
                 if (response.message === 'Login successful') {
                     alert("Login successful");
 
-                    // Отображение имени и email на странице
-                    $('#user-info').html('Welcome, ' + response.user.email);
+                    $('#user-info').html('Welcome, ' + response.user.username);
 
-                    // Можете добавить код для перенаправления на другую страницу после успешного входа
+                    localStorage.setItem('user', JSON.stringify(response.user));
+
+                    window.location.href = "user_cabinet.html";
                 } else {
                     alert("Invalid email or password");
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (error) {
                 alert("Something went wrong");
             }
         });
     });
 });
+
 
