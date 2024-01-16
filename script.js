@@ -183,7 +183,7 @@ $(document).ready(function () {
         checkLoginStatus();
     }
 
-    $("#resetPasswordForm").submit(function (event) {
+    $("#sendCodeForm").submit(function (event) {
         event.preventDefault();
 
         var email = $("#email").val();
@@ -201,6 +201,31 @@ $(document).ready(function () {
             }
         });
     });
+
+    /*in develop*/
+    /*$("#resetPasswordForm").submit(function (event) {
+        event.preventDefault();
+
+        var email = $("#email").val();
+        var resetCode = $("#resetCode").val();
+        var newPassword = $("#newPassword").val();
+
+        $.ajax({
+            url: 'reset_password_process.php',
+            type: 'POST',
+            data: { email: email, resetCode: resetCode, newPassword: newPassword },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+    });*/
+
+
+
 });
 
 

@@ -70,20 +70,32 @@
 
             </audio>
         </div>
-        
+
         <div class="user_cabinet_image_4">
             <img src="images/img_10.jpg" alt="bulb" width="500" height="700" />
         </div>
 
         <div class="password_reset">
             <h1>Password Reset Request</h1>
-            <form id="resetPasswordForm" action="" method="post">
+            <form id="sendCodeForm" action="" method="post">
                 <label for="email">Email:</label>
                 <br />
                 <input type="email" id="email" name="email" required>
                 <br />
-                <input type="submit" value="Reset Password">
+                <input type="submit" value="Send reset code">
             </form>
+            
+            <!--in develop-->
+            <!--<h1>Reset Your Password</h1>
+            <form id="resetPasswordForm">
+                <label for="code">Enter Code:</label>
+                <input type="text" id="code" name="code" required>
+                <br>
+                <label for="newPassword">Enter New Password:</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+                <br>
+                <button type="submit">Reset Password</button>
+            </form>-->
         </div>
 
     </div>
