@@ -44,7 +44,6 @@ $(document).ready(function () {
     var storedUser = localStorage.getItem('user');
 
     if (storedUser) {
-        // Отобразить информацию о пользователе
         var user = JSON.parse(storedUser);
         $('#user-info').html('Welcome back, ' + user.username);
     }
@@ -77,4 +76,26 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
 
+    $("#logoutButton").click(function () {
+        event.preventDefault();
+   
+        $.ajax({
+            url: 'logout.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                alert("you logged out");
+
+                localStorage.removeItem('user');
+
+                window.location.href = "index.html";
+            },
+            error: function (error) {
+  
+                alert("Logout error:", error);
+            }
+        });
+    });
+});

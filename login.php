@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "test_db";
+$servername = "Localhost";  
+$username = "cfjylqr1_admin"; 
+$password = "Qwertyanton1!"; 
+$dbname = "cfjylqr1_message";   
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['logged_in'] = true;
         echo json_encode(['message' => 'Login successful', 'user' => $user]);
     } else {
         echo json_encode(['message' => 'Invalid email or password']);
@@ -35,3 +36,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 $conn->close();
 ?>
+
