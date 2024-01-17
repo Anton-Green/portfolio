@@ -203,7 +203,9 @@ $(document).ready(function () {
     });
 
     /*in develop*/
-    $("#resetPasswordForm").submit(function (event) {
+   
+    
+    $("#resetForm").submit(function (event) {
         event.preventDefault();
 
         var email = $("#email").val();
@@ -213,14 +215,19 @@ $(document).ready(function () {
         $.ajax({
             url: 'reset_password_process.php',
             type: 'POST',
-            data: { email: email, resetCode: resetCode, newPassword: newPassword },
+            data: {
+                email: email,
+                resetCode: resetCode,
+                newPassword: newPassword
+            },
             dataType: 'json',
             success: function (response) {
+                /*$('#message').html(response.message);*/
                 alert(response.message);
             },
             error: function (error) {
+                
                 console.error(error);
-                alert("error");
             }
         });
     });
