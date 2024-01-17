@@ -2,7 +2,13 @@ $(document).ready(function () {
 
     
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
-    var isSnowfallEnabled = isSnowfallCookieValue === 'true';
+
+    if (isSnowfallCookieValue === null) {
+        isSnowfallEnabled = true
+    }
+    else {
+        var isSnowfallEnabled = isSnowfallCookieValue === 'true';
+    }
 
     var storedUser = getCookie('user');
     var numberOfSnowflakes = 200;
