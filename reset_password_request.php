@@ -66,9 +66,6 @@ if ($result->num_rows > 0) {
     $resetCode = generateUniqueCode();
 
     sendResetCodeByEmail($email, $resetCode);
-    echo json_encode(['message' => 'Reset code sent successfully']);
-} else {
-    echo json_encode(['message' => 'User not found']);
 }
 
 

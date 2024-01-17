@@ -6,7 +6,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (!data.loggedIn) {
-                    console.log('unknown user');
+                    //console.log('unknown user');
                     alert('you need to log in');
                     window.location.href = 'users.html';
                 }
@@ -26,7 +26,7 @@ $(document).ready(function () {
             data: $(this).serialize(),
             dataType: 'json',
             success: function (response) {
-                alert("Message sented")
+                alert(response.message)
             },
             error: function (error) {
                 alert("Something goes wrong");
@@ -43,7 +43,7 @@ $(document).ready(function () {
             data: $(this).serialize(),
             dataType: 'json',
             success: function (response) {
-                alert("User registered")
+                alert(response.message)
             },
             error: function (error) {
                 alert("Something goes wrong");
@@ -68,7 +68,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.message === 'Login successful') {
-                    alert("Login successful");
+                    alert(response.message);
 
                     $('#user-info').html('Welcome, ' + response.user.username);
 
@@ -152,7 +152,7 @@ $(document).ready(function () {
                 }
             },
             error: function (error) {
-                //console.error('Error fetching user notes:', error);
+                //console.error(error);
             }
         });
     }
@@ -165,14 +165,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 if (response.message === 'Note deleted successfully') {
-                    console.log('Note deleted successfully');
+                    console.log(response.message);
                     displayUserNotes();
                 } else {
-                    console.error('Error deleting note:', response.message);
+                    console.error(response.message);
                 }
             },
             error: function (error) {
-                console.error('Error deleting note:', error);
+                console.error(error);
             }
         });
     }
@@ -197,13 +197,13 @@ $(document).ready(function () {
                 alert(response.message);
             },
             error: function (error) {
-                alert("code is sented");
+                alert(error);
             }
         });
     });
 
     /*in develop*/
-    /*$("#resetPasswordForm").submit(function (event) {
+    $("#resetPasswordForm").submit(function (event) {
         event.preventDefault();
 
         var email = $("#email").val();
@@ -219,10 +219,11 @@ $(document).ready(function () {
                 alert(response.message);
             },
             error: function (error) {
-                alert(error);
+                console.error(error);
+                alert("error");
             }
         });
-    });*/
+    });
 
 
 
