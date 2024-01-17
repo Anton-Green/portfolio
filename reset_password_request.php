@@ -53,6 +53,8 @@ function updateResetCode($email, $code) {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    $code = $conn->real_escape_string($code);
+
     $updateSql = $conn->prepare("UPDATE users SET reset_code = ? WHERE email = ?");
     $updateSql->bind_param("ss", $code, $email);
     $updateSql->execute();

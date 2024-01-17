@@ -233,7 +233,59 @@ $(document).ready(function () {
     });
 
 
+    var numberOfSnowflakes = 200;
+    var snowflakeInterval = 500;
+    var isSnowfallEnabled = true;
+ 
+    var snowflakeCreation = setInterval(function () {
+        if (numberOfSnowflakes > 0) {
+            createSnowflake();
+            numberOfSnowflakes--;
+        } else {
+            clearInterval(snowflakeCreation); // Остановка интервала 
+        }
+    }, snowflakeInterval);
+   
+    function createSnowflake() {
+        var snowflake = $("<div class='snowflake'>").appendTo(".snow-container");
+        var startPositionLeft = Math.random() * $(window).width();
+        var startOpacity = 0.5 + Math.random() * 0.5;
+        var sizeSnowflake = 20;
+        var endPositionTop = $(window).height() + 1500;
+        var endPositionLeft = startPositionLeft - 100 + Math.random() * 200;
+        var durationFall = 15000 + Math.random() * 5000;
+
+        snowflake.css({
+            left: startPositionLeft,
+            /*opacity: startOpacity,*/
+            width: sizeSnowflake,
+            height: sizeSnowflake
+        });
+
+        snowflake.animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            /*opacity: 0.2*/
+        }, durationFall, 'linear', function () {
+            
+            $(this).remove();
+            
+            createSnowflake();
+        });
+    }
+
+    // Обработчик нажатия на кнопку
+    $("#toggleSnow").on("click", function () {
+        isSnowfallEnabled = !isSnowfallEnabled;
+        if (isSnowfallEnabled) {
+            alert("turn on");
+            snowflakeCreation = setInterval(createSnowflake, snowflakeInterval);
+        } else {
+            alert("turn off");
+            clearInterval(snowflakeCreation);
+        }
+    });
+
 
 });
-
 

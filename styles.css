@@ -128,7 +128,18 @@ a {
     background-color: black; 
 }
 
+.snowflake {
+    /*position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;*/
 
-
-
-
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-image: url('images/snowflake.png');
+    background-size: cover;
+    pointer-events: none;
+}
