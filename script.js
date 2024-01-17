@@ -1,4 +1,50 @@
 $(document).ready(function () {
+
+    
+    var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
+    var isSnowfallEnabled = isSnowfallCookieValue === 'true';
+
+    var storedUser = getCookie('user');
+    var numberOfSnowflakes = 200;
+    var snowflakeInterval = 500;
+    
+    //setCookie('cookieName', var, daysNum);
+    //var name = getCookie('cookieName');
+
+    var snowflakeCreation = setInterval(function () {
+        if (isSnowfallEnabled) {
+            createSnowflake();
+            numberOfSnowflakes--;
+        } else {
+            clearInterval(snowflakeCreation);
+        }
+    }, snowflakeInterval);
+
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1, cookie.length);
+            }
+            if (cookie.indexOf(nameEQ) === 0) {
+                return cookie.substring(nameEQ.length, cookie.length);
+            }
+        }
+        return null;
+    }
+
     function checkLoginStatus() {
         $.ajax({
             url: 'check_login.php',
@@ -16,113 +62,6 @@ $(document).ready(function () {
             }
         });
     }
-
-    $("#myForm").submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            url: 'insert_data.php',
-            type: 'POST',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message)
-            },
-            error: function (error) {
-                alert("Something goes wrong");
-            }
-        });
-    });
-
-    $("#registrationForm").submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            url: 'register.php',
-            type: 'POST',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message)
-            },
-            error: function (error) {
-                alert("Something goes wrong");
-            }
-        });
-    });
-
-    var storedUser = localStorage.getItem('user');
-
-    if (storedUser) {
-        var user = JSON.parse(storedUser);
-        $('#user-info').html('Welcome back, ' + user.username);
-    }
-
-    $("#loginForm").submit(function (event) {
-        event.preventDefault();
-
-        $.ajax({
-            url: 'login.php',
-            type: 'POST',
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                if (response.message === 'Login successful') {
-                    alert(response.message);
-
-                    $('#user-info').html('Welcome, ' + response.user.username);
-
-                    localStorage.setItem('user', JSON.stringify(response.user));
-
-                    window.location.href = "user_cabinet.html";
-                } else {
-                    alert("Invalid email or password");
-                }
-            },
-            error: function (error) {
-                alert("Something went wrong");
-            }
-        });
-    });
-
-    $("#logoutButton").click(function () {
-        //event.preventDefault();
-
-        $.ajax({
-            url: 'logout.php',
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-                alert("you logged out");
-
-                localStorage.removeItem('user');
-
-                window.location.href = "index.html";
-            },
-            error: function (error) {
-
-                alert("Logout error:", error);
-            }
-        });
-    });
-
-    $("#saveNote").click(function () {
-        var title = $("#noteTitle").val();
-        var content = $("#noteContent").val();
-
-        $.ajax({
-            url: 'save_note.php',
-            type: 'POST',
-            data: { title: title, content: content },
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message);
-            },
-            error: function (xhr, status, error) {
-                alert("Error saving note");
-            }
-        });
-    });
 
     function displayUserNotes() {
         $.ajax({
@@ -177,11 +116,91 @@ $(document).ready(function () {
         });
     }
 
-    displayUserNotes();
+    function createSnowflake() {
+        var snowflake = $("<div class='snowflake'>").appendTo(".snow-container");
+        var startPositionLeft = Math.random() * $(window).width();
+        var startOpacity = 0.5 + Math.random() * 0.5;
+        var sizeSnowflake = 20;
+        var endPositionTop = $(window).height() + 2000;
+        var endPositionLeft = startPositionLeft - 100 + Math.random() * 200;
+        var durationFall = 15000 + Math.random() * 5000;
 
-    if (window.location.pathname === '/user_cabinet.html') {
-        checkLoginStatus();
+        snowflake.css({
+            left: startPositionLeft,
+            /*opacity: startOpacity,*/
+            width: sizeSnowflake,
+            height: sizeSnowflake
+        });
+
+        snowflake.animate({
+            top: endPositionTop,
+            left: endPositionLeft,
+            /*opacity: 0.2*/
+        }, durationFall, 'linear', function () {
+            $(this).remove();
+        });
     }
+
+    $("#myForm").submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'insert_data.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message)
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+            }
+        });
+    });
+
+    $("#registrationForm").submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'register.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message)
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+            }
+        });
+    });
+
+    $("#loginForm").submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'login.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            dataType: 'json',
+            success: function (response) {
+                if (response.message === 'Login successful') {
+                    alert(response.message);
+
+                    $('#user-info').html('Welcome, ' + response.user.username);
+
+                    setCookie('user', JSON.stringify(response.user), 30);
+
+                    window.location.href = "user_cabinet.html";
+                } else {
+                    alert("Invalid email or password");
+                }
+            },
+            error: function (error) {
+                alert("Something went wrong");
+            }
+        });
+    });
 
     $("#sendCodeForm").submit(function (event) {
         event.preventDefault();
@@ -202,9 +221,6 @@ $(document).ready(function () {
         });
     });
 
-    /*in develop*/
-   
-    
     $("#resetForm").submit(function (event) {
         event.preventDefault();
 
@@ -226,66 +242,77 @@ $(document).ready(function () {
                 alert(response.message);
             },
             error: function (error) {
-                
+
                 console.error(error);
             }
         });
     });
 
+    $("#logoutButton").click(function () {
+        //event.preventDefault();
 
-    var numberOfSnowflakes = 200;
-    var snowflakeInterval = 500;
-    var isSnowfallEnabled = true;
- 
-    var snowflakeCreation = setInterval(function () {
-        if (numberOfSnowflakes > 0) {
-            createSnowflake();
-            numberOfSnowflakes--;
+        $.ajax({
+            url: 'logout.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                alert("you logged out");
+
+                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                window.location.href = "index.html";
+            },
+            error: function (error) {
+                alert("Logout error:", error);
+            }
+        });
+    });
+
+    $("#saveNote").click(function () {
+        var title = $("#noteTitle").val();
+        var content = $("#noteContent").val();
+
+        $.ajax({
+            url: 'save_note.php',
+            type: 'POST',
+            data: { title: title, content: content },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (xhr, status, error) {
+                alert("Error saving note");
+            }
+        });
+    });
+
+    $("#toggleSnow").on("click", function () {
+
+        isSnowfallEnabled = !isSnowfallEnabled;
+
+        if (isSnowfallEnabled) {
+            setCookie('isSnowfallEnabled', isSnowfallEnabled, 30);
+            snowflakeCreation = setInterval(createSnowflake, snowflakeInterval);
+            alert(isSnowfallEnabled);
         } else {
-            clearInterval(snowflakeCreation); // Остановка интервала 
-        }
-    }, snowflakeInterval);
-   
-    function createSnowflake() {
-        var snowflake = $("<div class='snowflake'>").appendTo(".snow-container");
-        var startPositionLeft = Math.random() * $(window).width();
-        var startOpacity = 0.5 + Math.random() * 0.5;
-        var sizeSnowflake = 20;
-        var endPositionTop = $(window).height() + 1500;
-        var endPositionLeft = startPositionLeft - 100 + Math.random() * 200;
-        var durationFall = 15000 + Math.random() * 5000;
+            setCookie('isSnowfallEnabled', isSnowfallEnabled, 30);
+            clearInterval(snowflakeCreation);
+            alert(isSnowfallEnabled);
+        } 
+    });
 
-        snowflake.css({
-            left: startPositionLeft,
-            /*opacity: startOpacity,*/
-            width: sizeSnowflake,
-            height: sizeSnowflake
-        });
-
-        snowflake.animate({
-            top: endPositionTop,
-            left: endPositionLeft,
-            /*opacity: 0.2*/
-        }, durationFall, 'linear', function () {
-            
-            $(this).remove();
-            
-            createSnowflake();
-        });
+    if (storedUser) {
+        var user = JSON.parse(storedUser);
+        $('#user-info').html('Welcome back, ' + user.username);
     }
 
-    // Обработчик нажатия на кнопку
-    $("#toggleSnow").on("click", function () {
-        isSnowfallEnabled = !isSnowfallEnabled;
-        if (isSnowfallEnabled) {
-            alert("turn on");
-            snowflakeCreation = setInterval(createSnowflake, snowflakeInterval);
-        } else {
-            alert("turn off");
-            clearInterval(snowflakeCreation);
-        }
-    });
+    if (window.location.pathname === '/user_cabinet.html') {
+        checkLoginStatus();
+    }
+
+    
+
+    displayUserNotes();
 
 
 });
-
