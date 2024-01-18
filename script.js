@@ -1,6 +1,6 @@
 $(document).ready(function () {
-
-    changeImageFromCookie();
+   
+    
 
     var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
@@ -192,6 +192,9 @@ $(document).ready(function () {
             data: $(this).serialize(),
             dataType: 'json',
             success: function (response) {
+
+                $('#user-info').html('Welcome, ' + response.user.username);
+
                 if (response.message === 'Login successful') {
                     alert(response.message);
 
@@ -258,7 +261,7 @@ $(document).ready(function () {
 
     $("#logoutButton").click(function () {
         //event.preventDefault();
-
+        //aler("check");
         $.ajax({
             url: 'logout.php',
             type: 'POST',
@@ -316,6 +319,10 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/index.html') {
         checkLoginStatus();
+    }
+
+    if (window.location.pathname === '/user_cabinet.html') {
+        changeImageFromCookie();
     }
 
     $("#send_image").submit(function (event) {
