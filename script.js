@@ -1,6 +1,8 @@
 $(document).ready(function () {
 
-    
+    changeImageFromCookie();
+
+    var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
 
     if (isSnowfallCookieValue === null) {
@@ -10,7 +12,7 @@ $(document).ready(function () {
         var isSnowfallEnabled = isSnowfallCookieValue === 'true';
     }
 
-    var storedUser = getCookie('user');
+    
     var numberOfSnowflakes = 200;
     var snowflakeInterval = 500;
     
@@ -312,11 +314,47 @@ $(document).ready(function () {
         $('#user-info').html('Welcome back, ' + user.username);
     }
 
-    if (window.location.pathname === '/user_cabinet.html') {
+    if (window.location.pathname === '/index.html') {
         checkLoginStatus();
     }
 
+    $("#send_image").submit(function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: 'user_image.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+                changeImage(response.id);
+                setCookie('user_pic', response.id, 30);
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+            }
+        });
+    });
+
+
+    function changeImage(id) {
+        document.getElementById("displayedImage").src = "display_image.php?id=" + id;
+    }
     
+    function changeImageFromCookie() {
+        var imageId = getCookie("user_pic");
+        if (imageId !== null) {
+            changeImage(imageId);
+        } else {
+            // default
+            changeImage(1);
+        }
+    }
 
     displayUserNotes();
 
