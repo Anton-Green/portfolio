@@ -1,7 +1,6 @@
 $(document).ready(function () {
-   
-    
 
+    
     var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
 
@@ -89,7 +88,7 @@ $(document).ready(function () {
                         $('#notes-container').append(noteHtml);
                     });
 
-                    // Attach click event to delete buttons
+                    
                     $('.delete-btn').click(function () {
                         var noteId = $(this).data('note-id');
                         deleteNote(noteId);
@@ -149,7 +148,7 @@ $(document).ready(function () {
         });
     }
 
-    $("#myForm").submit(function (event) {
+    $("#contactForm").submit(function (event) {
         event.preventDefault();
 
         $.ajax({
@@ -193,16 +192,38 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
 
-                $('#user-info').html('Welcome, ' + response.user.username);
-
                 if (response.message === 'Login successful') {
                     alert(response.message);
 
                     $('#user-info').html('Welcome, ' + response.user.username);
-
                     setCookie('user', JSON.stringify(response.user), 30);
 
                     window.location.href = "user_cabinet.html";
+
+                    var user_id = response.user.id;
+                    var user_history = new Date();
+                    function sendHistory() {
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "sendHistory.php",
+                            data: {
+                                user_id: user_id,
+                                user_history: user_history
+                            },
+                            success: function (response) {
+                                //console.log(response);
+                                //alert("send");
+                            },
+                            error: function (error) {
+                                //console.log(error);
+                                //alert("error");
+                            }
+                        });
+                    }
+                    sendHistory();
+                    
                 } else {
                     alert("Invalid email or password");
                 }
@@ -269,7 +290,13 @@ $(document).ready(function () {
             success: function (response) {
                 alert("you logged out");
 
-                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                function deleteCookie() {
+                    document.cookie = "user_history=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "isSnowfallEnabled=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    document.cookie = "user_pic=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                }
+                deleteCookie();
 
                 window.location.href = "index.html";
             },
@@ -317,12 +344,71 @@ $(document).ready(function () {
         $('#user-info').html('Welcome back, ' + user.username);
     }
 
-    if (window.location.pathname === '/index.html') {
-        checkLoginStatus();
+    if (window.location.pathname !== '/users.html') {
+        checkLoginStatus()
     }
 
     if (window.location.pathname === '/user_cabinet.html') {
         changeImageFromCookie();
+
+        getOldUsers();
+        
+        function getOldUsers() {
+            $.ajax({
+                type: "GET",
+                url: "getHistory.php",
+                dataType: "json",
+                success: function (response) {
+
+                    var currentDate = new Date();
+                    var oldUsers = [];
+
+                    //console.log(response);
+
+                    response.forEach(function (data) {
+                        var historyDate = new Date(data.user_history);
+                        var timeDifference = currentDate - historyDate;
+                        var daysDifference = timeDifference / (1000 * 60 * 60 * 24); 
+
+                        if (daysDifference > 7) {
+                            oldUsers.push(data.user_id);
+                        }
+                    });
+
+                    getEmail();
+                    //console.log(oldUsers);
+
+                    function getEmail() {
+                        var array = oldUsers;
+                        
+                        $.ajax({
+                            type: 'POST',
+                            url: 'getEmail.php', 
+                            data: JSON.stringify({ data: array }),
+                            success: function (response) {
+                                console.log(response);
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                console.error("AJAX Error:", textStatus, errorThrown);
+                            }
+                        });
+                    }
+
+               
+                   
+
+                    var oldUsers = [];
+                    //console.log(oldUsers);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error:", textStatus, errorThrown);
+                    console.log("Server response:", jqXHR.responseText);
+                }
+            });
+        }
+
+        
+        
     }
 
     $("#send_image").submit(function (event) {
@@ -348,7 +434,8 @@ $(document).ready(function () {
         });
     });
 
-
+    
+    
     function changeImage(id) {
         document.getElementById("displayedImage").src = "display_image.php?id=" + id;
     }
@@ -365,5 +452,6 @@ $(document).ready(function () {
 
     displayUserNotes();
 
-
+   
+    
 });
