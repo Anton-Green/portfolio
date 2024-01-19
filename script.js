@@ -54,7 +54,7 @@ $(document).ready(function () {
 
     function checkLoginStatus() {
         $.ajax({
-            url: 'check_login.php',
+            url: 'checkLogin.php',
             type: 'GET',
             dataType: 'json',
             success: function (data) {
@@ -72,7 +72,7 @@ $(document).ready(function () {
 
     function displayUserNotes() {
         $.ajax({
-            url: 'view_notes.php',
+            url: 'viewNotes.php',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -105,7 +105,7 @@ $(document).ready(function () {
 
     function deleteNote(noteId) {
         $.ajax({
-            url: 'delete_note.php',
+            url: 'deleteNote.php',
             type: 'POST',
             data: { note_id: noteId },
             dataType: 'json',
@@ -152,7 +152,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         $.ajax({
-            url: 'insert_data.php',
+            url: 'insertData.php',
             type: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -198,7 +198,7 @@ $(document).ready(function () {
                     $('#user-info').html('Welcome, ' + response.user.username);
                     setCookie('user', JSON.stringify(response.user), 30);
 
-                    window.location.href = "user_cabinet.html";
+                    window.location.href = "userCabinet.html";
 
                     var user_id = response.user.id;
                     var user_history = new Date();
@@ -240,7 +240,7 @@ $(document).ready(function () {
         var email = $("#email").val();
 
         $.ajax({
-            url: 'reset_password_request.php',
+            url: 'resetPasswordRequest.php',
             type: 'POST',
             data: { email: email },
             dataType: 'json',
@@ -261,7 +261,7 @@ $(document).ready(function () {
         var newPassword = $("#newPassword").val();
 
         $.ajax({
-            url: 'reset_password_process.php',
+            url: 'resetPasswordProcess.php',
             type: 'POST',
             data: {
                 email: email,
@@ -311,7 +311,7 @@ $(document).ready(function () {
         var content = $("#noteContent").val();
 
         $.ajax({
-            url: 'save_note.php',
+            url: 'saveNote.php',
             type: 'POST',
             data: { title: title, content: content },
             dataType: 'json',
@@ -348,7 +348,7 @@ $(document).ready(function () {
         checkLoginStatus()
     }
 
-    if (window.location.pathname === '/user_cabinet.html') {
+    if (window.location.pathname === '/userCabinet.html') {
         changeImageFromCookie();
         getOldUsers();
         function getOldUsers() {
@@ -373,18 +373,18 @@ $(document).ready(function () {
                         }
                     });
 
-                    getEmail();
+                    sendReminder();
                     //console.log(oldUsers);
 
-                    function getEmail() {
+                    function sendReminder() {
                         var array = oldUsers;
                         
                         $.ajax({
                             type: 'POST',
-                            url: 'getEmail.php', 
+                            url: 'sendReminder.php', 
                             data: JSON.stringify({ data: array }),
                             success: function (response) {
-                                //console.log("good");
+                                console.log(response);
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.error("AJAX Error:", textStatus, errorThrown);
@@ -409,7 +409,7 @@ $(document).ready(function () {
         var formData = new FormData(this);
 
         $.ajax({
-            url: 'user_image.php',
+            url: 'sendImage.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -430,7 +430,7 @@ $(document).ready(function () {
         var formData = new FormData(document.getElementById('musicForm'));
 
         $.ajax({
-            url: 'sendAndGetMusic.php',
+            url: 'sendMusic.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -450,7 +450,7 @@ $(document).ready(function () {
 
     
     function changeImage(id) {
-        document.getElementById("displayedImage").src = "display_image.php?id=" + id;
+        document.getElementById("displayedImage").src = "displayImage.php?id=" + id;
     }
     
     function changeImageFromCookie() {
