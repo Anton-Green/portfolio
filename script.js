@@ -350,9 +350,7 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/user_cabinet.html') {
         changeImageFromCookie();
-
         getOldUsers();
-        
         function getOldUsers() {
             $.ajax({
                 type: "GET",
@@ -386,16 +384,13 @@ $(document).ready(function () {
                             url: 'getEmail.php', 
                             data: JSON.stringify({ data: array }),
                             success: function (response) {
-                                console.log(response);
+                                //console.log("good");
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.error("AJAX Error:", textStatus, errorThrown);
                             }
                         });
                     }
-
-               
-                   
 
                     var oldUsers = [];
                     //console.log(oldUsers);
@@ -406,9 +401,6 @@ $(document).ready(function () {
                 }
             });
         }
-
-        
-        
     }
 
     $("#send_image").submit(function (event) {
@@ -434,7 +426,28 @@ $(document).ready(function () {
         });
     });
 
-    
+    $("#musicForm").submit(function (event) {
+        var formData = new FormData(document.getElementById('musicForm'));
+
+        $.ajax({
+            url: 'sendAndGetMusic.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+                // ƒобавьте свой код дл€ обновлени€ интерфейса или выполнени€ дополнительных действий после успешной загрузки музыки
+            },
+            error: function (error) {
+                alert(response);
+            }
+        });
+    });
+
+
+
     
     function changeImage(id) {
         document.getElementById("displayedImage").src = "display_image.php?id=" + id;

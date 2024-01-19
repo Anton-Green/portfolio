@@ -73,44 +73,24 @@
         </div>
 
         <div class="user_audio">
-            <p>synthwave</p>
-            <audio controls>
-                <source src="audio/synthwave.mp3" type="audio/mp3">
 
-            </audio>
+            <form id="musicForm" method="post" enctype="multipart/form-data">
+                <label for="musicFile">Select Music:</label>
+                <input type="file" id="musicFile" name="music" accept=".mp3">
+                <input type="submit" value="Upload Music">
+            </form>
+            <br />
+
+            <div class="displayMusic">
+                <audio controls>
+                    <source src="displayMusic.php?id=1" type="audio/mp3">
+                </audio>
+            </div>
+
         </div>
 
         <div class="user_cabinet_image_4">
             <img src="images/img_10.jpg" alt="bulb" width="500" height="700" />
-        </div>
-
-        <div class="password_reset">
-            <h1>Password Reset Request</h1>
-            <form id="sendCodeForm" action="" method="post">
-                <label for="email">Email:</label>
-                <br />
-                <input type="email" id="email" name="email" required>
-                <br />
-                <input type="submit" value="Send reset code">
-            </form>
-
-            <h1>Password Reset</h1>
-            <form id="resetForm">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br>
-
-                <label for="resetCode">Reset Code:</label>
-                <input type="text" id="resetCode" name="resetCode" required><br>
-
-                <label for="newPassword">New Password:</label>
-                <input type="password" id="newPassword" name="newPassword" required><br>
-
-                <input type="submit" value="Update password">
-            </form>
-        </div>
-
-        <div class="user_cabinet_image_5">
-            <img src="images/img_8.jpg" alt="bulb" width="500" height="700" />
         </div>
 
         <div class="snow_toggle">
@@ -129,6 +109,14 @@
 
         <div class="user_avatar">
             <img id="displayedImage" src="display_image.php?id=0" alt="Displayed Image">
+        </div>
+
+        <div class="userSendMessage">
+            <p>here you can send messages to another users</p>
+        </div>
+
+        <div class="user_cabinet_image_5">
+            <img src="images/img_8.jpg" alt="bulb" width="500" height="700" />
         </div>
 
 
