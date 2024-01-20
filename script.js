@@ -207,7 +207,7 @@ $(document).ready(function () {
 
                         $.ajax({
                             type: "POST",
-                            url: "sendHistory.php",
+                            url: "sendAndGetHistory.php",
                             data: {
                                 user_id: user_id,
                                 user_history: user_history
@@ -354,7 +354,7 @@ $(document).ready(function () {
         function getOldUsers() {
             $.ajax({
                 type: "GET",
-                url: "getHistory.php",
+                url: "sendAndGetHistory.php",
                 dataType: "json",
                 success: function (response) {
 
@@ -384,7 +384,9 @@ $(document).ready(function () {
                             url: 'sendReminder.php', 
                             data: JSON.stringify({ data: array }),
                             success: function (response) {
+
                                 console.log(response);
+
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 console.error("AJAX Error:", textStatus, errorThrown);
@@ -403,13 +405,42 @@ $(document).ready(function () {
         }
     }
 
+ 
+
+    name();
+
+    function name() {
+        $.ajax({
+            url: 'sendImagesToGallery.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var imageIds = response.image_ids;
+                    for (var i = 0; i < imageIds.length; i++) {
+                        //console.log("Image ID is: " + imageIds[i]);
+                        // надо реализовать создание разных обьектов
+                        document.getElementById("displayedImage").src = "sendAndGetImage.php?id=" + imageIds[i];
+                    }
+                } else {
+                    console.log(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ", " + error);
+            }
+        });
+    }
+    
+
+
     $("#send_image").submit(function (event) {
         event.preventDefault();
 
         var formData = new FormData(this);
 
         $.ajax({
-            url: 'sendImage.php',
+            url: 'sendAndGetImage.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -422,6 +453,8 @@ $(document).ready(function () {
             },
             error: function (error) {
                 alert("Something goes wrong");
+                console.log(error);
+                
             }
         });
     });
@@ -430,7 +463,7 @@ $(document).ready(function () {
         var formData = new FormData(document.getElementById('musicForm'));
 
         $.ajax({
-            url: 'sendMusic.php',
+            url: 'sendAndGetMusic.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -438,7 +471,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 alert(response.message);
-                // Добавьте свой код для обновления интерфейса или выполнения дополнительных действий после успешной загрузки музыки
+                
             },
             error: function (error) {
                 alert(response);
@@ -446,13 +479,9 @@ $(document).ready(function () {
         });
     });
 
-
-
-    
     function changeImage(id) {
-        document.getElementById("displayedImage").src = "displayImage.php?id=" + id;
+        document.getElementById("displayedImage").src = "sendAndGetImage.php?id=" + id;
     }
-    
     function changeImageFromCookie() {
         var imageId = getCookie("user_pic");
         if (imageId !== null) {
