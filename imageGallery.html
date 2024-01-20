@@ -6,6 +6,7 @@
     <title>Anthony Onokin</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </head>
@@ -24,26 +25,28 @@
         </div>
     </div>
 
+    <div class="search">
+
+        <h1>find object by name</h1>
+        <label for="searchInput">insert object name:</label>
+        <input type="text" id="searchInput">
+        <button id="searchButton">find</button>
+
+        <div id="searchResults"></div>
+    </div>
+
+
     <div class="gallery" id="imageContainer">
 
-        
 
-        <div class="grid-item">
+
+        <!--<div class="grid-item">
             <img id="displayedImage" src="sendAndGetImage.php?id=21" alt="Displayed Image">
-        </div>
+        </div>-->
 
 
-        <div class="grid-item">
-            <img src="images/img_4.jpg" alt="rose" width="1000" height="1400" />
-        </div>
 
-        <div class="grid-item">
-            <img id="displayedImage" src="sendAndGetImage.php?id=14" alt="Displayed Image">
-        </div>
 
-        <div class="grid-item">
-            <img src="images/img_10.jpg" alt="rose" width="1000" height="1400" />
-        </div>
 
     </div>
 

@@ -407,9 +407,9 @@ $(document).ready(function () {
 
  
 
-    name();
+    addImageToGallery();
 
-    function name() {
+    function addImageToGallery() {
         $.ajax({
             url: 'sendImagesToGallery.php',
             type: 'POST',
@@ -417,10 +417,39 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
                     var imageIds = response.image_ids;
+
                     for (var i = 0; i < imageIds.length; i++) {
-                        //console.log("Image ID is: " + imageIds[i]);
-                        // надо реализовать создание разных обьектов
-                        document.getElementById("displayedImage").src = "sendAndGetImage.php?id=" + imageIds[i];
+                        console.log("Image ID is: " + imageIds[i]);
+
+                        const imageDiv = document.createElement('div');
+                        imageDiv.id = `imageDiv${i}`;
+                        imageDiv.classList.add('grid-item');
+
+                        const imageElement = document.createElement('img');
+                        imageElement.src = `sendAndGetImage.php?id=${imageIds[i]}`;
+                        imageDiv.appendChild(imageElement);
+
+                        // Добавляем кнопку "Скачать"
+                        const downloadButton = document.createElement('button');
+                        downloadButton.innerText = 'download';
+                        downloadButton.addEventListener('click', () => {
+                            // Здесь добавьте логику для скачивания изображения
+                            console.log(`download image with ID :` + imageDiv.id);
+                        });
+                        imageDiv.appendChild(downloadButton);
+
+                        // Добавляем кнопку "Удалить"
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'delete';
+                        deleteButton.addEventListener('click', () => {
+                            // Здесь добавьте логику для удаления изображения
+                            console.log(`delete image with ID :` + imageDiv.id);
+                            // Дополнительно, вы можете удалить соответствующий div с изображением
+                            document.getElementById('imageContainer').removeChild(imageDiv);
+                        });
+                        imageDiv.appendChild(deleteButton);
+
+                        document.getElementById('imageContainer').appendChild(imageDiv);
                     }
                 } else {
                     console.log(response.message);
@@ -494,6 +523,37 @@ $(document).ready(function () {
 
     displayUserNotes();
 
-   
+
+
+    $("#searchButton").click(function () {
+        var searchInput = $("#searchInput").val();
+
+        $.ajax({
+            url: 'findImages.php',
+            type: 'GET',
+            data: { name: searchInput },
+            dataType: 'json',
+            success: function (results) {
+                displayResults(results);
+            },
+            error: function (xhr, status, error) {
+                alert("Error searching objects");
+            }
+        });
+    });
+
+    function displayResults(results) {
+        var resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = '';
+
+        if (results.length > 0) {
+            for (var i = 0; i < results.length; i++) {
+                var result = results[i];
+                resultsDiv.innerHTML += '<p>ID: ' + result.id + ', name: ' + result.image_name + '</p>';
+            }
+        } else {
+            resultsDiv.innerHTML = '<p>nothing founded</p>';
+        }
+    }
     
 });
