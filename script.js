@@ -465,14 +465,39 @@ $(document).ready(function () {
                         
                         const downloadButton = document.createElement('button');
                         downloadButton.innerText = 'download';
-                        downloadButton.addEventListener('click', () => {
+                        downloadButton.addEventListener('click', function () {
+                            var imageId = imageDiv.id;
+                            console.log(imageDiv.id);
+
+                            $.ajax({
+                                type: 'GET',
+                                url: "getImagePath.php",
+                                data: { id: imageId },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.error) {
+                                        console.error(data.error);
+                                    } else {
 
 
-                            // Здесь добавьте логику для скачивания изображения
-                            console.log(`download image with ID: ${imageIds[i]}`);
+                                        var fileUrl = data.fileUrl;
+                                        var link = document.createElement('a');
+                                        link.href = fileUrl;
+                                        link.download = 'downloadedItem';
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
 
 
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('error:', error);
+                                }
+                            });
                         });
+
+
                         imageDiv.appendChild(downloadButton);
 
 
