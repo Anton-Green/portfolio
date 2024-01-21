@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $targetPath = $uploadPath . $imageName;
 
         if (move_uploaded_file($imageTmpName, $targetPath)) {
-            $insertImageSql = $conn->prepare("INSERT INTO images (image_name, image_path, id_user) VALUES (?, ?, ?)");
+            $insertImageSql = $conn->prepare("INSERT INTO images (image_name, image_path, user_id) VALUES (?, ?, ?)");
             $insertImageSql->bind_param("ssi", $imageName, $targetPath, $user_id);
 
             if ($insertImageSql->execute()) {

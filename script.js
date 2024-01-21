@@ -407,7 +407,7 @@ $(document).ready(function () {
 
  
 
-    addImageToGallery();
+/*    addImageToGallery();
 
     function addImageToGallery() {
         $.ajax({
@@ -459,7 +459,7 @@ $(document).ready(function () {
                 console.error(status + ", " + error);
             }
         });
-    }
+    }*/
     
 
 
