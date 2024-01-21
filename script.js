@@ -405,10 +405,10 @@ $(document).ready(function () {
         }
     }
 
- 
-
-/*    addImageToGallery();
-
+    if (window.location.pathname === '/imageGallery.html') {
+        addImageToGallery();
+    }
+    
     function addImageToGallery() {
         $.ajax({
             url: 'sendImagesToGallery.php',
@@ -422,34 +422,64 @@ $(document).ready(function () {
                         console.log("Image ID is: " + imageIds[i]);
 
                         const imageDiv = document.createElement('div');
-                        imageDiv.id = `imageDiv${i}`;
+                        imageDiv.id = imageIds[i];
                         imageDiv.classList.add('grid-item');
 
                         const imageElement = document.createElement('img');
                         imageElement.src = `sendAndGetImage.php?id=${imageIds[i]}`;
                         imageDiv.appendChild(imageElement);
 
-                        // Добавляем кнопку "Скачать"
+                        
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'delete';
+
+                        deleteButton.addEventListener('click', () => {
+                        
+
+                            
+                            //console.log(imageDiv.id);
+
+                            deleteImage(imageDiv.id);
+                        });
+
+                        
+
+                        function deleteImage(imageDivId) {
+                            $.ajax({
+                                type: "POST",
+                                url: "deleteImage.php",
+                                data: { imageId: imageDivId },
+                                success: function (response) {
+                                    alert("image deleted");
+                                    console.log(response);
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.error("error: " + error.responseText);
+                                }
+                            });
+                        }
+
+                        imageDiv.appendChild(deleteButton);
+
+                        
                         const downloadButton = document.createElement('button');
                         downloadButton.innerText = 'download';
                         downloadButton.addEventListener('click', () => {
+
+
                             // Здесь добавьте логику для скачивания изображения
-                            console.log(`download image with ID :` + imageDiv.id);
+                            console.log(`download image with ID: ${imageIds[i]}`);
+
+
                         });
                         imageDiv.appendChild(downloadButton);
 
-                        // Добавляем кнопку "Удалить"
-                        const deleteButton = document.createElement('button');
-                        deleteButton.innerText = 'delete';
-                        deleteButton.addEventListener('click', () => {
-                            // Здесь добавьте логику для удаления изображения
-                            console.log(`delete image with ID :` + imageDiv.id);
-                            // Дополнительно, вы можете удалить соответствующий div с изображением
-                            document.getElementById('imageContainer').removeChild(imageDiv);
-                        });
-                        imageDiv.appendChild(deleteButton);
+
 
                         document.getElementById('imageContainer').appendChild(imageDiv);
+
+
                     }
                 } else {
                     console.log(response.message);
@@ -459,7 +489,7 @@ $(document).ready(function () {
                 console.error(status + ", " + error);
             }
         });
-    }*/
+    }
     
 
 
