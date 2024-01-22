@@ -53,21 +53,14 @@ $(document).ready(function () {
     }
 
     function checkLoginStatus() {
-        $.ajax({
-            url: 'checkLogin.php',
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                if (!data.loggedIn) {
-                    //console.log('unknown user');
-                    alert('you need to log in');
-                    window.location.href = 'users.html';
-                }
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
+
+        
+
+        if (storedUser === null) {
+            alert('you need to log in');
+            window.location.href = 'users.html';
+        }
+        
     }
 
     function displayUserNotes() {
@@ -408,7 +401,11 @@ $(document).ready(function () {
     if (window.location.pathname === '/imageGallery.html') {
         addImageToGallery();
     }
-    
+
+    if (window.location.pathname === '/musicGallery.html') {
+        addMusicToGallery();
+    }
+
     function addImageToGallery() {
         $.ajax({
             url: 'sendImagesToGallery.php',
@@ -516,9 +513,98 @@ $(document).ready(function () {
         });
     }
     
+    function addMusicToGallery() {
+        $.ajax({
+            url: 'sendMusicToGallery.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var audioIds = response.audio_ids;
+
+                    for (var i = 0; i < audioIds.length; i++) {
+                        console.log("Audio ID is: " + audioIds[i]);
+
+                        const audioDiv = document.createElement('div');
+                        audioDiv.id = audioIds[i];
+                        audioDiv.classList.add('grid-item');
+
+                        const audioElement = document.createElement('audio');
+                        audioElement.controls = true;
+                        audioElement.src = `sendAndGetAudio.php?id=${audioIds[i]}`;
+                        audioDiv.appendChild(audioElement);
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'delete';
+
+                        deleteButton.addEventListener('click', () => {
+                            deleteAudio(audioDiv.id);
+                        });
+
+                        function deleteAudio(audioDivId) {
+                            $.ajax({
+                                type: "POST",
+                                url: "deleteAudio.php",
+                                data: { audioId: audioDivId },
+                                success: function (response) {
+                                    alert("audio deleted");
+                                    console.log(response);
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.error("error: " + error.responseText);
+                                }
+                            });
+                        }
+
+                        audioDiv.appendChild(deleteButton);
+
+                        const downloadButton = document.createElement('button');
+                        downloadButton.innerText = 'download';
+                        downloadButton.addEventListener('click', function () {
+                            var audioId = audioDiv.id;
+                            console.log(audioDiv.id);
+
+                            $.ajax({
+                                type: 'GET',
+                                url: "getAudioPath.php",
+                                data: { id: audioId },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.error) {
+                                        console.error(data.error);
+                                    } else {
+                                        var fileUrl = data.fileUrl;
+                                        var link = document.createElement('a');
+                                        link.href = fileUrl;
+                                        link.download = 'downloadedAudio';
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('error:', error);
+                                }
+                            });
+                        });
+
+                        audioDiv.appendChild(downloadButton);
+
+                        document.getElementById('audioContainer').appendChild(audioDiv);
+                    }
+                } else {
+                    console.log(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ", " + error);
+            }
+        });
+    }
 
 
-    $("#send_image").submit(function (event) {
+    $("#sendImage").submit(function (event) {
         event.preventDefault();
 
         var formData = new FormData(this);
@@ -543,11 +629,11 @@ $(document).ready(function () {
         });
     });
 
-    $("#musicForm").submit(function (event) {
-        var formData = new FormData(document.getElementById('musicForm'));
+    $("#sendMusic").submit(function (event) {
+        var formData = new FormData(document.getElementById('sendMusic'));
 
         $.ajax({
-            url: 'sendAndGetMusic.php',
+            url: 'sendMusic.php',
             type: 'POST',
             data: formData,
             contentType: false,

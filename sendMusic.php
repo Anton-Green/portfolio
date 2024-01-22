@@ -10,13 +10,22 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    http_response_code(401); // Unauthorized
+    exit;
+}
+
+$user_id = $conn->real_escape_string($_SESSION['user_id']);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['music'])) {
         $musicTmpName = $_FILES['music']['tmp_name'];
 
-        // Проверка успешности чтения файла
         $musicData = file_get_contents($musicTmpName);
         if ($musicData === false) {
+            http_response_code(500); // Internal Server Error
             echo json_encode(['message' => 'Error reading music file']);
             $conn->close();
             exit;
@@ -27,12 +36,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $targetPath = $conn->real_escape_string($uploadPath . $musicName);
 
         if (move_uploaded_file($musicTmpName, $targetPath)) {
-            $insertMusicSql = $conn->prepare("INSERT INTO music (music_name, music_path) VALUES (?, ?)");
-            $insertMusicSql->bind_param("ss", $musicName, $targetPath);
+            $insertMusicSql = $conn->prepare("INSERT INTO music (music_name, music_path, user_id) VALUES (?, ?, ?)");
+            $insertMusicSql->bind_param("sss", $musicName, $targetPath, $user_id);
 
             if ($insertMusicSql->execute()) {
                 echo json_encode(['message' => 'Music sent successfully']);
             } else {
+                http_response_code(500); // Internal Server Error
                 echo json_encode(['message' => 'Error sending music', 'error' => $insertMusicSql->error]);
                 $insertMusicSql->close();
                 $conn->close();
@@ -41,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $insertMusicSql->close();
         } else {
+            http_response_code(500); // Internal Server Error
             echo json_encode(['message' => 'Error moving uploaded file']);
             $conn->close();
         }
@@ -48,37 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['message' => 'No music provided']);
         $conn->close();
     }
-}
+} 
 
-elseif ($_SERVER["REQUEST_METHOD"] === "GET" && isset($_GET["id"])) {
-	$musicId = intval($_GET["id"]);
 
-    $query = "SELECT music_path FROM music WHERE id = ?";
-    $stmt = $conn->prepare($query);
-
-    if ($stmt) {
-        $stmt->bind_param("i", $musicId);
-        $stmt->execute();
-        $stmt->bind_result($musicPath);
-
-        if ($stmt->fetch()) {
-            header("Content-type: audio/mpeg");
-            header("Content-length: " . filesize($musicPath));
-            readfile($musicPath);
-        } else {
-            echo "Music not found";
-        }
-
-        $stmt->close();
-    } else 
-    {
-        echo "Error in SQL query preparation";
-    }
-}
-else 
-{
-    echo "Invalid request or missing 'id' parameter";
-}
 
 $conn->close();
 ?>

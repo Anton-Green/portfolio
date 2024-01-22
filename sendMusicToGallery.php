@@ -2,13 +2,13 @@
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
     exit;
 }
 
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401); // Unauthorized
+    http_response_code(401); 
     echo json_encode(['status' => 'error', 'message' => 'Пользователь не аутентифицирован']);
     exit;
 }
@@ -23,17 +23,17 @@ $dbname = "cfjylqr1_message";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500); 
     echo json_encode(['status' => 'error', 'message' => 'Connection failed: ' . $conn->connect_error]);
     exit;
 }
 
-$sql = "SELECT id FROM images WHERE user_id = ?";
+$sql = "SELECT id FROM audios WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 
 if (!$stmt->execute()) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500); 
     echo json_encode(['status' => 'error', 'message' => 'Error executing query']);
     exit;
 }
@@ -41,16 +41,16 @@ if (!$stmt->execute()) {
 $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
-    $imageIds = array();
+    $audioIds = array();
 
     while ($row = $result->fetch_assoc()) {
-        $imageId = $row["id"];
-        $imageIds[] = $imageId;
+        $audioId = $row["id"];
+        $audioIds[] = $audioId;
     }
 
-    echo json_encode(['status' => 'success', 'image_ids' => $imageIds]);
+    echo json_encode(['status' => 'success', 'audio_ids' => $audioIds]);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'you didnt upload anything yet']);
+    echo json_encode(['status' => 'error', 'message' => 'Для данного пользователя нет записей в таблице аудио']);
 }
 
 $stmt->close();

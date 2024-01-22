@@ -76,7 +76,7 @@
 
         <div class="user_audio">
 
-            <form id="musicForm" method="post" enctype="multipart/form-data">
+            <form id="sendMusic" method="post" enctype="multipart/form-data">
                 <label for="musicFile">Select Music:</label>
                 <input type="file" id="musicFile" name="music" accept=".mp3">
                 <input type="submit" value="Upload Music">
@@ -85,7 +85,7 @@
 
             <div class="displayMusic">
                 <audio controls>
-                    <source src="sendAndGetMusic.php?id=1" type="audio/mp3">
+                    <source src="getMusic.php?id=6" type="audio/mp3">
                 </audio>
             </div>
 
@@ -103,7 +103,7 @@
             <img src="images/img_1.jpg" alt="bulb" width="500" height="700" />
         </div>
 
-        <form id="send_image" method="post" enctype="multipart/form-data">
+        <form id="sendImage" method="post" enctype="multipart/form-data">
             <label for="image">Select user avatar Image or download image to gallery:</label>
             <input type="file" name="image" accept="image/png">
             <input type="submit" value="Set Image">
