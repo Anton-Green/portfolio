@@ -58,7 +58,7 @@ $(document).ready(function () {
 
         if (storedUser === null) {
             alert('you need to log in');
-            window.location.href = 'users.html';
+            window.location.href = '../html/users.html';
         }
         
     }
@@ -79,12 +79,17 @@ $(document).ready(function () {
                             '</div>';
 
                         $('#notes-container').append(noteHtml);
-                    });
 
+                        
+                        
+                    });
+                    
                     
                     $('.delete-btn').click(function () {
                         var noteId = $(this).data('note-id');
                         deleteNote(noteId);
+
+                        location.reload();
                     });
                 } else {
                     console.error('Error fetching user notes');
@@ -315,6 +320,7 @@ $(document).ready(function () {
                 alert("Error saving note");
             }
         });
+        location.reload();
     });
 
     $("#toggleSnow").on("click", function () {
@@ -337,11 +343,11 @@ $(document).ready(function () {
         $('#user-info').html('Welcome back, ' + user.username);
     }
 
-    if (window.location.pathname !== '/users.html') {
+    if (window.location.pathname !== '../html/users.html') {
         checkLoginStatus()
     }
 
-    if (window.location.pathname === '/userCabinet.html') {
+    if (window.location.pathname === '../html/userCabinet.html') {
         changeImageFromCookie();
         getOldUsers();
         function getOldUsers() {
@@ -398,11 +404,11 @@ $(document).ready(function () {
         }
     }
 
-    if (window.location.pathname === '/imageGallery.html') {
+    if (window.location.pathname === '../html/imageGallery.html') {
         addImageToGallery();
     }
 
-    if (window.location.pathname === '/musicGallery.html') {
+    if (window.location.pathname === '../html/musicGallery.html') {
         addMusicToGallery();
     }
 
@@ -644,7 +650,7 @@ $(document).ready(function () {
     });
 
     function changeImage(id) {
-        document.getElementById("displayedImage").src = "php/sendAndGetImage.php?id=" + id;
+        document.getElementById("displayedImage").src = "../html/php/sendAndGetImage.php?id=" + id;
     }
     function changeImageFromCookie() {
         var imageId = getCookie("user_pic");
