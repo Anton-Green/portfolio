@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Проверка уникальности email
+    
     $checkEmailSql = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $checkEmailSql->bind_param("s", $email);
     $checkEmailSql->execute();
@@ -30,6 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($checkEmailResult->num_rows > 0) {
         echo json_encode(['message' => 'User with this email already exists']);
         exit;
+    }
+
+    $checkUsernameSql = $conn->prepare("SELECT id FROM users WHERE username = ?");
+    $checkUsernameSql->bind_param("s", $username);
+    $checkUsernameSql->execute();
+    $checkUsernameResult = $checkUsernameSql->get_result();
+
+    if ($checkUsernameResult->num_rows > 0) {
+       echo json_encode(['message' => 'User with this username already exists']);
+       exit;
     }
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);

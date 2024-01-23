@@ -79,7 +79,9 @@
 
             <form id="sendMusic" method="post" enctype="multipart/form-data">
                 <label for="musicFile">Select Music:</label>
+                <br />
                 <input type="file" id="musicFile" name="music" accept=".mp3">
+                <br />
                 <input type="submit" value="Upload Music">
             </form>
             <br />
@@ -106,17 +108,38 @@
 
         <form id="sendImage" method="post" enctype="multipart/form-data">
             <label for="image">Select user avatar Image or download image to gallery:</label>
+            <br />
             <input type="file" name="image" accept="image/png">
+            <br />
             <input type="submit" value="Set Image">
         </form>
 
         <div class="user_avatar">
-            <img id="displayedImage" src="../html/php/sendAndGetImage.php?id=0" alt="Displayed Image">
+            <img id="displayedImage" src="../html/php/sendAndGetImage.php?id=" alt="user avatar">
         </div>
 
-        <div class="userSendMessage">
-            <p>here you can send messages to another users</p>
+        <div class="chatSystem">
+
+            <form id="sendMessageForm">
+                <label for="receiver_username">Receiver Name:</label>
+                <br />
+                <input type="text" id="receiver_username" name="receiver_username" required placeholder="Enter receiver's username" maxlength="255">
+                <br />
+                <label for="message_text">Message Text:</label>
+                <br />
+                <textarea id="message_text" name="message_text" required placeholder="Type your message here" maxlength="1000"></textarea>
+                <br />
+                <button type="submit">Send Message</button>
+            </form>
+
+            <div id="chats-container">
+
+                <!--container for chats-->
+
+            </div>
+
         </div>
+        
 
         <div class="user_cabinet_image_5">
             <img src="../images/img_8.jpg" alt="bulb" width="500" height="700" />

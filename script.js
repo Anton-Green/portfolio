@@ -27,6 +27,8 @@ $(document).ready(function () {
         }
     }, snowflakeInterval);
 
+
+
     function setCookie(name, value, days) {
         var expires = "";
         if (days) {
@@ -58,7 +60,7 @@ $(document).ready(function () {
 
         if (storedUser === null) {
             alert('you need to log in');
-            window.location.href = '../html/users.html';
+            window.location.href = '/html/users.html';
         }
         
     }
@@ -145,6 +147,246 @@ $(document).ready(function () {
             $(this).remove();
         });
     }
+
+    function addImageToGallery() {
+        $.ajax({
+            url: 'php/sendImagesToGallery.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var imageIds = response.image_ids;
+
+                    for (var i = 0; i < imageIds.length; i++) {
+                        console.log("Image ID is: " + imageIds[i]);
+
+                        const imageDiv = document.createElement('div');
+                        imageDiv.id = imageIds[i];
+                        imageDiv.classList.add('grid-item');
+
+                        const imageElement = document.createElement('img');
+                        imageElement.src = `php/sendAndGetImage.php?id=${imageIds[i]}`;
+                        imageDiv.appendChild(imageElement);
+
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'delete';
+
+                        deleteButton.addEventListener('click', () => {
+
+
+
+                            //console.log(imageDiv.id);
+
+                            deleteImage(imageDiv.id);
+                        });
+
+
+
+                        function deleteImage(imageDivId) {
+                            $.ajax({
+                                type: "POST",
+                                url: "php/deleteImage.php",
+                                data: { imageId: imageDivId },
+                                success: function (response) {
+                                    alert("image deleted");
+                                    console.log(response);
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.error("error: " + error.responseText);
+                                }
+                            });
+                        }
+
+                        imageDiv.appendChild(deleteButton);
+
+
+                        const downloadButton = document.createElement('button');
+                        downloadButton.innerText = 'download';
+                        downloadButton.addEventListener('click', function () {
+                            var imageId = imageDiv.id;
+                            console.log(imageDiv.id);
+
+                            $.ajax({
+                                type: 'GET',
+                                url: "php/getImagePath.php",
+                                data: { id: imageId },
+                                dataType: 'json',
+                                success: function (data) {
+                                    if (data.error) {
+                                        console.error(data.error);
+                                    } else {
+
+
+                                        var fileUrl = data.fileUrl;
+                                        var link = document.createElement('a');
+                                        link.href = fileUrl;
+                                        link.download = 'downloadedItem';
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        document.body.removeChild(link);
+
+
+                                    }
+                                },
+                                error: function (error) {
+                                    console.error('error:', error);
+                                }
+                            });
+                        });
+
+
+                        imageDiv.appendChild(downloadButton);
+
+
+
+                        document.getElementById('imageContainer').appendChild(imageDiv);
+
+
+                    }
+                } else {
+                    console.log(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ", " + error);
+            }
+        });
+    }
+
+    function addMusicToGallery() {
+        $.ajax({
+            url: 'php/sendMusicToGallery.php',
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    var audioIds = response.audio_ids;
+
+                    for (var i = 0; i < audioIds.length; i++) {
+                        console.log("Audio ID is: " + audioIds[i]);
+
+                        const audioDiv = document.createElement('div');
+                        audioDiv.id = audioIds[i];
+                        audioDiv.classList.add('grid-item');
+
+                        const audioElement = document.createElement('audio');
+                        audioElement.controls = true;
+                        audioElement.src = `php/getMusic.php?id=${audioIds[i]}`;
+                        audioElement.id = 'audioPlayer' + audioIds[i]; // Используем префикс
+                        audioDiv.appendChild(audioElement);
+
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerText = 'delete';
+
+                        deleteButton.addEventListener('click', () => {
+                            deleteAudio(audioDiv.id);
+                        });
+
+                        function deleteAudio(audioDivId) {
+                            $.ajax({
+                                type: "POST",
+                                url: "php/deleteMusic.php",
+                                data: { audioId: audioDivId },
+                                success: function (response) {
+                                    alert("audio deleted");
+                                    console.log(response);
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.error("error: " + error.responseText);
+                                }
+                            });
+                        }
+
+                        audioDiv.appendChild(deleteButton);
+
+                        var audioId = audioDiv.id;
+
+                        const downloadButton = document.createElement('button');
+                        downloadButton.innerText = 'download';
+                        downloadButton.addEventListener('click', function () {
+                            var audioPlayerId = 'audioPlayer' + audioId; // Префикс для избежания конфликта
+                            var audioElement = document.getElementById(audioPlayerId);
+
+                            if (audioElement) {
+                                var fileUrl = audioElement.src;
+                                var link = document.createElement('a');
+                                link.href = fileUrl;
+                                link.download = 'downloadedAudio';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            } else {
+                                console.error("Audio element not found");
+                            }
+                        });
+
+                        audioDiv.appendChild(downloadButton);
+
+                        document.getElementById('audioContainer').appendChild(audioDiv);
+                    }
+                } else {
+                    console.log(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(status + ", " + error);
+            }
+        });
+    }
+
+    function changeImage(id) {
+        document.getElementById("displayedImage").src = "../html/php/sendAndGetImage.php?id=" + id;
+
+       
+    }
+
+    function changeImageFromCookie() {
+        var imageId = getCookie("user_pic");
+        if (imageId !== null) {
+            changeImage(imageId);
+
+            
+        } else {
+            // default
+            changeImage(34);
+        }
+    }
+
+    function displayResults(results) {
+        var resultsDiv = document.getElementById('searchResults');
+        resultsDiv.innerHTML = '';
+
+        if (results.length > 0) {
+            for (var i = 0; i < results.length; i++) {
+                var result = results[i];
+                resultsDiv.innerHTML += '<p>ID: ' + result.id + ', name: ' + result.image_name + '</p>';
+            }
+        } else {
+            resultsDiv.innerHTML = '<p>nothing founded</p>';
+        }
+    }
+
+
+
+    $("#searchButton").click(function () {
+        var searchInput = $("#searchInput").val();
+
+        $.ajax({
+            url: 'php/findImages.php',
+            type: 'GET',
+            data: { name: searchInput },
+            dataType: 'json',
+            success: function (results) {
+                displayResults(results);
+            },
+            error: function (xhr, status, error) {
+                alert("Error searching objects");
+            }
+        });
+    });
 
     $("#contactForm").submit(function (event) {
         event.preventDefault();
@@ -338,18 +580,67 @@ $(document).ready(function () {
         } 
     });
 
+    $("#sendImage").submit(function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: 'php/sendAndGetImage.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+                changeImage(response.id);
+                setCookie('user_pic', response.id, 30);
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+                console.log(error);
+
+            }
+        });
+    });
+
+    $("#sendMusic").submit(function (event) {
+        var formData = new FormData(document.getElementById('sendMusic'));
+
+        $.ajax({
+            url: 'php/sendMusic.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+
+            },
+            error: function (error) {
+                alert(response);
+            }
+        });
+    });
+
     if (storedUser) {
         var user = JSON.parse(storedUser);
         $('#user-info').html('Welcome back, ' + user.username);
     }
 
-    if (window.location.pathname !== '../html/users.html') {
+    if (window.location.pathname !== '/html/users.html') {
         checkLoginStatus()
     }
 
-    if (window.location.pathname === '../html/userCabinet.html') {
+    if (window.location.pathname === '/html/userCabinet.html') {
+        
+        
         changeImageFromCookie();
         getOldUsers();
+
+
         function getOldUsers() {
             $.ajax({
                 type: "GET",
@@ -384,7 +675,7 @@ $(document).ready(function () {
                             data: JSON.stringify({ data: array }),
                             success: function (response) {
 
-                                console.log(response);
+                                //console.log(response);
 
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
@@ -404,297 +695,104 @@ $(document).ready(function () {
         }
     }
 
-    if (window.location.pathname === '../html/imageGallery.html') {
+    if (window.location.pathname === '/html/imageGallery.html') {
         addImageToGallery();
     }
 
-    if (window.location.pathname === '../html/musicGallery.html') {
+    if (window.location.pathname === '/html/musicGallery.html') {
         addMusicToGallery();
-    }
-
-    function addImageToGallery() {
-        $.ajax({
-            url: 'php/sendImagesToGallery.php',
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    var imageIds = response.image_ids;
-
-                    for (var i = 0; i < imageIds.length; i++) {
-                        console.log("Image ID is: " + imageIds[i]);
-
-                        const imageDiv = document.createElement('div');
-                        imageDiv.id = imageIds[i];
-                        imageDiv.classList.add('grid-item');
-
-                        const imageElement = document.createElement('img');
-                        imageElement.src = `php/sendAndGetImage.php?id=${imageIds[i]}`;
-                        imageDiv.appendChild(imageElement);
-
-                        
-                        const deleteButton = document.createElement('button');
-                        deleteButton.innerText = 'delete';
-
-                        deleteButton.addEventListener('click', () => {
-                        
-
-                            
-                            //console.log(imageDiv.id);
-
-                            deleteImage(imageDiv.id);
-                        });
-
-                        
-
-                        function deleteImage(imageDivId) {
-                            $.ajax({
-                                type: "POST",
-                                url: "php/deleteImage.php",
-                                data: { imageId: imageDivId },
-                                success: function (response) {
-                                    alert("image deleted");
-                                    console.log(response);
-                                    location.reload();
-                                },
-                                error: function (error) {
-                                    console.error("error: " + error.responseText);
-                                }
-                            });
-                        }
-
-                        imageDiv.appendChild(deleteButton);
-
-                        
-                        const downloadButton = document.createElement('button');
-                        downloadButton.innerText = 'download';
-                        downloadButton.addEventListener('click', function () {
-                            var imageId = imageDiv.id;
-                            console.log(imageDiv.id);
-
-                            $.ajax({
-                                type: 'GET',
-                                url: "php/getImagePath.php",
-                                data: { id: imageId },
-                                dataType: 'json',
-                                success: function (data) {
-                                    if (data.error) {
-                                        console.error(data.error);
-                                    } else {
-
-
-                                        var fileUrl = data.fileUrl;
-                                        var link = document.createElement('a');
-                                        link.href = fileUrl;
-                                        link.download = 'downloadedItem';
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-
-
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('error:', error);
-                                }
-                            });
-                        });
-
-
-                        imageDiv.appendChild(downloadButton);
-
-
-
-                        document.getElementById('imageContainer').appendChild(imageDiv);
-
-
-                    }
-                } else {
-                    console.log(response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(status + ", " + error);
-            }
-        });
-    }
-    
-    function addMusicToGallery() {
-        $.ajax({
-            url: 'php/sendMusicToGallery.php',
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    var audioIds = response.audio_ids;
-
-                    for (var i = 0; i < audioIds.length; i++) {
-                        console.log("Audio ID is: " + audioIds[i]);
-
-                        const audioDiv = document.createElement('div');
-                        audioDiv.id = audioIds[i];
-                        audioDiv.classList.add('grid-item');
-
-                        const audioElement = document.createElement('audio');
-                        audioElement.controls = true;
-                        audioElement.src = `php/getMusic.php?id=${audioIds[i]}`;
-                        audioElement.id = 'audioPlayer' + audioIds[i]; // Используем префикс
-                        audioDiv.appendChild(audioElement);
-
-                        const deleteButton = document.createElement('button');
-                        deleteButton.innerText = 'delete';
-
-                        deleteButton.addEventListener('click', () => {
-                            deleteAudio(audioDiv.id);
-                        });
-
-                        function deleteAudio(audioDivId) {
-                            $.ajax({
-                                type: "POST",
-                                url: "php/deleteMusic.php",
-                                data: { audioId: audioDivId },
-                                success: function (response) {
-                                    alert("audio deleted");
-                                    console.log(response);
-                                    location.reload();
-                                },
-                                error: function (error) {
-                                    console.error("error: " + error.responseText);
-                                }
-                            });
-                        }
-
-                        audioDiv.appendChild(deleteButton);
-
-                        var audioId = audioDiv.id;
-
-                        const downloadButton = document.createElement('button');
-                        downloadButton.innerText = 'download';
-                        downloadButton.addEventListener('click', function () {
-                            var audioPlayerId = 'audioPlayer' + audioId; // Префикс для избежания конфликта
-                            var audioElement = document.getElementById(audioPlayerId);
-
-                            if (audioElement) {
-                                var fileUrl = audioElement.src;
-                                var link = document.createElement('a');
-                                link.href = fileUrl;
-                                link.download = 'downloadedAudio';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                            } else {
-                                console.error("Audio element not found");
-                            }
-                        });
-
-                        audioDiv.appendChild(downloadButton);
-
-                        document.getElementById('audioContainer').appendChild(audioDiv);
-                    }
-                } else {
-                    console.log(response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(status + ", " + error);
-            }
-        });
-    }
-
-
-
-
-    $("#sendImage").submit(function (event) {
-        event.preventDefault();
-
-        var formData = new FormData(this);
-
-        $.ajax({
-            url: 'php/sendAndGetImage.php',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message);
-                changeImage(response.id);
-                setCookie('user_pic', response.id, 30);
-            },
-            error: function (error) {
-                alert("Something goes wrong");
-                console.log(error);
-                
-            }
-        });
-    });
-
-    $("#sendMusic").submit(function (event) {
-        var formData = new FormData(document.getElementById('sendMusic'));
-
-        $.ajax({
-            url: 'php/sendMusic.php',
-            type: 'POST',
-            data: formData,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
-            success: function (response) {
-                alert(response.message);
-                
-            },
-            error: function (error) {
-                alert(response);
-            }
-        });
-    });
-
-    function changeImage(id) {
-        document.getElementById("displayedImage").src = "../html/php/sendAndGetImage.php?id=" + id;
-    }
-    function changeImageFromCookie() {
-        var imageId = getCookie("user_pic");
-        if (imageId !== null) {
-            changeImage(imageId);
-        } else {
-            // default
-            changeImage(1);
-        }
     }
 
     displayUserNotes();
 
 
+    
+   
 
-    $("#searchButton").click(function () {
-        var searchInput = $("#searchInput").val();
+
+    $("#sendMessageForm").submit(function (event) {
+        event.preventDefault();
+
+        var message_text = $("#message_text").val();
+        var receiver_username = $("#receiver_username").val();
+
+        var chatId = "chat-with-" + receiver_username;
+        var existingChat = $("#" + chatId);
+
+        if (existingChat.length === 0) {
+            var newChat = $("<div></div>").attr("id", chatId);
+
+            var chatInfo = $("<p></p>").text("Chat with " + receiver_username);
+            newChat.append(chatInfo);
+
+            newChat.appendTo("#chats-container");
+        }
 
         $.ajax({
-            url: 'php/findImages.php',
-            type: 'GET',
-            data: { name: searchInput },
-            dataType: 'json',
-            success: function (results) {
-                displayResults(results);
+            url: 'php/sendMessage.php',
+            type: 'POST',
+            data: {
+                message_text: message_text,
+                receiver_username: receiver_username
             },
-            error: function (xhr, status, error) {
-                alert("Error searching objects");
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+
+                getMessages('getReceived', receiver_username);
+                getMessages('getSent', receiver_username);
+
+                newChat.scrollTop(newChat[0].scrollHeight);
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+                console.log(error);
             }
         });
     });
 
-    function displayResults(results) {
-        var resultsDiv = document.getElementById('searchResults');
-        resultsDiv.innerHTML = '';
 
-        if (results.length > 0) {
-            for (var i = 0; i < results.length; i++) {
-                var result = results[i];
-                resultsDiv.innerHTML += '<p>ID: ' + result.id + ', name: ' + result.image_name + '</p>';
+
+    function getMessages(type, receiver_username) {
+        $.ajax({
+            url: 'php/' + type + 'Messages.php',
+            type: 'POST',
+            data: {
+                receiver_username: receiver_username
+            },
+            dataType: 'json',
+            success: function (response) {
+                //alert(response.message);
+
+                var chatContainer = $("#chat-with-" + receiver_username);
+                //chatContainer.empty();
+
+                if (response.messages && response.messages.length > 0) {
+                    for (var i = 0; i < response.messages.length; i++) {
+                        var messageText = response.messages[i].message_text;
+                        var messageElement = $("<div></div>").text(messageText);
+                        chatContainer.append(messageElement);
+                    }
+                }
+
+                /*else {
+                    var noMessages = $("<div></div>").text("No messages yet.");
+                    chatContainer.append(noMessages);
+                }*/
+
+                //chatContainer.scrollTop(chatContainer[0].scrollHeight);
+            },
+            error: function (error) {
+                alert("Something goes wrong");
+                console.log(error);
             }
-        } else {
-            resultsDiv.innerHTML = '<p>nothing founded</p>';
-        }
+        });
     }
-    
+
+
+
+
+
+
+
 });
