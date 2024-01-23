@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401); 
-    echo json_encode(['status' => 'error', 'message' => 'Пользователь не аутентифицирован']);
+    echo json_encode(['status' => 'error', 'message' => 'unknown user']);
     exit;
 }
 
@@ -28,7 +28,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$sql = "SELECT id FROM audios WHERE user_id = ?";
+$sql = "SELECT id FROM music WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 
@@ -50,7 +50,7 @@ if ($result->num_rows > 0) {
 
     echo json_encode(['status' => 'success', 'audio_ids' => $audioIds]);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Для данного пользователя нет записей в таблице аудио']);
+    echo json_encode(['status' => 'error', 'message' => 'no music for current user']);
 }
 
 $stmt->close();

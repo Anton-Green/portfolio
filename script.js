@@ -531,7 +531,8 @@ $(document).ready(function () {
 
                         const audioElement = document.createElement('audio');
                         audioElement.controls = true;
-                        audioElement.src = `sendAndGetAudio.php?id=${audioIds[i]}`;
+                        audioElement.src = `getMusic.php?id=${audioIds[i]}`;
+                        audioElement.id = 'audioPlayer' + audioIds[i]; // Используем префикс
                         audioDiv.appendChild(audioElement);
 
                         const deleteButton = document.createElement('button');
@@ -544,7 +545,7 @@ $(document).ready(function () {
                         function deleteAudio(audioDivId) {
                             $.ajax({
                                 type: "POST",
-                                url: "deleteAudio.php",
+                                url: "deleteMusic.php",
                                 data: { audioId: audioDivId },
                                 success: function (response) {
                                     alert("audio deleted");
@@ -559,34 +560,25 @@ $(document).ready(function () {
 
                         audioDiv.appendChild(deleteButton);
 
+                        var audioId = audioDiv.id;
+
                         const downloadButton = document.createElement('button');
                         downloadButton.innerText = 'download';
                         downloadButton.addEventListener('click', function () {
-                            var audioId = audioDiv.id;
-                            console.log(audioDiv.id);
+                            var audioPlayerId = 'audioPlayer' + audioId; // Префикс для избежания конфликта
+                            var audioElement = document.getElementById(audioPlayerId);
 
-                            $.ajax({
-                                type: 'GET',
-                                url: "getAudioPath.php",
-                                data: { id: audioId },
-                                dataType: 'json',
-                                success: function (data) {
-                                    if (data.error) {
-                                        console.error(data.error);
-                                    } else {
-                                        var fileUrl = data.fileUrl;
-                                        var link = document.createElement('a');
-                                        link.href = fileUrl;
-                                        link.download = 'downloadedAudio';
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-                                    }
-                                },
-                                error: function (error) {
-                                    console.error('error:', error);
-                                }
-                            });
+                            if (audioElement) {
+                                var fileUrl = audioElement.src;
+                                var link = document.createElement('a');
+                                link.href = fileUrl;
+                                link.download = 'downloadedAudio';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            } else {
+                                console.error("Audio element not found");
+                            }
                         });
 
                         audioDiv.appendChild(downloadButton);
@@ -602,6 +594,8 @@ $(document).ready(function () {
             }
         });
     }
+
+
 
 
     $("#sendImage").submit(function (event) {
