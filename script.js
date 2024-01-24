@@ -97,8 +97,8 @@ $(document).ready(function () {
                     console.error('Error fetching user notes');
                 }
             },
-            error: function (error) {
-                //console.error(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     }
@@ -117,8 +117,8 @@ $(document).ready(function () {
                     console.error(response.message);
                 }
             },
-            error: function (error) {
-                console.error(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     }
@@ -193,8 +193,8 @@ $(document).ready(function () {
                                     console.log(response);
                                     location.reload();
                                 },
-                                error: function (error) {
-                                    console.error("error: " + error.responseText);
+                                error: function (xhr, status, error) {
+                                    console.error(xhr.responseText);
                                 }
                             });
                         }
@@ -230,8 +230,8 @@ $(document).ready(function () {
 
                                     }
                                 },
-                                error: function (error) {
-                                    console.error('error:', error);
+                                error: function (xhr, status, error) {
+                                    console.error(xhr.responseText);
                                 }
                             });
                         });
@@ -294,8 +294,8 @@ $(document).ready(function () {
                                     console.log(response);
                                     location.reload();
                                 },
-                                error: function (error) {
-                                    console.error("error: " + error.responseText);
+                                error: function (xhr, status, error) {
+                                    console.error(xhr.responseText);
                                 }
                             });
                         }
@@ -406,8 +406,8 @@ $(document).ready(function () {
                             //console.log(response);
 
                         },
-                        error: function (jqXHR, textStatus, errorThrown) {
-                            console.error("AJAX Error:", textStatus, errorThrown);
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
                         }
                     });
                 }
@@ -415,9 +415,8 @@ $(document).ready(function () {
                 var oldUsers = [];
                 //console.log(oldUsers);
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error:", textStatus, errorThrown);
-                console.log("Server response:", jqXHR.responseText);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     }
@@ -434,7 +433,7 @@ $(document).ready(function () {
                 console.log(results);
             },
             error: function (xhr, status, error) {
-                alert("Error searching objects");
+                console.error(xhr.responseText);
             }
         });
     });
@@ -451,7 +450,7 @@ $(document).ready(function () {
                 console.log(results);
             },
             error: function (xhr, status, error) {
-                alert("Error searching objects");
+                console.error(xhr.responseText);
             }
         });
     });
@@ -478,8 +477,8 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message)
             },
-            error: function (error) {
-                alert("Something goes wrong");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -495,8 +494,8 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message)
             },
-            error: function (error) {
-                alert("Something goes wrong");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -535,9 +534,8 @@ $(document).ready(function () {
                                 //console.log(response);
                                 //alert("send");
                             },
-                            error: function (error) {
-                                //console.log(error);
-                                //alert("error");
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
                             }
                         });
                     }
@@ -547,8 +545,8 @@ $(document).ready(function () {
                     alert("Invalid email or password");
                 }
             },
-            error: function (error) {
-                alert("Something went wrong");
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -566,8 +564,8 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message);
             },
-            error: function (error) {
-                alert(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -592,9 +590,8 @@ $(document).ready(function () {
                 /*$('#message').html(response.message);*/
                 alert(response.message);
             },
-            error: function (error) {
-
-                console.error(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -619,8 +616,8 @@ $(document).ready(function () {
 
                 window.location.href = "index.html";
             },
-            error: function (error) {
-                alert("Logout error:", error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -638,7 +635,7 @@ $(document).ready(function () {
                 alert(response.message);
             },
             error: function (xhr, status, error) {
-                alert("Error saving note");
+                console.error(xhr.responseText);
             }
         });
         location.reload();
@@ -676,10 +673,8 @@ $(document).ready(function () {
                 changeImage(response.id);
                 setCookie('user_pic', response.id, 30);
             },
-            error: function (error) {
-                alert("Something goes wrong");
-                console.log(error);
-
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -698,8 +693,8 @@ $(document).ready(function () {
                 alert(response.message);
 
             },
-            error: function (error) {
-                alert(response);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -733,7 +728,7 @@ $(document).ready(function () {
         addMusicToGallery();
     }
 
-
+    
     $("#searchUser").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -745,6 +740,9 @@ $(document).ready(function () {
             success: function (results) {
                 displayResults(results);
 
+                
+
+
                 var myList = document.getElementById("myList");
 
                 var usernames = results.map(function (item) {
@@ -752,32 +750,44 @@ $(document).ready(function () {
                 });
 
                 for (var i = 0; i < usernames.length; i++) {
-
-                    var linkElement = document.createElement('a');
-                    linkElement.href = 'https://example.com';
-                    linkElement.textContent = usernames[i];
+                    
 
                     var listItem = document.createElement('li');
-                    //listItem.textContent = usernames[i];
+                    listItem.textContent = usernames[i];
 
-                    listItem.appendChild(linkElement);
+                    listItem.addEventListener('click', function (event) {
+                        event.preventDefault();
+
+                        createChat(this.textContent);
+                    });
+
                     myList.appendChild(listItem);
 
                     
                     
                 }
 
-                /*if (results.length > 0) {
-                    
-                    displayUsername(results[0].username);
 
-                    
-                    createDivAndButton();
-                } else {
-                    
-                    $("#resultDiv").empty();
-                    $("#writeButton").hide();
-                }*/
+                function createChat(username) {
+
+                    //alert(username);
+
+                    $.ajax({
+                        url: 'php/createChat.php',
+                        type: 'GET',
+                        data: { username: username },
+                        dataType: 'json',
+                        success: function (result) {
+                            console.log(result);
+                            
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+
+                }
+
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -785,22 +795,7 @@ $(document).ready(function () {
         });
     });
 
-/*    function createDivAndButton() {
-        
-        var resultDiv = $("<div>").attr("id", "resultDiv");
-        $("body").append(resultDiv);
 
-        
-        var writeButton = $("<button>").text("write").click(function () {
-            
-           
-        });
-        $("body").append(writeButton);
-    }
-
-    function displayUsername(username) {
-        $("#resultDiv").text(username);
-    }*/
 
 
     $("#sendMessageForm").submit(function (event) {
@@ -837,9 +832,8 @@ $(document).ready(function () {
 
                 newChat.scrollTop(newChat[0].scrollHeight);
             },
-            error: function (error) {
-                alert("Something goes wrong");
-                console.log(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     });
@@ -875,9 +869,8 @@ $(document).ready(function () {
 
                 //chatContainer.scrollTop(chatContainer[0].scrollHeight);
             },
-            error: function (error) {
-                alert("Something goes wrong");
-                console.log(error);
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
         });
     }
