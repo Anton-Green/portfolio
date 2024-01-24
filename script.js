@@ -739,6 +739,10 @@ $(document).ready(function () {
 
                         var createdChat = createHTMLChat(this.textContent);
                         userChat.appendChild(createdChat);
+
+                        // я короче пытался добавить текст пока он еще не был создан, нужно это делать после appendChild
+                        // так же с кнопкой, я нажимаю кнопку уже после того как обьект добавлен
+                        getMessages("test", $("#messagesContainer"));
                     });
 
                     
@@ -802,11 +806,12 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                
+
+                //console.log(response);
                 //console.log(container);
                 //console.log(receiver_username);
                 
-                
+                // ругается на jquery func
                 container.empty();
                 
 
@@ -814,8 +819,12 @@ $(document).ready(function () {
                     for (var i = 0; i < response.messages.length; i++) {
                         var messageText = response.messages[i].message_text;
 
-                        
                         container.append(messageText + "<br>");
+                        /*var messageParagraph = document.createElement('p');
+                        messageParagraph.textContent = messageText;
+                        container.appendChild(messageParagraph);*/
+
+
                         
                     }
                 }
@@ -864,15 +873,7 @@ $(document).ready(function () {
        
         var divForMessages = document.createElement('div');
         divForMessages.id = 'messagesContainer';
-
-        getMessages(username, divForMessages.id);
-
-        //divForMessages.textContent = 'div for messages';
         mainDiv.appendChild(divForMessages);
-
-        
-
-
         
         var formForMessages = document.createElement('form');
 
@@ -909,16 +910,6 @@ $(document).ready(function () {
 
 
 
-    /*if (response.messages && response.messages.length > 0) {
-        for (var i = 0; i < response.messages.length; i++) {
-            var messageText = response.messages[i].message_text;
 
-            // Создаем элемент параграфа для каждого сообщения и добавляем его в див для сообщений
-            var messageParagraph = document.createElement('p');
-            messageParagraph.textContent = messageText;
-            divForMessages.appendChild(messageParagraph);
-        }
-    }
-*/
 
 });
