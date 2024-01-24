@@ -45,7 +45,7 @@ $sql = "CREATE TABLE IF NOT EXISTS $table_name (
 if ($conn->query($sql) === TRUE) {
     echo "chat created";
 } else {
-    echo "error creating chat: " . $conn->error;
+    echo "chat exsist: " . $conn->error;
 }
 
 

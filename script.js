@@ -1,6 +1,5 @@
 $(document).ready(function () {
 
-    
     var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
 
@@ -10,7 +9,6 @@ $(document).ready(function () {
     else {
         var isSnowfallEnabled = isSnowfallCookieValue === 'true';
     }
-
 
     var numberOfSnowflakes = 200;
     var snowflakeInterval = 500;
@@ -26,8 +24,6 @@ $(document).ready(function () {
             clearInterval(snowflakeCreation);
         }
     }, snowflakeInterval);
-
-
 
     function setCookie(name, value, days) {
         var expires = "";
@@ -455,11 +451,6 @@ $(document).ready(function () {
         });
     });
 
-
-
-
-
-
     function displayResults(results) {
         
         console.log(results);
@@ -716,7 +707,7 @@ $(document).ready(function () {
 
         getOldUsers();
         
-
+        
         
     }
 
@@ -738,7 +729,7 @@ $(document).ready(function () {
             data: { username: searchInput },
             dataType: 'json',
             success: function (results) {
-                displayResults(results);
+                //displayResults(results);
 
                 
 
@@ -768,25 +759,7 @@ $(document).ready(function () {
                 }
 
 
-                function createChat(username) {
-
-                    //alert(username);
-
-                    $.ajax({
-                        url: 'php/createChat.php',
-                        type: 'GET',
-                        data: { username: username },
-                        dataType: 'json',
-                        success: function (result) {
-                            console.log(result);
-                            
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
-
-                }
+                
 
             },
             error: function (xhr, status, error) {
@@ -795,8 +768,7 @@ $(document).ready(function () {
         });
     });
 
-
-
+ 
 
     $("#sendMessageForm").submit(function (event) {
         event.preventDefault();
@@ -804,7 +776,8 @@ $(document).ready(function () {
         var message_text = $("#message_text").val();
         var receiver_username = $("#receiver_username").val();
 
-        var chatId = "chat-with-" + receiver_username;
+        // этот код залупа, надо переделать
+        /*var chatId = "chat-with-" + receiver_username;
         var existingChat = $("#" + chatId);
 
         if (existingChat.length === 0) {
@@ -814,7 +787,7 @@ $(document).ready(function () {
             newChat.append(chatInfo);
 
             newChat.appendTo("#chats-container");
-        }
+        }*/
 
         $.ajax({
             url: 'php/sendMessage.php',
@@ -825,12 +798,13 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                alert(response.message);
+                //alert(response.message);
+                //alert(receiver_username);
 
-                getMessages('getReceived', receiver_username);
-                getMessages('getSent', receiver_username);
+                //getMessages(receiver_username);
+                
 
-                newChat.scrollTop(newChat[0].scrollHeight);
+                //newChat.scrollTop(newChat[0].scrollHeight);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -838,11 +812,12 @@ $(document).ready(function () {
         });
     });
 
+    getMessages("test");
+    
 
-
-    function getMessages(type, receiver_username) {
+    function getMessages(receiver_username) {
         $.ajax({
-            url: 'php/' + type + 'Messages.php',
+            url: 'php/getMessages.php',
             type: 'POST',
             data: {
                 receiver_username: receiver_username
@@ -851,21 +826,23 @@ $(document).ready(function () {
             success: function (response) {
                 //alert(response.message);
 
-                var chatContainer = $("#chat-with-" + receiver_username);
-                //chatContainer.empty();
+                
+                
+                
+                //$("#chatContainer").empty();
+                
 
                 if (response.messages && response.messages.length > 0) {
                     for (var i = 0; i < response.messages.length; i++) {
                         var messageText = response.messages[i].message_text;
-                        var messageElement = $("<div></div>").text(messageText);
-                        chatContainer.append(messageElement);
+
+                        
+                        $("#chatContainer").append(messageText + "<br>");
+                        
                     }
                 }
 
-                /*else {
-                    var noMessages = $("<div></div>").text("No messages yet.");
-                    chatContainer.append(noMessages);
-                }*/
+                
 
                 //chatContainer.scrollTop(chatContainer[0].scrollHeight);
             },
@@ -876,8 +853,65 @@ $(document).ready(function () {
     }
 
 
+    function createChat(username) {
+
+        //alert(username);
+
+        $.ajax({
+            url: 'php/createChat.php',
+            type: 'GET',
+            data: { username: username },
+            dataType: 'json',
+            success: function (result) {
+                console.log(result);
+
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
 
 
+    }
+
+    function createHTMLChat() {
+       
+        var mainDiv = document.createElement('div');
+
+       
+        var pElement = document.createElement('p');
+        pElement.textContent = 'chat name';
+        mainDiv.appendChild(pElement);
+
+       
+        var nestedDiv = document.createElement('div');
+        nestedDiv.textContent = 'div for messages';
+        mainDiv.appendChild(nestedDiv);
+
+        
+        var formElement = document.createElement('form');
+
+        
+        var inputElement = document.createElement('input');
+        inputElement.type = 'text';
+        inputElement.placeholder = 'write a message';
+        formElement.appendChild(inputElement);
+
+        
+        var buttonElement = document.createElement('button');
+        buttonElement.textContent = 'send';
+        formElement.appendChild(buttonElement);
+
+        
+        mainDiv.appendChild(formElement);
+
+        
+        return mainDiv;
+    }
+
+    
+    var createdDiv = createHTMLChat();
+    document.body.appendChild(createdDiv);
 
 
 
