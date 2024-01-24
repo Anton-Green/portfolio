@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Onokin</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     <script src="../script.js"></script>
 </head>
 <body>
-
     <div class="dropdown">
         <button class="dropbtn">Fast links</button>
         <div class="dropdown-content">
@@ -20,35 +18,24 @@
             <a href="../html/document_managment.html">Doc Management</a>
             <a href="../html/digital_appeal.html">Stylization</a>
             <a href="../html/seo.html">Attracting Clients</a>
-            <a href="../html/userCabinet.html">Cabinet</a>
+            <a href="../html/users.html">users</a>
+            <a href="../html/imageGallery.html">Gallery</a>
             <a href="../html/musicGallery.html">Music Gallery</a>
         </div>
     </div>
 
     <div class="search">
 
-        <h1>find object by name</h1>
-        <label for="searchInput">insert object name:</label>
+        <h1>find user by name</h1>
+        <label for="searchUserInput">insert user name:</label>
         <input type="text" id="searchInput">
-        <button id="searchImage">find</button>
+        <button id="searchUser">find</button>
 
         <div id="searchResults"></div>
     </div>
 
-
-    <div class="gallery" id="imageContainer">
-
-
-
-        <!--<div class="grid-item">
-            <img id="displayedImage" src="sendAndGetImage.php?id=21" alt="Displayed Image">
-        </div>-->
-
-
-
-
-
-    </div>
-
+    <ul id="myList">
+        <!--контейнер-->
+    </ul>
 </body>
 </html>

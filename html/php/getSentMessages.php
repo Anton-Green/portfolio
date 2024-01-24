@@ -3,7 +3,7 @@ session_start();
 
 if (!isset($_SESSION['user_id'])) {
     http_response_code(401); // Unauthorized
-    echo json_encode(['status' => 'error', 'message' => 'Пользователь не аутентифицирован']);
+    echo json_encode(['status' => 'error', 'message' => 'unkown user']);
     exit;
 }
 

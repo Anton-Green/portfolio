@@ -11,10 +11,10 @@ $(document).ready(function () {
         var isSnowfallEnabled = isSnowfallCookieValue === 'true';
     }
 
-    
+
     var numberOfSnowflakes = 200;
     var snowflakeInterval = 500;
-    
+
     //setCookie('cookieName', var, daysNum);
     //var name = getCookie('cookieName');
 
@@ -265,7 +265,7 @@ $(document).ready(function () {
                     var audioIds = response.audio_ids;
 
                     for (var i = 0; i < audioIds.length; i++) {
-                        console.log("Audio ID is: " + audioIds[i]);
+                        //console.log("Audio ID is: " + audioIds[i]);
 
                         const audioDiv = document.createElement('div');
                         audioDiv.id = audioIds[i];
@@ -369,9 +369,60 @@ $(document).ready(function () {
         }
     }
 
+    function getOldUsers() {
+        $.ajax({
+            type: "GET",
+            url: "php/sendAndGetHistory.php",
+            dataType: "json",
+            success: function (response) {
 
+                var currentDate = new Date();
+                var oldUsers = [];
 
-    $("#searchButton").click(function () {
+                //console.log(response);
+
+                response.forEach(function (data) {
+                    var historyDate = new Date(data.user_history);
+                    var timeDifference = currentDate - historyDate;
+                    var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+                    if (daysDifference > 7) {
+                        oldUsers.push(data.user_id);
+                    }
+                });
+
+                sendReminder();
+                //console.log(oldUsers);
+
+                function sendReminder() {
+                    var array = oldUsers;
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'php/sendReminder.php',
+                        data: JSON.stringify({ data: array }),
+                        success: function (response) {
+
+                            //console.log(response);
+
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.error("AJAX Error:", textStatus, errorThrown);
+                        }
+                    });
+                }
+
+                var oldUsers = [];
+                //console.log(oldUsers);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error:", textStatus, errorThrown);
+                console.log("Server response:", jqXHR.responseText);
+            }
+        });
+    }
+
+    $("#searchImage").click(function () {
         var searchInput = $("#searchInput").val();
 
         $.ajax({
@@ -380,13 +431,41 @@ $(document).ready(function () {
             data: { name: searchInput },
             dataType: 'json',
             success: function (results) {
-                displayResults(results);
+                console.log(results);
             },
             error: function (xhr, status, error) {
                 alert("Error searching objects");
             }
         });
     });
+
+    $("#searchMusic").click(function () {
+        var searchInput = $("#searchInput").val();
+
+        $.ajax({
+            url: 'php/findMusic.php',
+            type: 'GET',
+            data: { music_name: searchInput },
+            dataType: 'json',
+            success: function (results) {
+                console.log(results);
+            },
+            error: function (xhr, status, error) {
+                alert("Error searching objects");
+            }
+        });
+    });
+
+
+
+
+
+
+    function displayResults(results) {
+        
+        console.log(results);
+    }
+
 
     $("#contactForm").submit(function (event) {
         event.preventDefault();
@@ -635,64 +714,15 @@ $(document).ready(function () {
     }
 
     if (window.location.pathname === '/html/userCabinet.html') {
+
         
-        
+        displayUserNotes();
         changeImageFromCookie();
+
         getOldUsers();
+        
 
-
-        function getOldUsers() {
-            $.ajax({
-                type: "GET",
-                url: "php/sendAndGetHistory.php",
-                dataType: "json",
-                success: function (response) {
-
-                    var currentDate = new Date();
-                    var oldUsers = [];
-
-                    //console.log(response);
-
-                    response.forEach(function (data) {
-                        var historyDate = new Date(data.user_history);
-                        var timeDifference = currentDate - historyDate;
-                        var daysDifference = timeDifference / (1000 * 60 * 60 * 24); 
-
-                        if (daysDifference > 7) {
-                            oldUsers.push(data.user_id);
-                        }
-                    });
-
-                    sendReminder();
-                    //console.log(oldUsers);
-
-                    function sendReminder() {
-                        var array = oldUsers;
-                        
-                        $.ajax({
-                            type: 'POST',
-                            url: 'php/sendReminder.php', 
-                            data: JSON.stringify({ data: array }),
-                            success: function (response) {
-
-                                //console.log(response);
-
-                            },
-                            error: function (jqXHR, textStatus, errorThrown) {
-                                console.error("AJAX Error:", textStatus, errorThrown);
-                            }
-                        });
-                    }
-
-                    var oldUsers = [];
-                    //console.log(oldUsers);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX Error:", textStatus, errorThrown);
-                    console.log("Server response:", jqXHR.responseText);
-                }
-            });
-        }
+        
     }
 
     if (window.location.pathname === '/html/imageGallery.html') {
@@ -703,11 +733,74 @@ $(document).ready(function () {
         addMusicToGallery();
     }
 
-    displayUserNotes();
 
+    $("#searchUser").click(function () {
+        var searchInput = $("#searchInput").val();
 
-    
-   
+        $.ajax({
+            url: 'php/findUser.php',
+            type: 'GET',
+            data: { username: searchInput },
+            dataType: 'json',
+            success: function (results) {
+                displayResults(results);
+
+                var myList = document.getElementById("myList");
+
+                var usernames = results.map(function (item) {
+                    return item.username;
+                });
+
+                for (var i = 0; i < usernames.length; i++) {
+
+                    var linkElement = document.createElement('a');
+                    linkElement.href = 'https://example.com';
+                    linkElement.textContent = usernames[i];
+
+                    var listItem = document.createElement('li');
+                    //listItem.textContent = usernames[i];
+
+                    listItem.appendChild(linkElement);
+                    myList.appendChild(listItem);
+
+                    
+                    
+                }
+
+                /*if (results.length > 0) {
+                    
+                    displayUsername(results[0].username);
+
+                    
+                    createDivAndButton();
+                } else {
+                    
+                    $("#resultDiv").empty();
+                    $("#writeButton").hide();
+                }*/
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+/*    function createDivAndButton() {
+        
+        var resultDiv = $("<div>").attr("id", "resultDiv");
+        $("body").append(resultDiv);
+
+        
+        var writeButton = $("<button>").text("write").click(function () {
+            
+           
+        });
+        $("body").append(writeButton);
+    }
+
+    function displayUsername(username) {
+        $("#resultDiv").text(username);
+    }*/
 
 
     $("#sendMessageForm").submit(function (event) {
