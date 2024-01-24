@@ -351,18 +351,22 @@ $(document).ready(function () {
         }
     }
 
-    function displayResults(results) {
-        var resultsDiv = document.getElementById('searchResults');
-        resultsDiv.innerHTML = '';
+    function sendReminder(oldUsers) {
+        var array = oldUsers;
 
-        if (results.length > 0) {
-            for (var i = 0; i < results.length; i++) {
-                var result = results[i];
-                resultsDiv.innerHTML += '<p>ID: ' + result.id + ', name: ' + result.image_name + '</p>';
+        $.ajax({
+            type: 'POST',
+            url: 'php/sendReminder.php',
+            data: JSON.stringify({ data: array }),
+            success: function (response) {
+
+                //console.log(response);
+
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
             }
-        } else {
-            resultsDiv.innerHTML = '<p>nothing founded</p>';
-        }
+        });
     }
 
     function getOldUsers() {
@@ -375,7 +379,7 @@ $(document).ready(function () {
                 var currentDate = new Date();
                 var oldUsers = [];
 
-                //console.log(response);
+                
 
                 response.forEach(function (data) {
                     var historyDate = new Date(data.user_history);
@@ -387,29 +391,13 @@ $(document).ready(function () {
                     }
                 });
 
-                sendReminder();
-                //console.log(oldUsers);
+                sendReminder(oldUsers);
+                
 
-                function sendReminder() {
-                    var array = oldUsers;
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'php/sendReminder.php',
-                        data: JSON.stringify({ data: array }),
-                        success: function (response) {
-
-                            //console.log(response);
-
-                        },
-                        error: function (xhr, status, error) {
-                            console.error(xhr.responseText);
-                        }
-                    });
-                }
+                
 
                 var oldUsers = [];
-                //console.log(oldUsers);
+                
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -451,10 +439,7 @@ $(document).ready(function () {
         });
     });
 
-    function displayResults(results) {
-        
-        console.log(results);
-    }
+    
 
 
     $("#contactForm").submit(function (event) {
@@ -588,8 +573,8 @@ $(document).ready(function () {
     });
 
     $("#logoutButton").click(function () {
-        //event.preventDefault();
-        //aler("check");
+        
+        
         $.ajax({
             url: 'php/logout.php',
             type: 'POST',
@@ -707,7 +692,7 @@ $(document).ready(function () {
 
         getOldUsers();
         
-        
+        getMessages("test", $("#chatContainer"));
         
     }
 
@@ -729,12 +714,13 @@ $(document).ready(function () {
             data: { username: searchInput },
             dataType: 'json',
             success: function (results) {
-                //displayResults(results);
+                
 
                 
 
 
-                var myList = document.getElementById("myList");
+                var userList = document.getElementById("userListContainer");
+                var userChat = document.getElementById("chatWithUserContainer");
 
                 var usernames = results.map(function (item) {
                     return item.username;
@@ -750,10 +736,14 @@ $(document).ready(function () {
                         event.preventDefault();
 
                         createChat(this.textContent);
+
+                        var createdChat = createHTMLChat(this.textContent);
+                        userChat.appendChild(createdChat);
                     });
 
-                    myList.appendChild(listItem);
-
+                    
+                    userList.appendChild(listItem);
+                    
                     
                     
                 }
@@ -776,18 +766,7 @@ $(document).ready(function () {
         var message_text = $("#message_text").val();
         var receiver_username = $("#receiver_username").val();
 
-        // этот код залупа, надо переделать
-        /*var chatId = "chat-with-" + receiver_username;
-        var existingChat = $("#" + chatId);
-
-        if (existingChat.length === 0) {
-            var newChat = $("<div></div>").attr("id", chatId);
-
-            var chatInfo = $("<p></p>").text("Chat with " + receiver_username);
-            newChat.append(chatInfo);
-
-            newChat.appendTo("#chats-container");
-        }*/
+        
 
         $.ajax({
             url: 'php/sendMessage.php',
@@ -798,10 +777,9 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                //alert(response.message);
-                //alert(receiver_username);
 
-                //getMessages(receiver_username);
+                
+                getMessages(receiver_username, $("#chatContainer"));
                 
 
                 //newChat.scrollTop(newChat[0].scrollHeight);
@@ -812,10 +790,10 @@ $(document).ready(function () {
         });
     });
 
-    getMessages("test");
+    
     
 
-    function getMessages(receiver_username) {
+    function getMessages(receiver_username, container) {
         $.ajax({
             url: 'php/getMessages.php',
             type: 'POST',
@@ -824,12 +802,12 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                //alert(response.message);
-
+                
+                //console.log(container);
+                //console.log(receiver_username);
                 
                 
-                
-                //$("#chatContainer").empty();
+                container.empty();
                 
 
                 if (response.messages && response.messages.length > 0) {
@@ -837,7 +815,7 @@ $(document).ready(function () {
                         var messageText = response.messages[i].message_text;
 
                         
-                        $("#chatContainer").append(messageText + "<br>");
+                        container.append(messageText + "<br>");
                         
                     }
                 }
@@ -855,7 +833,7 @@ $(document).ready(function () {
 
     function createChat(username) {
 
-        //alert(username);
+        
 
         $.ajax({
             url: 'php/createChat.php',
@@ -874,45 +852,73 @@ $(document).ready(function () {
 
     }
 
-    function createHTMLChat() {
+    function createHTMLChat(username) {
        
         var mainDiv = document.createElement('div');
 
        
-        var pElement = document.createElement('p');
-        pElement.textContent = 'chat name';
-        mainDiv.appendChild(pElement);
+        var chatInfo = document.createElement('p');
+        chatInfo.textContent = "chat with " + username;
+        mainDiv.appendChild(chatInfo);
 
        
-        var nestedDiv = document.createElement('div');
-        nestedDiv.textContent = 'div for messages';
-        mainDiv.appendChild(nestedDiv);
+        var divForMessages = document.createElement('div');
+        divForMessages.id = 'messagesContainer';
+
+        getMessages(username, divForMessages.id);
+
+        //divForMessages.textContent = 'div for messages';
+        mainDiv.appendChild(divForMessages);
 
         
-        var formElement = document.createElement('form');
+
 
         
-        var inputElement = document.createElement('input');
-        inputElement.type = 'text';
-        inputElement.placeholder = 'write a message';
-        formElement.appendChild(inputElement);
+        var formForMessages = document.createElement('form');
 
         
-        var buttonElement = document.createElement('button');
-        buttonElement.textContent = 'send';
-        formElement.appendChild(buttonElement);
+        var inputForMessages = document.createElement('input');
+        inputForMessages.type = 'text';
+        inputForMessages.placeholder = 'write a message';
+        formForMessages.appendChild(inputForMessages);
 
         
-        mainDiv.appendChild(formElement);
+        var buttonForMessages = document.createElement('button');
+        buttonForMessages.textContent = 'send';
+        formForMessages.appendChild(buttonForMessages);
+
+        buttonForMessages.addEventListener('click', function (event) {
+            event.preventDefault(); 
+
+            
+            sendMessage();
+        });
+
+        mainDiv.appendChild(formForMessages);
 
         
         return mainDiv;
     }
 
     
-    var createdDiv = createHTMLChat();
-    document.body.appendChild(createdDiv);
+    function sendMessage() {
+       
+        console.log('Message sent!');
+    }
 
 
+
+
+    /*if (response.messages && response.messages.length > 0) {
+        for (var i = 0; i < response.messages.length; i++) {
+            var messageText = response.messages[i].message_text;
+
+            // Создаем элемент параграфа для каждого сообщения и добавляем его в див для сообщений
+            var messageParagraph = document.createElement('p');
+            messageParagraph.textContent = messageText;
+            divForMessages.appendChild(messageParagraph);
+        }
+    }
+*/
 
 });
