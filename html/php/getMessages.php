@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    http_response_code(401); // Unauthorized
+    http_response_code(401); 
     echo json_encode(['status' => 'error', 'message' => 'unknown user']);
     exit;
 }
@@ -23,7 +23,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$sql = "SELECT message_text, sender_id, receiver_id FROM chat WHERE 
+$sql = "SELECT id, message_text, sender_id, receiver_id FROM chat WHERE 
         (sender_id = ? AND receiver_id IN (SELECT id FROM users WHERE username = ?)) OR 
         (receiver_id = ? AND sender_id IN (SELECT id FROM users WHERE username = ?))";
 $stmt = $conn->prepare($sql);

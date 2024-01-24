@@ -439,9 +439,6 @@ $(document).ready(function () {
         });
     });
 
-    
-
-
     $("#contactForm").submit(function (event) {
         event.preventDefault();
 
@@ -735,14 +732,14 @@ $(document).ready(function () {
                     listItem.addEventListener('click', function (event) {
                         event.preventDefault();
 
-                        createChat(this.textContent);
+                        //createChat(this.textContent);
 
                         var createdChat = createHTMLChat(this.textContent);
                         userChat.appendChild(createdChat);
 
                         // я короче пытался добавить текст пока он еще не был создан, нужно это делать после appendChild
                         // так же с кнопкой, я нажимаю кнопку уже после того как обьект добавлен
-                        getMessages("test", $("#messagesContainer"));
+                        getMessages(this.textContent, $("#messagesContainer"));
                     });
 
                     
@@ -762,15 +759,19 @@ $(document).ready(function () {
         });
     });
 
- 
-
     $("#sendMessageForm").submit(function (event) {
         event.preventDefault();
 
         var message_text = $("#message_text").val();
         var receiver_username = $("#receiver_username").val();
+        
+
+        sendMessage(message_text, receiver_username, $("#chatContainer"));
 
         
+    });
+
+    function sendMessage(message_text, receiver_username, container) {
 
         $.ajax({
             url: 'php/sendMessage.php',
@@ -782,9 +783,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
 
-                
-                getMessages(receiver_username, $("#chatContainer"));
-                
+
+                getMessages(receiver_username, container);
+
 
                 //newChat.scrollTop(newChat[0].scrollHeight);
             },
@@ -792,10 +793,7 @@ $(document).ready(function () {
                 console.error(xhr.responseText);
             }
         });
-    });
-
-    
-    
+    }
 
     function getMessages(receiver_username, container) {
         $.ajax({
@@ -806,32 +804,26 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-
-                //console.log(response);
-                //console.log(container);
-                //console.log(receiver_username);
-                
-                // ругается на jquery func
                 container.empty();
-                
 
                 if (response.messages && response.messages.length > 0) {
                     for (var i = 0; i < response.messages.length; i++) {
+                        var messageId = response.messages[i].id;
                         var messageText = response.messages[i].message_text;
 
-                        container.append(messageText + "<br>");
-                        /*var messageParagraph = document.createElement('p');
-                        messageParagraph.textContent = messageText;
-                        container.appendChild(messageParagraph);*/
-
+                        var messageElement = $('<div class="message" data-message-id="' + messageId + '">' + messageText + '</div>');
+                        container.append(messageElement);
 
                         
+                        messageElement.on('click', function () {
+                            var messageId = $(this).data('message-id');
+
+                            console.log(messageId);
+
+                            deleteMessage(messageId, receiver_username, container);
+                        });
                     }
                 }
-
-                
-
-                //chatContainer.scrollTop(chatContainer[0].scrollHeight);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -840,7 +832,7 @@ $(document).ready(function () {
     }
 
 
-    function createChat(username) {
+    /*function createChat(username) {
 
         
 
@@ -859,12 +851,12 @@ $(document).ready(function () {
         });
 
 
-    }
+    }*/
 
     function createHTMLChat(username) {
        
         var mainDiv = document.createElement('div');
-
+        
        
         var chatInfo = document.createElement('p');
         chatInfo.textContent = "chat with " + username;
@@ -881,7 +873,11 @@ $(document).ready(function () {
         var inputForMessages = document.createElement('input');
         inputForMessages.type = 'text';
         inputForMessages.placeholder = 'write a message';
+
+        inputForMessages.id = 'messageInput';
+
         formForMessages.appendChild(inputForMessages);
+
 
         
         var buttonForMessages = document.createElement('button');
@@ -889,22 +885,75 @@ $(document).ready(function () {
         formForMessages.appendChild(buttonForMessages);
 
         buttonForMessages.addEventListener('click', function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
 
-            
-            sendMessage();
+            var messageText = $("#messageInput").val();  
+
+            sendMessage(messageText, username, $("#messagesContainer"));
         });
 
         mainDiv.appendChild(formForMessages);
 
-        
+
+
+
+
+        var buttonHideChat = document.createElement('button');
+        buttonHideChat.textContent = 'hide chat';
+        mainDiv.appendChild(buttonHideChat);
+
+        buttonHideChat.addEventListener('click', function (event) {
+            event.preventDefault();
+            hideChat(mainDiv);
+        });
+
+
+
+        var buttonDeleteChat = document.createElement('button');
+        buttonDeleteChat.textContent = 'delete chat';
+        mainDiv.appendChild(buttonDeleteChat);
+
+        buttonDeleteChat.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            //deleteChat();
+        });
+
+
+
+
         return mainDiv;
     }
 
+    function hideChat(container) {
+        
+        container.remove();
+    }
     
-    function sendMessage() {
-       
-        console.log('Message sent!');
+    function deleteMessage(messageId, receiver_username, container) {
+        $.ajax({
+            url: 'php/deleteMessage.php',
+            type: 'POST',
+            data: {
+                messageId: messageId,
+                receiver_username: receiver_username
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    console.log('Message deleted successfully');
+
+
+                    getMessages(receiver_username, container);
+
+                } else {
+                    console.error('Error deleting message: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
     }
 
 
