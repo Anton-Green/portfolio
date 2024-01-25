@@ -19,22 +19,22 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Проверяем, был ли передан fileName
+
 if (isset($_POST['fileName'])) {
-    // Получаем значение fileName
+    
     $fileName = $_POST['fileName'];
 
-    // Генерируем уникальное имя файла на основе fileName
+   
     $htmlName = $fileName . '.html';
 
-    // Полный путь к файлу
+    
     $htmlPath = 'uploads/userTexts/' . $htmlName;
 
-    // Создаем HTML-страницу
-    $htmlContent = "<html><head><title>{$fileName}</title></head><body><h1>{$fileName}</h1></body></html>";
+    
+    $htmlContent = "<html><head><title>{$fileName}</title></head><body><h1>in development</h1></body></html>";
     file_put_contents($htmlPath, $htmlContent);
 
-    // Вставляем данные в базу данных
+    
     $stmt = $conn->prepare("INSERT INTO userHtml (htmlPath, userId, fileName) VALUES (?, ?, ?)");
     $stmt->bind_param("sis", $htmlPath, $user_id, $fileName);
 

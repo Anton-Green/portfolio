@@ -964,12 +964,15 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (results) {
 
-
+                
 
 
 
                 var articleList = document.getElementById("articleListContainer");
 
+                var articlePath = results.map(function (item) {
+                    return item.htmlPath;
+                });
 
                 var articleNames = results.map(function (item) {
                     return item.fileName;
@@ -979,30 +982,24 @@ $(document).ready(function () {
                     return item.userId;
                 });
 
+              
+               
+
                 for (var i = 0; i < articleNames.length; i++) {
+                    (function (index) {
+                        var listItem = document.createElement('li');
+                        listItem.textContent = articleNames[index] + ". Written by: Id " + articleAuthor[index];
 
+                        listItem.addEventListener('click', function (event) {
+                            event.preventDefault();
 
-                    var listItem = document.createElement('li');
-                    listItem.textContent = articleNames[i] + " " + articleAuthor[i];
+                            //console.log(articleNames[index]);
+                            window.location.href = articlePath[index];
+                        });
 
-                    listItem.addEventListener('click', function (event) {
-                        event.preventDefault();
-
-
-                        console.log("test");
-
-
-
-                    });
-
-
-                    articleList.appendChild(listItem);
-
-
-
+                        articleList.appendChild(listItem);
+                    })(i);
                 }
-
-
 
 
             },
