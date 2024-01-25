@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anthony Onokin</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     <script src="../script.js"></script>
 </head>
+
 <body>
+
     <div class="dropdown">
         <button class="dropbtn">Fast links</button>
         <div class="dropdown-content">
@@ -21,29 +23,28 @@
             <a href="../html/users.html">users</a>
             <a href="../html/imageGallery.html">Gallery</a>
             <a href="../html/musicGallery.html">Music Gallery</a>
+            <!--<a href="../html/php/uploads/userTexts/test.html">User HTML Test</a>-->
         </div>
     </div>
 
     <div class="search">
 
-        <h1>find user by name</h1>
-        <label for="searchUserInput">insert user name:</label>
+        <h1>find article by name</h1>
+        <label for="searchUserInput">insert article name:</label>
         <input type="text" id="searchInput">
-        <button id="searchUser">find</button>
+        <button id="searchArticle">find</button>
 
         <div id="searchResults">
             <!--container-->
         </div>
+
+        <ul id="articleListContainer">
+            <!--container-->
+        </ul>
+
     </div>
 
-    <ul id="userListContainer">
-        <!--container-->
-    </ul>
 
-    <div id="chatWithUserContainer">
-        <p>press on message to delete</p>
-        <!--container-->
-    </div>
 
 </body>
 </html>

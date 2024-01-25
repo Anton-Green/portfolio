@@ -405,6 +405,169 @@ $(document).ready(function () {
         });
     }
 
+    function sendMessage(message_text, receiver_username, container) {
+
+        $.ajax({
+            url: 'php/sendMessage.php',
+            type: 'POST',
+            data: {
+                message_text: message_text,
+                receiver_username: receiver_username
+            },
+            dataType: 'json',
+            success: function (response) {
+
+
+                getMessages(receiver_username, container);
+
+
+                //newChat.scrollTop(newChat[0].scrollHeight);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function getMessages(receiver_username, container) {
+        $.ajax({
+            url: 'php/getMessages.php',
+            type: 'POST',
+            data: {
+                receiver_username: receiver_username
+            },
+            dataType: 'json',
+            success: function (response) {
+                container.empty();
+
+                if (response.messages && response.messages.length > 0) {
+                    for (var i = 0; i < response.messages.length; i++) {
+                        var messageId = response.messages[i].id;
+                        var messageText = response.messages[i].message_text;
+
+                        var messageElement = $('<div class="message" data-message-id="' + messageId + '">' + messageText + '</div>');
+                        container.append(messageElement);
+
+
+                        messageElement.on('click', function () {
+                            var messageId = $(this).data('message-id');
+
+                            console.log(messageId);
+
+                            deleteMessage(messageId, receiver_username, container);
+                        });
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function createHTMLChat(username) {
+
+        var mainDiv = document.createElement('div');
+
+
+        var chatInfo = document.createElement('p');
+        chatInfo.textContent = "chat with " + username;
+        mainDiv.appendChild(chatInfo);
+
+
+        var divForMessages = document.createElement('div');
+        divForMessages.id = 'messagesContainer';
+        mainDiv.appendChild(divForMessages);
+
+        var formForMessages = document.createElement('form');
+
+
+        var inputForMessages = document.createElement('input');
+        inputForMessages.type = 'text';
+        inputForMessages.placeholder = 'write a message';
+
+        inputForMessages.id = 'messageInput';
+
+        formForMessages.appendChild(inputForMessages);
+
+
+
+        var buttonForMessages = document.createElement('button');
+        buttonForMessages.textContent = 'send';
+        formForMessages.appendChild(buttonForMessages);
+
+        buttonForMessages.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            var messageText = $("#messageInput").val();
+
+            sendMessage(messageText, username, $("#messagesContainer"));
+        });
+
+        mainDiv.appendChild(formForMessages);
+
+
+
+
+
+        var buttonHideChat = document.createElement('button');
+        buttonHideChat.textContent = 'hide chat';
+        mainDiv.appendChild(buttonHideChat);
+
+        buttonHideChat.addEventListener('click', function (event) {
+            event.preventDefault();
+            hideChat(mainDiv);
+        });
+
+
+
+        var buttonDeleteChat = document.createElement('button');
+        buttonDeleteChat.textContent = 'delete chat';
+        mainDiv.appendChild(buttonDeleteChat);
+
+        buttonDeleteChat.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            //deleteChat();
+        });
+
+
+
+
+        return mainDiv;
+    }
+
+    function hideChat(container) {
+
+        container.remove();
+    }
+
+    function deleteMessage(messageId, receiver_username, container) {
+        $.ajax({
+            url: 'php/deleteMessage.php',
+            type: 'POST',
+            data: {
+                messageId: messageId,
+                receiver_username: receiver_username
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    console.log('Message deleted successfully');
+
+
+                    getMessages(receiver_username, container);
+
+                } else {
+                    console.error('Error deleting message: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
     $("#searchImage").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -701,7 +864,6 @@ $(document).ready(function () {
         addMusicToGallery();
     }
 
-    
     $("#searchUser").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -771,66 +933,84 @@ $(document).ready(function () {
         
     });
 
-    function sendMessage(message_text, receiver_username, container) {
+    
+    $("#sendHTML").submit(function (event) {
+        event.preventDefault();
+
+        var fileName = $("#articleName").val();
 
         $.ajax({
-            url: 'php/sendMessage.php',
+            url: 'php/createUserHTML.php',
             type: 'POST',
-            data: {
-                message_text: message_text,
-                receiver_username: receiver_username
-            },
+            data: { fileName: fileName },
             dataType: 'json',
             success: function (response) {
-
-
-                getMessages(receiver_username, container);
-
-
-                //newChat.scrollTop(newChat[0].scrollHeight);
+                alert(response.message);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
-    }
+    });
 
-    function getMessages(receiver_username, container) {
+
+    $("#searchArticle").click(function () {
+        var searchInput = $("#searchInput").val();
+
         $.ajax({
-            url: 'php/getMessages.php',
-            type: 'POST',
-            data: {
-                receiver_username: receiver_username
-            },
+            url: 'php/findArticle.php',
+            type: 'GET',
+            data: { fileName: searchInput },
             dataType: 'json',
-            success: function (response) {
-                container.empty();
+            success: function (results) {
 
-                if (response.messages && response.messages.length > 0) {
-                    for (var i = 0; i < response.messages.length; i++) {
-                        var messageId = response.messages[i].id;
-                        var messageText = response.messages[i].message_text;
 
-                        var messageElement = $('<div class="message" data-message-id="' + messageId + '">' + messageText + '</div>');
-                        container.append(messageElement);
 
-                        
-                        messageElement.on('click', function () {
-                            var messageId = $(this).data('message-id');
 
-                            console.log(messageId);
 
-                            deleteMessage(messageId, receiver_username, container);
-                        });
-                    }
+                var articleList = document.getElementById("articleListContainer");
+
+
+                var articleNames = results.map(function (item) {
+                    return item.fileName;
+                });
+
+                var articleAuthor = results.map(function (item) {
+                    return item.userId;
+                });
+
+                for (var i = 0; i < articleNames.length; i++) {
+
+
+                    var listItem = document.createElement('li');
+                    listItem.textContent = articleNames[i] + " " + articleAuthor[i];
+
+                    listItem.addEventListener('click', function (event) {
+                        event.preventDefault();
+
+
+                        console.log("test");
+
+
+
+                    });
+
+
+                    articleList.appendChild(listItem);
+
+
+
                 }
+
+
+
+
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
-    }
-
+    });
 
     /*function createChat(username) {
 
@@ -853,111 +1033,14 @@ $(document).ready(function () {
 
     }*/
 
-    function createHTMLChat(username) {
-       
-        var mainDiv = document.createElement('div');
-        
-       
-        var chatInfo = document.createElement('p');
-        chatInfo.textContent = "chat with " + username;
-        mainDiv.appendChild(chatInfo);
-
-       
-        var divForMessages = document.createElement('div');
-        divForMessages.id = 'messagesContainer';
-        mainDiv.appendChild(divForMessages);
-        
-        var formForMessages = document.createElement('form');
-
-        
-        var inputForMessages = document.createElement('input');
-        inputForMessages.type = 'text';
-        inputForMessages.placeholder = 'write a message';
-
-        inputForMessages.id = 'messageInput';
-
-        formForMessages.appendChild(inputForMessages);
-
-
-        
-        var buttonForMessages = document.createElement('button');
-        buttonForMessages.textContent = 'send';
-        formForMessages.appendChild(buttonForMessages);
-
-        buttonForMessages.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            var messageText = $("#messageInput").val();  
-
-            sendMessage(messageText, username, $("#messagesContainer"));
-        });
-
-        mainDiv.appendChild(formForMessages);
 
 
 
 
 
-        var buttonHideChat = document.createElement('button');
-        buttonHideChat.textContent = 'hide chat';
-        mainDiv.appendChild(buttonHideChat);
-
-        buttonHideChat.addEventListener('click', function (event) {
-            event.preventDefault();
-            hideChat(mainDiv);
-        });
-
-
-
-        var buttonDeleteChat = document.createElement('button');
-        buttonDeleteChat.textContent = 'delete chat';
-        mainDiv.appendChild(buttonDeleteChat);
-
-        buttonDeleteChat.addEventListener('click', function (event) {
-            event.preventDefault();
-
-            //deleteChat();
-        });
-
-
-
-
-        return mainDiv;
-    }
-
-    function hideChat(container) {
-        
-        container.remove();
-    }
     
-    function deleteMessage(messageId, receiver_username, container) {
-        $.ajax({
-            url: 'php/deleteMessage.php',
-            type: 'POST',
-            data: {
-                messageId: messageId,
-                receiver_username: receiver_username
-            },
-            dataType: 'json',
-            success: function (response) {
-                if (response.status === 'success') {
-                    console.log('Message deleted successfully');
-
-
-                    getMessages(receiver_username, container);
-
-                } else {
-                    console.error('Error deleting message: ' + response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
-
-
-
+    
+    
 
 
 
