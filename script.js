@@ -70,10 +70,9 @@ $(document).ready(function () {
                 if (response && response.notes) {
                     $('#notes-container').empty();
                     response.notes.forEach(function (note) {
-                        var noteHtml = '<div class="note">' +
+                        var noteHtml = '<div class="note" data-note-id="' + note.id + '">' +
                             '<h3>' + note.title + '</h3>' +
-                            '<p>' + note.content + '</p>' +
-                            '<button class="delete-btn" data-note-id="' + note.id + '">Delete</button>' +
+                            '<p >' + note.content + '</p>' +
                             '</div>';
 
                         $('#notes-container').append(noteHtml);
@@ -83,10 +82,11 @@ $(document).ready(function () {
                     });
                     
                     
-                    $('.delete-btn').click(function () {
+                  
+                    $('#notes-container').on('click', '.note', function () {
                         var noteId = $(this).data('note-id');
                         deleteNote(noteId);
-
+                           
                         location.reload();
                     });
                 } else {
@@ -933,7 +933,6 @@ $(document).ready(function () {
         
     });
 
-    
     $("#sendHTML").submit(function (event) {
         event.preventDefault();
 
@@ -952,7 +951,6 @@ $(document).ready(function () {
             }
         });
     });
-
 
     $("#searchArticle").click(function () {
         var searchInput = $("#searchInput").val();
@@ -1009,26 +1007,7 @@ $(document).ready(function () {
         });
     });
 
-    /*function createChat(username) {
 
-        
-
-        $.ajax({
-            url: 'php/createChat.php',
-            type: 'GET',
-            data: { username: username },
-            dataType: 'json',
-            success: function (result) {
-                console.log(result);
-
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText);
-            }
-        });
-
-
-    }*/
 
 
 

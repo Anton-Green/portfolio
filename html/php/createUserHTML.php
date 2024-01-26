@@ -28,7 +28,7 @@ if (isset($_POST['fileName'])) {
     $htmlName = $fileName . '.html';
 
     
-    $htmlPath = 'uploads/userTexts/' . $htmlName;
+    $htmlPath = '../html/php/uploads/userTexts/' . $htmlName;
 
     
     $htmlContent = "<html><head><title>{$fileName}</title></head><body><h1>in development</h1></body></html>";
