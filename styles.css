@@ -49,8 +49,19 @@ body {
 }
 
 ul, ol {
+    
    list-style-position: inside;
 }
+
+.solutions_text li {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
 
 @media only screen and (max-width: 600px) {
     body {

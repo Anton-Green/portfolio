@@ -962,7 +962,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (results) {
 
-                
+                //console.log(results);
 
 
 
@@ -977,7 +977,7 @@ $(document).ready(function () {
                 });
 
                 var articleAuthor = results.map(function (item) {
-                    return item.userId;
+                    return item.author;
                 });
 
               
@@ -986,7 +986,7 @@ $(document).ready(function () {
                 for (var i = 0; i < articleNames.length; i++) {
                     (function (index) {
                         var listItem = document.createElement('li');
-                        listItem.textContent = articleNames[index] + ". Written by: Id " + articleAuthor[index];
+                        listItem.textContent = articleNames[index] + ". Written by: " + articleAuthor[index];
 
                         listItem.addEventListener('click', function (event) {
                             event.preventDefault();

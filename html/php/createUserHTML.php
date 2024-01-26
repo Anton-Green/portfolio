@@ -19,24 +19,27 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// Получить username автора
+$stmt_username = $conn->prepare("SELECT username FROM users WHERE id = ?");
+$stmt_username->bind_param("i", $user_id);
+$stmt_username->execute();
+$stmt_username->bind_result($author_username);
+$stmt_username->fetch();
+$stmt_username->close();
 
 if (isset($_POST['fileName'])) {
     
     $fileName = $_POST['fileName'];
 
-   
     $htmlName = $fileName . '.html';
-
-    
     $htmlPath = '../html/php/uploads/userTexts/' . $htmlName;
-
-    
     $htmlContent = "<html><head><title>{$fileName}</title></head><body><h1>in development</h1></body></html>";
+    
     file_put_contents($htmlPath, $htmlContent);
 
-    
-    $stmt = $conn->prepare("INSERT INTO userHtml (htmlPath, userId, fileName) VALUES (?, ?, ?)");
-    $stmt->bind_param("sis", $htmlPath, $user_id, $fileName);
+    // Вставка данных с использованием значения автора
+    $stmt = $conn->prepare("INSERT INTO userHtml (htmlPath, userId, fileName, author) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("siss", $htmlPath, $user_id, $fileName, $author_username);
 
     if ($stmt->execute()) {
         $fileId = $stmt->insert_id;
