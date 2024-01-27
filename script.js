@@ -568,6 +568,26 @@ $(document).ready(function () {
         });
     }
 
+    function sendHistory() {
+
+
+        $.ajax({
+            type: "POST",
+            url: "php/sendAndGetHistory.php",
+            data: {
+                user_id: user_id,
+                user_history: user_history
+            },
+            success: function (response) {
+                //console.log(response);
+                //alert("send");
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
     $("#searchImage").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -656,25 +676,7 @@ $(document).ready(function () {
 
                     var user_id = response.user.id;
                     var user_history = new Date();
-                    function sendHistory() {
-
-
-                        $.ajax({
-                            type: "POST",
-                            url: "php/sendAndGetHistory.php",
-                            data: {
-                                user_id: user_id,
-                                user_history: user_history
-                            },
-                            success: function (response) {
-                                //console.log(response);
-                                //alert("send");
-                            },
-                            error: function (xhr, status, error) {
-                                console.error(xhr.responseText);
-                            }
-                        });
-                    }
+                    
                     sendHistory();
                     
                 } else {
@@ -862,6 +864,10 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/html/musicGallery.html') {
         addMusicToGallery();
+    }
+
+    if (window.location.pathname === '/html/notes.html') {
+        displayUserNotes()
     }
 
     $("#searchUser").click(function () {
