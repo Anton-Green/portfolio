@@ -52,7 +52,19 @@ $(document).ready(function () {
 
     function checkLoginStatus() {
 
-        
+        $.ajax({
+            url: '../html/php/checkLogin.php', 
+            type: 'GET',
+            dataType: 'json', 
+            success: function (response) {
+                
+                console.log(response);
+                
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
 
         if (storedUser === null) {
             alert('you need to log in');
@@ -63,7 +75,7 @@ $(document).ready(function () {
 
     function displayUserNotes() {
         $.ajax({
-            url: 'php/viewNotes.php',
+            url: '../html/php/viewNotes.php',
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -101,7 +113,7 @@ $(document).ready(function () {
 
     function deleteNote(noteId) {
         $.ajax({
-            url: 'php/deleteNote.php',
+            url: '../html/php/deleteNote.php',
             type: 'POST',
             data: { note_id: noteId },
             dataType: 'json',
@@ -113,7 +125,7 @@ $(document).ready(function () {
                     console.error(response.message);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -146,7 +158,7 @@ $(document).ready(function () {
 
     function addImageToGallery() {
         $.ajax({
-            url: 'php/sendImagesToGallery.php',
+            url: '../html/php/sendImagesToGallery.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -182,7 +194,7 @@ $(document).ready(function () {
                         function deleteImage(imageDivId) {
                             $.ajax({
                                 type: "POST",
-                                url: "php/deleteImage.php",
+                                url: "../html/php/deleteImage.php",
                                 data: { imageId: imageDivId },
                                 success: function (response) {
                                     alert("image deleted");
@@ -206,7 +218,7 @@ $(document).ready(function () {
 
                             $.ajax({
                                 type: 'GET',
-                                url: "php/getImagePath.php",
+                                url: "../html/php/getImagePath.php",
                                 data: { id: imageId },
                                 dataType: 'json',
                                 success: function (data) {
@@ -253,7 +265,7 @@ $(document).ready(function () {
 
     function addMusicToGallery() {
         $.ajax({
-            url: 'php/sendMusicToGallery.php',
+            url: '../html/php/sendMusicToGallery.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -270,7 +282,7 @@ $(document).ready(function () {
                         const audioElement = document.createElement('audio');
                         audioElement.controls = true;
                         audioElement.src = `php/getMusic.php?id=${audioIds[i]}`;
-                        audioElement.id = 'audioPlayer' + audioIds[i]; // Используем префикс
+                        audioElement.id = 'audioPlayer' + audioIds[i]; 
                         audioDiv.appendChild(audioElement);
 
                         const deleteButton = document.createElement('button');
@@ -283,7 +295,7 @@ $(document).ready(function () {
                         function deleteAudio(audioDivId) {
                             $.ajax({
                                 type: "POST",
-                                url: "php/deleteMusic.php",
+                                url: "../html/php/deleteMusic.php",
                                 data: { audioId: audioDivId },
                                 success: function (response) {
                                     alert("audio deleted");
@@ -356,7 +368,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: 'php/sendReminder.php',
+            url: '../html/php/sendReminder.php',
             data: JSON.stringify({ data: array }),
             success: function (response) {
 
@@ -372,7 +384,7 @@ $(document).ready(function () {
     function getOldUsers() {
         $.ajax({
             type: "GET",
-            url: "php/sendAndGetHistory.php",
+            url: "../html/php/sendAndGetHistory.php",
             dataType: "json",
             success: function (response) {
 
@@ -408,7 +420,7 @@ $(document).ready(function () {
     function sendMessage(message_text, receiver_username, container) {
 
         $.ajax({
-            url: 'php/sendMessage.php',
+            url: '../html/php/sendMessage.php',
             type: 'POST',
             data: {
                 message_text: message_text,
@@ -431,7 +443,7 @@ $(document).ready(function () {
 
     function getMessages(receiver_username, container) {
         $.ajax({
-            url: 'php/getMessages.php',
+            url: '../html/php/getMessages.php',
             type: 'POST',
             data: {
                 receiver_username: receiver_username
@@ -544,7 +556,7 @@ $(document).ready(function () {
 
     function deleteMessage(messageId, receiver_username, container) {
         $.ajax({
-            url: 'php/deleteMessage.php',
+            url: '../html/php/deleteMessage.php',
             type: 'POST',
             data: {
                 messageId: messageId,
@@ -573,7 +585,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "php/sendAndGetHistory.php",
+            url: "../html/php/sendAndGetHistory.php",
             data: {
                 user_id: user_id,
                 user_history: user_history
@@ -592,7 +604,7 @@ $(document).ready(function () {
         var searchInput = $("#searchInput").val();
 
         $.ajax({
-            url: 'php/findImages.php',
+            url: '../html/php/findImages.php',
             type: 'GET',
             data: { name: searchInput },
             dataType: 'json',
@@ -609,7 +621,7 @@ $(document).ready(function () {
         var searchInput = $("#searchInput").val();
 
         $.ajax({
-            url: 'php/findMusic.php',
+            url: '../html/php/findMusic.php',
             type: 'GET',
             data: { music_name: searchInput },
             dataType: 'json',
@@ -626,7 +638,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         $.ajax({
-            url: 'php/insertData.php',
+            url: '../html/php/insertData.php',
             type: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -643,7 +655,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         $.ajax({
-            url: 'php/register.php',
+            url: '../html/php/register.php',
             type: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -660,7 +672,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         $.ajax({
-            url: 'php/login.php',
+            url: '../html/php/login.php',
             type: 'POST',
             data: $(this).serialize(),
             dataType: 'json',
@@ -695,7 +707,7 @@ $(document).ready(function () {
         var email = $("#email").val();
 
         $.ajax({
-            url: 'php/resetPasswordRequest.php',
+            url: '../html/php/resetPasswordRequest.php',
             type: 'POST',
             data: { email: email },
             dataType: 'json',
@@ -716,7 +728,7 @@ $(document).ready(function () {
         var newPassword = $("#newPassword").val();
 
         $.ajax({
-            url: 'php/resetPasswordProcess.php',
+            url: '../html/php/resetPasswordProcess.php',
             type: 'POST',
             data: {
                 email: email,
@@ -738,7 +750,7 @@ $(document).ready(function () {
         
         
         $.ajax({
-            url: 'php/logout.php',
+            url: '../html/php/logout.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
@@ -752,7 +764,7 @@ $(document).ready(function () {
                 }
                 deleteCookie();
 
-                window.location.href = "index.html";
+                window.location.href = "../index.html";
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -765,7 +777,7 @@ $(document).ready(function () {
         var content = $("#noteContent").val();
 
         $.ajax({
-            url: 'php/saveNote.php',
+            url: '../html/php/saveNote.php',
             type: 'POST',
             data: { title: title, content: content },
             dataType: 'json',
@@ -800,7 +812,7 @@ $(document).ready(function () {
         var formData = new FormData(this);
 
         $.ajax({
-            url: 'php/sendAndGetImage.php',
+            url: '../html/php/sendAndGetImage.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -821,7 +833,7 @@ $(document).ready(function () {
         var formData = new FormData(document.getElementById('sendMusic'));
 
         $.ajax({
-            url: 'php/sendMusic.php',
+            url: '../html/php/sendMusic.php',
             type: 'POST',
             data: formData,
             contentType: false,
@@ -874,7 +886,7 @@ $(document).ready(function () {
         var searchInput = $("#searchInput").val();
 
         $.ajax({
-            url: 'php/findUser.php',
+            url: '../html/php/findUser.php',
             type: 'GET',
             data: { username: searchInput },
             dataType: 'json',
@@ -945,7 +957,7 @@ $(document).ready(function () {
         var fileName = $("#articleName").val();
 
         $.ajax({
-            url: 'php/createUserHTML.php',
+            url: '../html/php/createUserHTML.php',
             type: 'POST',
             data: { fileName: fileName },
             dataType: 'json',
@@ -962,7 +974,7 @@ $(document).ready(function () {
         var searchInput = $("#searchInput").val();
 
         $.ajax({
-            url: 'php/findArticle.php',
+            url: '../html/php/findArticle.php',
             type: 'GET',
             data: { fileName: searchInput },
             dataType: 'json',
