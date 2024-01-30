@@ -76,7 +76,7 @@ $(document).ready(function () {
 
         if (storedUser === null) {
             alert('you need to log in');
-            window.location.href = '/html/users.html';
+            window.location.href = '../html/users.html';
         }
         
     }
@@ -164,109 +164,136 @@ $(document).ready(function () {
         });
     }
 
+    function deleteImage(imageDivId) {
+        $.ajax({
+            type: "POST",
+            url: "../html/php/deleteImage.php",
+            data: { imageId: imageDivId },
+            success: function (response) {
+                alert("image deleted");
+                console.log(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function downloadImage(imageId) {
+
+
+        $.ajax({
+            type: 'GET',
+            url: "../html/php/getImagePath.php",
+            data: { id: imageId },
+            dataType: 'json',
+            success: function (data) {
+                if (data.error) {
+                    console.error(data.error);
+                } else {
+
+
+                    var fileUrl = data.fileUrl;
+                    var link = document.createElement('a');
+                    link.href = fileUrl;
+                    link.download = 'downloadedItem';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+
+
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function imageHandler(object) {
+        var imageContainer = document.getElementById('imageContainer');
+        imageContainer.innerHTML = '';
+
+        if (object !== null) {
+            var imageIds = object;
+
+            for (var i = 0; i < imageIds.length; i++) {
+                //console.log("Image ID is: " + imageIds[i]);
+
+                const imageDiv = document.createElement('div');
+                imageDiv.id = imageIds[i];
+                imageDiv.classList.add('grid-item');
+
+                const imageElement = document.createElement('img');
+                imageElement.src = `../html/php/sendAndGetImage.php?id=${imageIds[i]}`;
+                imageDiv.appendChild(imageElement);
+
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'delete';
+
+                deleteButton.addEventListener('click', () => {
+
+
+
+                    //console.log(imageDiv.id);
+
+                    deleteImage(imageDiv.id);
+                });
+
+                imageDiv.appendChild(deleteButton);
+
+
+
+
+                const downloadButton = document.createElement('button');
+                downloadButton.innerText = 'download';
+                downloadButton.addEventListener('click', function () {
+                    
+                    //console.log(imageDiv.id);
+
+                    downloadImage(imageDiv.id);
+                    
+
+                    
+                });
+
+                imageDiv.appendChild(downloadButton);
+
+
+
+                document.getElementById('imageContainer').appendChild(imageDiv);
+
+
+            }
+        }
+        else {
+            console.log(object);
+        }
+    }
+
     function addImageToGallery() {
         $.ajax({
             url: '../html/php/sendImagesToGallery.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (response.status === 'success') {
-                    var imageIds = response.image_ids;
+                console.log(response);
 
-                    for (var i = 0; i < imageIds.length; i++) {
-                        console.log("Image ID is: " + imageIds[i]);
+                // написать функцию принимающюю данные
+                var object = response.image_ids;
 
-                        const imageDiv = document.createElement('div');
-                        imageDiv.id = imageIds[i];
-                        imageDiv.classList.add('grid-item');
-
-                        const imageElement = document.createElement('img');
-                        imageElement.src = `php/sendAndGetImage.php?id=${imageIds[i]}`;
-                        imageDiv.appendChild(imageElement);
+                imageHandler(object);
 
 
-                        const deleteButton = document.createElement('button');
-                        deleteButton.innerText = 'delete';
-
-                        deleteButton.addEventListener('click', () => {
+                
+                
 
 
-
-                            //console.log(imageDiv.id);
-
-                            deleteImage(imageDiv.id);
-                        });
-
-
-
-                        function deleteImage(imageDivId) {
-                            $.ajax({
-                                type: "POST",
-                                url: "../html/php/deleteImage.php",
-                                data: { imageId: imageDivId },
-                                success: function (response) {
-                                    alert("image deleted");
-                                    console.log(response);
-                                    location.reload();
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                }
-                            });
-                        }
-
-                        imageDiv.appendChild(deleteButton);
-
-
-                        const downloadButton = document.createElement('button');
-                        downloadButton.innerText = 'download';
-                        downloadButton.addEventListener('click', function () {
-                            var imageId = imageDiv.id;
-                            console.log(imageDiv.id);
-
-                            $.ajax({
-                                type: 'GET',
-                                url: "../html/php/getImagePath.php",
-                                data: { id: imageId },
-                                dataType: 'json',
-                                success: function (data) {
-                                    if (data.error) {
-                                        console.error(data.error);
-                                    } else {
-
-
-                                        var fileUrl = data.fileUrl;
-                                        var link = document.createElement('a');
-                                        link.href = fileUrl;
-                                        link.download = 'downloadedItem';
-                                        document.body.appendChild(link);
-                                        link.click();
-                                        document.body.removeChild(link);
-
-
-                                    }
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                }
-                            });
-                        });
-
-
-                        imageDiv.appendChild(downloadButton);
-
-
-
-                        document.getElementById('imageContainer').appendChild(imageDiv);
-
-
-                    }
-                } else {
-                    console.log(response.message);
-                }
             },
-            error: function (xhr, status, error) {
-                console.error(status + ", " + error);
+            error: function (xhr) {
+                console.error(xhr.responseText);
             }
         });
     }
@@ -347,8 +374,8 @@ $(document).ready(function () {
                     console.log(response.message);
                 }
             },
-            error: function (xhr, status, error) {
-                console.error(status + ", " + error);
+            error: function (xhr) {
+                console.error(xhr.responseText);
             }
         });
     }
@@ -582,7 +609,7 @@ $(document).ready(function () {
                     console.error('Error deleting message: ' + response.message);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -617,7 +644,15 @@ $(document).ready(function () {
             data: { name: searchInput },
             dataType: 'json',
             success: function (results) {
-                console.log(results);
+
+                
+                var object = results.map(item => item.id);
+
+                //console.log(object);
+
+                
+
+                imageHandler(object);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
