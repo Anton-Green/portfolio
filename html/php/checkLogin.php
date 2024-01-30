@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_regenerate_id();
 
 $servername = "Localhost";  
 $username = "cfjylqr1_admin"; 

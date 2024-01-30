@@ -29,29 +29,32 @@
         </div>
     </div>
 
-    <div class="search">
+    <div class="grid-container">
 
-        <h1>find object by name</h1>
-        <label for="searchInput">insert object name:</label>
-        <input type="text" id="searchInput">
-        <button id="searchImage">find</button>
+        <div class="search">
 
-        <div id="searchResults"></div>
+            <h1>find object by name</h1>
+            <label for="searchInput">insert object name:</label>
+            <input type="text" id="searchInput">
+            <button id="searchImage">find</button>
+
+            <div id="searchResults"></div>
+        </div>
+
+        <div class="sendImage">
+            <form id="sendImage" method="post" enctype="multipart/form-data">
+                <label for="image">Select and send image</label>
+                <br />
+                <input type="file" name="image" accept="image/png">
+                <br />
+                <input type="submit" value="Set Image">
+            </form>
+        </div>
+
     </div>
 
-
     <div class="gallery" id="imageContainer">
-
-
-
-        <!--<div class="grid-item">
-            <img id="displayedImage" src="sendAndGetImage.php?id=21" alt="Displayed Image">
-        </div>-->
-
-
-
-
-
+    
     </div>
 
 </body>

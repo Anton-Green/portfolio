@@ -1,6 +1,7 @@
 <?php
-session_start();
 ini_set('session.cookie_lifetime', 0);
+session_start();
+
 
 $servername = "Localhost";  
 $username = "cfjylqr1_admin"; 

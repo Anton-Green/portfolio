@@ -66,7 +66,7 @@ $(document).ready(function () {
             dataType: 'json', 
             success: function (response) {
                 
-                console.log(response);
+                //console.log(response);
                 
             },
             error: function (xhr) {
@@ -194,13 +194,14 @@ $(document).ready(function () {
                 } else {
 
 
-                    var fileUrl = data.fileUrl;
-                    var link = document.createElement('a');
-                    link.href = fileUrl;
-                    link.download = 'downloadedItem';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
+                    var downloadLink = document.createElement('a');
+                    downloadLink.href = `../html/php/sendAndGetImage.php?id=${imageId}`;
+                    downloadLink.download = `image_${imageId}.png`; 
+
+                  
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
 
 
                 }
@@ -298,86 +299,107 @@ $(document).ready(function () {
         });
     }
 
+    function deleteAudio(audioDivId) {
+        $.ajax({
+            type: "POST",
+            url: "../html/php/deleteMusic.php",
+            data: { audioId: audioDivId },
+            success: function (response) {
+                alert("audio deleted");
+                console.log(response);
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function downloadAudio(audioId) {
+        var audioPlayerId = 'audioPlayer' + audioId;
+        var audioElement = document.getElementById(audioPlayerId);
+
+        if (audioElement) {
+            var fileUrl = audioElement.src;
+            var link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = 'downloadedAudio';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            console.error("Audio element not found");
+        }
+    }
+
     function addMusicToGallery() {
+
+
         $.ajax({
             url: '../html/php/sendMusicToGallery.php',
             type: 'POST',
             dataType: 'json',
             success: function (response) {
-                if (response.status === 'success') {
-                    var audioIds = response.audio_ids;
 
-                    for (var i = 0; i < audioIds.length; i++) {
-                        //console.log("Audio ID is: " + audioIds[i]);
+                //console.log(response);
+                var object = response.audio_ids;
 
-                        const audioDiv = document.createElement('div');
-                        audioDiv.id = audioIds[i];
-                        audioDiv.classList.add('grid-item');
+                musicHandler(object)
 
-                        const audioElement = document.createElement('audio');
-                        audioElement.controls = true;
-                        audioElement.src = `php/getMusic.php?id=${audioIds[i]}`;
-                        audioElement.id = 'audioPlayer' + audioIds[i]; 
-                        audioDiv.appendChild(audioElement);
-
-                        const deleteButton = document.createElement('button');
-                        deleteButton.innerText = 'delete';
-
-                        deleteButton.addEventListener('click', () => {
-                            deleteAudio(audioDiv.id);
-                        });
-
-                        function deleteAudio(audioDivId) {
-                            $.ajax({
-                                type: "POST",
-                                url: "../html/php/deleteMusic.php",
-                                data: { audioId: audioDivId },
-                                success: function (response) {
-                                    alert("audio deleted");
-                                    console.log(response);
-                                    location.reload();
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error(xhr.responseText);
-                                }
-                            });
-                        }
-
-                        audioDiv.appendChild(deleteButton);
-
-                        var audioId = audioDiv.id;
-
-                        const downloadButton = document.createElement('button');
-                        downloadButton.innerText = 'download';
-                        downloadButton.addEventListener('click', function () {
-                            var audioPlayerId = 'audioPlayer' + audioId; // Префикс для избежания конфликта
-                            var audioElement = document.getElementById(audioPlayerId);
-
-                            if (audioElement) {
-                                var fileUrl = audioElement.src;
-                                var link = document.createElement('a');
-                                link.href = fileUrl;
-                                link.download = 'downloadedAudio';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                            } else {
-                                console.error("Audio element not found");
-                            }
-                        });
-
-                        audioDiv.appendChild(downloadButton);
-
-                        document.getElementById('audioContainer').appendChild(audioDiv);
-                    }
-                } else {
-                    console.log(response.message);
-                }
+                
             },
+
+            
+
             error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
+    }
+
+    function musicHandler(musicSearchResults) {
+        if (musicSearchResults !== null) {
+
+            const searchResultsContainer = document.getElementById('searchResults');
+            searchResultsContainer.innerHTML = '';
+
+
+            var container = musicSearchResults;
+
+            for (var i = 0; i < container.length; i++) {
+
+                const audioDiv = document.createElement('div');
+                audioDiv.id = container[i];
+                audioDiv.classList.add('grid-item');
+
+                const audioElement = document.createElement('audio');
+                audioElement.controls = true;
+                audioElement.src = `php/getMusic.php?id=${container[i]}`;
+                audioElement.id = 'audioPlayer' + container[i];
+                audioDiv.appendChild(audioElement);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = 'delete';
+
+                deleteButton.addEventListener('click', () => {
+                    deleteAudio(audioDiv.id);
+                });
+
+                audioDiv.appendChild(deleteButton);
+
+                const downloadButton = document.createElement('button');
+                downloadButton.innerText = 'download';
+                downloadButton.addEventListener('click', function () {
+                    downloadAudio(audioDiv.id);
+                });
+
+                audioDiv.appendChild(downloadButton);
+
+                searchResultsContainer.appendChild(audioDiv);
+            }
+        } else {
+            console.error(response.message);
+        }
     }
 
     function changeImage(id) {
@@ -670,6 +692,8 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (results) {
                 console.log(results);
+                
+                musicHandler(results);
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -844,6 +868,31 @@ $(document).ready(function () {
         } 
     });
 
+    $("#setUserPic").submit(function (event) {
+        event.preventDefault();
+
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: '../html/php/sendAndGetImage.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function (response) {
+                alert(response.message);
+
+
+                changeImage(response.id);
+                setCookie('user_pic', response.id, 30);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
     $("#sendImage").submit(function (event) {
         event.preventDefault();
 
@@ -858,8 +907,9 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (response) {
                 alert(response.message);
-                changeImage(response.id);
-                setCookie('user_pic', response.id, 30);
+
+
+
             },
             error: function (xhr, status, error) {
                 console.error(xhr.responseText);
@@ -950,13 +1000,11 @@ $(document).ready(function () {
                     listItem.addEventListener('click', function (event) {
                         event.preventDefault();
 
-                        //createChat(this.textContent);
+                        userChat.innerHTML = '';
 
                         var createdChat = createHTMLChat(this.textContent);
                         userChat.appendChild(createdChat);
 
-                        // я короче пытался добавить текст пока он еще не был создан, нужно это делать после appendChild
-                        // так же с кнопкой, я нажимаю кнопку уже после того как обьект добавлен
                         getMessages(this.textContent, $("#messagesContainer"));
                     });
 

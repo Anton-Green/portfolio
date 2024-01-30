@@ -29,23 +29,33 @@
         </div>
     </div>
 
-    <div class="search">
+    <div class="grid-container">
 
-        <h1>find article by name</h1>
-        <label for="searchUserInput">insert article name:</label>
-        <input type="text" id="searchInput">
-        <button id="searchArticle">find</button>
+        <div class="search">
 
-        <div id="searchResults">
-            <!--container-->
+            <h1>find article by name</h1>
+            <label for="searchUserInput">insert article name:</label>
+            <input type="text" id="searchInput">
+            <button id="searchArticle">find</button>
+
         </div>
 
-        <ul id="articleListContainer">
-            <!--container-->
-        </ul>
+        <div class="createUserHTML">
+
+            <form id="sendHTML" method="post" enctype="multipart/form-data">
+                <input type="text" name="fileName" id="articleName" placeholder="Enter article name" />
+                <br />
+                <input type="submit" value="Create an article " />
+            </form>
+
+        </div>
 
     </div>
+    
 
+    <ul id="articleListContainer">
+        <!--container-->
+    </ul>
 
 
 </body>
