@@ -50,6 +50,14 @@ $(document).ready(function () {
         return null;
     }
 
+    function deleteCookie() {
+        var cookiesToDelete = ["user_history", "user", "isSnowfallEnabled", "user_pic"];
+
+        cookiesToDelete.forEach(function (cookieName) {
+            document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        });
+    }
+
     function checkLoginStatus() {
 
         $.ajax({
@@ -756,12 +764,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert("you logged out");
 
-                function deleteCookie() {
-                    document.cookie = "user_history=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "isSnowfallEnabled=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    document.cookie = "user_pic=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                }
+                
                 deleteCookie();
 
                 window.location.href = "../index.html";
