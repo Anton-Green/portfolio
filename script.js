@@ -13,6 +13,17 @@ $(document).ready(function () {
     var numberOfSnowflakes = 200;
     var snowflakeInterval = 500;
 
+    var currentUrl = window.location.href;
+    var targetUrl = 'https://anthonyonokin.com/html/users.html';
+
+    if (currentUrl !== targetUrl) {
+        if (storedUser === null) {
+            window.location.href = '../html/users.html';
+
+            checkLoginStatus();
+        }
+    }
+
     //setCookie('cookieName', var, daysNum);
     //var name = getCookie('cookieName');
 
@@ -74,11 +85,6 @@ $(document).ready(function () {
             }
         });
 
-        if (storedUser === null) {
-            alert('you need to log in');
-            window.location.href = '../html/users.html';
-        }
-        
     }
 
     function displayUserNotes() {
