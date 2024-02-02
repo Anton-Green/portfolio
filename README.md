@@ -1,4 +1,4 @@
-On January 24, 2024, a series of new functionalities has been integrated:
+A series of new functionalities has been integrated:
 <ul>
   <li>Contact form</li>
       <li>Create, login/out users</li>
