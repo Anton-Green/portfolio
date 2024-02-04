@@ -52,7 +52,7 @@ if (isset($data['data']) && is_array($data['data'])) {
             if ($mail->send()) {
                 echo "email sented to $userEmail.";
 
-                $updateSql = "UPDATE history SET user_history = CURRENT_TIMESTAMP WHERE user_id = $userId";
+                $updateSql = "UPDATE history SET user_history = NULL WHERE user_id = $userId";
                 $conn->query($updateSql);
             } else {
                 echo "error " . $mail->ErrorInfo;
