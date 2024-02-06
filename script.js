@@ -1117,7 +1117,41 @@ $(document).ready(function () {
         });
     });
 
+    SEO();
 
+    function SEO() {
+        const structuredData = {
+            "@context": "../sitemap.xml",
+            "@type": "Article",
+            "headline": "Example article",
+            "description": "Anthony Greene's personal website, check out the works of a young software developer.",
+            "author": {
+                "@type": "The guy",
+                "name": "Anthony"
+            },
+            "datePublished": "2024-02-06",
+            "image": "../images/favicon.ico",
+            "publisher": {
+                "@type": "Organization",
+                "name": "my Organization",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "../images/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://anthonyonokin.com/"
+            }
+        };
+
+        const structuredDataString = JSON.stringify(structuredData);
+
+        const scriptElement = document.createElement('script');
+        scriptElement.type = 'application/ld+json';
+        scriptElement.textContent = structuredDataString;
+        document.head.appendChild(scriptElement);
+    }
 
 
 

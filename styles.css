@@ -53,7 +53,7 @@ ul, ol {
    list-style-position: inside;
 }
 
-.solutions_text li {
+.solutions-text li {
     text-align: center;
     display: flex;
     align-items: center;
