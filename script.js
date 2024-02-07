@@ -1122,11 +1122,11 @@ $(document).ready(function () {
     });
 
     SEO();
-    
+    sendEmailToEmployers();
 
     function SEO() {
         const structuredData = {
-            "@context": "../sitemap.xml",
+            "@context": "https://schema.org/",
             "@type": "Article",
             "headline": "Example article",
             "description": "Anthony Greene's personal website, check out the works of a young software developer.",
@@ -1159,7 +1159,7 @@ $(document).ready(function () {
     }
 
     function loadCoinInfo() {
-        const installationPath = '/coinAPI';
+        const installationPath = '../coinAPI';
 
         $.ajax({
             url: `${installationPath}/keys.php`,
@@ -1203,7 +1203,18 @@ $(document).ready(function () {
         });
     }
 
-
+    function sendEmailToEmployers() {
+        $.ajax({
+            url: "../html/php/employers.php",
+            type: "POST",
+            success: function (response) {
+                alert(response); 
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText); 
+            }
+        });
+    }
 
 
 

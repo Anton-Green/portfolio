@@ -39,12 +39,12 @@ if (isset($data['data']) && is_array($data['data'])) {
             $mail->isSMTP();
             $mail->Host       = 'mail.anthonyonokin.com'; 
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'testmail@anthonyonokin.com';
+            $mail->Username   = 'contact@anthonyonokin.com';
             $mail->Password   = 'Qwertyanton1!'; 
             $mail->SMTPSecure = 'ssl'; 
             $mail->Port       = 465; 
 
-            $mail->setFrom('testmail@anthonyonokin.com', 'tony');
+            $mail->setFrom('contact@anthonyonokin.com', 'Anthony');
             $mail->addAddress($userEmail);
             $mail->Subject = 'comeback';
             $mail->Body = 'user comeback to website';
