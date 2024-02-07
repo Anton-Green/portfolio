@@ -6,20 +6,21 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
-    <script src="../script.js"></script>
+
+    <script src="../script.js" defer></script>
     <title>Anthony Greene's personal website, check out the works.</title>
     <meta name="description"
-          content="Anthony Greene's personal website, check out the works of a young and promising software developer.
-      You can check code on Github: github.com/Anton-Green">
+          content="Anthony Greene's personal website, check out the works of a young software developer.
+          You can check code on Github: github.com/Anton-Green">
 </head>
-
 <body>
+
     <div class="dropdown">
         <button class="dropbtn">Fast links</button>
         <div class="dropdown-content">
             <a href="../html/contact.html">Contact</a>
             <a href="../index.html">Main Menu</a>
-            <a href="../html/users.html">Users login, registration and password recovery</a>
+            <a href="../html/users.html">Login settings</a>
             <a href="../html/imageGallery.html">Gallery</a>
             <a href="../html/musicGallery.html">Music Gallery</a>
             <a href="../html/userArticles.html">User Articles</a>
@@ -33,23 +34,13 @@
     <div class="grid-container">
 
         <div>
-            <h1>Reminder and history solutions explained:</h1>
-            <p>
-                Php script takes note when user was last time logged in, on document load js func checking last login of all users, if last login was more than a week ago,
+            <h1>Basic Account Information</h1>
+            <div id="accountInfo">
 
-                then func is sending a reminder to user e-mail, after that history will be deleted. <br /> <br />
-
-                In that way, we can create balance between spaming and reminding user. Also func that used for sending e-mail can be used for sending any other info by
-
-                changing func's input.
-            </p>
+            </div>
         </div>
 
-        <div class="intro-image">
-            <img src="../images/img-1.webp" alt="cup" width="500" height="700">
-        </div>
 
     </div>
-    
 </body>
 </html>

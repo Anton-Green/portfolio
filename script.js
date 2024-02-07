@@ -119,7 +119,7 @@ $(document).ready(function () {
                     console.error('Error fetching user notes');
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -180,7 +180,7 @@ $(document).ready(function () {
                 console.log(response);
                 location.reload();
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -315,7 +315,7 @@ $(document).ready(function () {
                 console.log(response);
                 location.reload();
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -438,7 +438,7 @@ $(document).ready(function () {
                 //console.log(response);
 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -474,7 +474,7 @@ $(document).ready(function () {
                 var oldUsers = [];
                 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -498,7 +498,7 @@ $(document).ready(function () {
 
                 //newChat.scrollTop(newChat[0].scrollHeight);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -534,7 +534,7 @@ $(document).ready(function () {
                     }
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -657,7 +657,7 @@ $(document).ready(function () {
                 //console.log(response);
                 //alert("send");
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -682,7 +682,7 @@ $(document).ready(function () {
 
                 imageHandler(object);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -701,7 +701,7 @@ $(document).ready(function () {
                 
                 musicHandler(results);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -718,7 +718,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message)
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -735,7 +735,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message)
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -768,7 +768,7 @@ $(document).ready(function () {
                     alert("Invalid email or password");
                 }
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -787,7 +787,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -813,7 +813,7 @@ $(document).ready(function () {
                 /*$('#message').html(response.message);*/
                 alert(response.message);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -834,7 +834,7 @@ $(document).ready(function () {
 
                 window.location.href = "../index.html";
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -852,7 +852,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -893,7 +893,7 @@ $(document).ready(function () {
                 changeImage(response.id);
                 setCookie('user_pic', response.id, 30);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -917,7 +917,7 @@ $(document).ready(function () {
 
 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -937,7 +937,7 @@ $(document).ready(function () {
                 alert(response.message);
 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -974,6 +974,10 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/html/notes.html') {
         displayUserNotes()
+    }
+
+    if (window.location.pathname === '/html/coinPayment.html') {
+        loadCoinInfo();
     }
 
     $("#searchUser").click(function () {
@@ -1025,7 +1029,7 @@ $(document).ready(function () {
                 
 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -1056,7 +1060,7 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response.message);
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.error(xhr.responseText);
             }
         });
@@ -1118,6 +1122,7 @@ $(document).ready(function () {
     });
 
     SEO();
+    
 
     function SEO() {
         const structuredData = {
@@ -1152,6 +1157,54 @@ $(document).ready(function () {
         scriptElement.textContent = structuredDataString;
         document.head.appendChild(scriptElement);
     }
+
+    function loadCoinInfo() {
+        const installationPath = '/coinAPI';
+
+        $.ajax({
+            url: `${installationPath}/keys.php`,
+            method: 'GET',
+            dataType: 'json', 
+            success: function (keys) {
+                const private_key = keys.private_key;
+                const public_key = keys.public_key;
+
+                
+                $.ajax({
+                    url: `${installationPath}/CoinpaymentsAPI.php`,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        private_key: private_key,
+                        public_key: public_key,
+                        format: 'json',
+                        command: 'GetBasicInfo'
+                    }),
+                    success: function (result) {
+                        
+                        if (result.error === 'ok') {
+                            
+                        } else {
+                            
+                        }
+                    },
+                    error: function (xhr) {
+                        
+                        console.error(xhr.statusText);
+                    }
+                });
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                if (textStatus === 'parsererror') {
+                    console.error('Error: Invalid JSON response from the server.');
+                    
+                } 
+            }
+        });
+    }
+
+
+
 
 
 
