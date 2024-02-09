@@ -19,7 +19,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Получить username автора
 $stmt_username = $conn->prepare("SELECT username FROM users WHERE id = ?");
 $stmt_username->bind_param("i", $user_id);
 $stmt_username->execute();
@@ -37,7 +36,6 @@ if (isset($_POST['fileName'])) {
     
     file_put_contents($htmlPath, $htmlContent);
 
-    // Вставка данных с использованием значения автора
     $stmt = $conn->prepare("INSERT INTO userHtml (htmlPath, userId, fileName, author) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("siss", $htmlPath, $user_id, $fileName, $author_username);
 

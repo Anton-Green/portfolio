@@ -426,7 +426,7 @@ $(document).ready(function () {
         }
     }
 
-    function sendReminder(oldUsers) {
+   /* function sendReminder(oldUsers) {
         var array = oldUsers;
 
         $.ajax({
@@ -442,7 +442,7 @@ $(document).ready(function () {
                 console.error(xhr.responseText);
             }
         });
-    }
+    }*/
 
     function getOldUsers() {
         $.ajax({
@@ -663,6 +663,55 @@ $(document).ready(function () {
         });
     }
 
+    function displayRandomCitation() {
+        $.ajax({
+            url: "../html/php/citations.php",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                $('#citation').html('<strong>Citation of the day:</strong> ' + '<br>' + response.text);
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    function SEO() {
+        const structuredData = {
+            "@context": "https://schema.org/",
+            "@type": "Article",
+            "headline": "Example article",
+            "description": "Anthony Greene's personal website, check out the works of a young software developer.",
+            "author": {
+                "@type": "The guy",
+                "name": "Anthony"
+            },
+            "datePublished": "2024-02-06",
+            "image": "../images/favicon.ico",
+            "publisher": {
+                "@type": "Organization",
+                "name": "my Organization",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "../images/favicon.ico"
+                }
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://anthonyonokin.com/"
+            }
+        };
+
+        const structuredDataString = JSON.stringify(structuredData);
+
+        const scriptElement = document.createElement('script');
+        scriptElement.type = 'application/ld+json';
+        scriptElement.textContent = structuredDataString;
+        document.head.appendChild(scriptElement);
+    }
+
     $("#searchImage").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -756,6 +805,7 @@ $(document).ready(function () {
 
                     $('#user-info').html('Welcome, ' + response.user.username);
                     setCookie('user', JSON.stringify(response.user), 30);
+                    setCookie('userId', response.user.id, 30);
 
                     window.location.href = "userCabinet.html";
 
@@ -950,6 +1000,7 @@ $(document).ready(function () {
 
     if (window.location.pathname !== '/html/users.html') {
         checkLoginStatus()
+        SEO();
     }
 
     if (window.location.pathname === '/index.html') {
@@ -978,10 +1029,6 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/html/notes.html') {
         displayUserNotes()
-    }
-
-    if (window.location.pathname === '/html/coinPayment.html') {
-        loadCoinInfo();
     }
 
     $("#searchUser").click(function () {
@@ -1076,7 +1123,7 @@ $(document).ready(function () {
         $.ajax({
             url: '../html/php/findArticle.php',
             type: 'GET',
-            data: { fileName: searchInput },
+            data: { fileName: searchInput, userId: getCookie('userId')},
             dataType: 'json',
             success: function (results) {
 
@@ -1125,56 +1172,9 @@ $(document).ready(function () {
         });
     });
 
-    SEO();
 
 
-    function SEO() {
-        const structuredData = {
-            "@context": "https://schema.org/",
-            "@type": "Article",
-            "headline": "Example article",
-            "description": "Anthony Greene's personal website, check out the works of a young software developer.",
-            "author": {
-                "@type": "The guy",
-                "name": "Anthony"
-            },
-            "datePublished": "2024-02-06",
-            "image": "../images/favicon.ico",
-            "publisher": {
-                "@type": "Organization",
-                "name": "my Organization",
-                "logo": {
-                    "@type": "ImageObject",
-                    "url": "../images/favicon.ico"
-                }
-            },
-            "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://anthonyonokin.com/"
-            }
-        };
-
-        const structuredDataString = JSON.stringify(structuredData);
-
-        const scriptElement = document.createElement('script');
-        scriptElement.type = 'application/ld+json';
-        scriptElement.textContent = structuredDataString;
-        document.head.appendChild(scriptElement);
-    }
-
-    function loadCoinInfo() {
-        $.ajax({
-            url: 'get_basic_information.php', 
-            type: 'GET',
-            dataType: 'html',
-            success: function (response) {
-                $('#accountInfo').html(response);
-            },
-            error: function (xhr) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
+    
 
 
 
@@ -1194,20 +1194,8 @@ $(document).ready(function () {
     }
 
 
-    function displayRandomCitation() {
-        $.ajax({
-            url: "../html/php/citations.php", 
-            type: "GET", 
-            dataType: "json", 
-            success: function (response) {
-                $('#citation').html('<strong>Citation of the day:</strong> ' + '<br>' + response.text);
-            },
-
-            error: function (xhr) {
-                console.error(xhr.responseText);
-            }
-        });
-    }
     
+    
+
 
 });

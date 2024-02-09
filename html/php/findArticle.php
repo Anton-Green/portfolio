@@ -20,7 +20,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = userId;
 
 $fileName = isset($_GET['fileName']) ? $_GET['fileName'] : '';
 
