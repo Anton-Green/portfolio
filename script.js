@@ -952,6 +952,10 @@ $(document).ready(function () {
         checkLoginStatus()
     }
 
+    if (window.location.pathname === '/index.html') {
+        displayRandomCitation();
+    }
+
     if (window.location.pathname === '/html/userCabinet.html') {
 
         
@@ -1122,7 +1126,7 @@ $(document).ready(function () {
     });
 
     SEO();
-    sendEmailToEmployers();
+
 
     function SEO() {
         const structuredData = {
@@ -1159,50 +1163,23 @@ $(document).ready(function () {
     }
 
     function loadCoinInfo() {
-        const installationPath = '../coinAPI';
-
         $.ajax({
-            url: `${installationPath}/keys.php`,
-            method: 'GET',
-            dataType: 'json', 
-            success: function (keys) {
-                const private_key = keys.private_key;
-                const public_key = keys.public_key;
-
-                
-                $.ajax({
-                    url: `${installationPath}/CoinpaymentsAPI.php`,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        private_key: private_key,
-                        public_key: public_key,
-                        format: 'json',
-                        command: 'GetBasicInfo'
-                    }),
-                    success: function (result) {
-                        
-                        if (result.error === 'ok') {
-                            
-                        } else {
-                            
-                        }
-                    },
-                    error: function (xhr) {
-                        
-                        console.error(xhr.statusText);
-                    }
-                });
+            url: 'get_basic_information.php', 
+            type: 'GET',
+            dataType: 'html',
+            success: function (response) {
+                $('#accountInfo').html(response);
             },
-            error: function (xhr, textStatus, errorThrown) {
-                if (textStatus === 'parsererror') {
-                    console.error('Error: Invalid JSON response from the server.');
-                    
-                } 
+            error: function (xhr) {
+                console.error(xhr.responseText);
             }
         });
     }
 
+
+
+
+    /*sendEmailToEmployers();*/
     function sendEmailToEmployers() {
         $.ajax({
             url: "../html/php/employers.php",
@@ -1217,15 +1194,20 @@ $(document).ready(function () {
     }
 
 
+    function displayRandomCitation() {
+        $.ajax({
+            url: "../html/php/citations.php", 
+            type: "GET", 
+            dataType: "json", 
+            success: function (response) {
+                $('#citation').html('<strong>Citation of the day:</strong> ' + '<br>' + response.text);
+            },
 
-
-
-
-
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
     
-    
-    
-
-
 
 });

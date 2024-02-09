@@ -1,5 +1,20 @@
 {
-    "require": {
-        "phpmailer/phpmailer": "^6.9"
-    }
+  "require": {
+    "phpmailer/phpmailer": "^6.9"
+  },
+
+  "require-dev": {
+    "phpcompatibility/php-compatibility": "*",
+    "phpunit/phpunit": "11"
+  },
+
+  "prefer-stable": true,
+
+  "scripts": {
+    "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+    "post-update-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
+  }
+
+
+
 }
