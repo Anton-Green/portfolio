@@ -12,5 +12,3 @@ A series of new functionalities has been integrated:
   <li>animation of falling snow, with toogle option in cookie</li>
     </ul>
     
-Currently working on coinpayments API integration and improvement of existing functions
-
