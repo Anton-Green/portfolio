@@ -1,0 +1,60 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #333; /* Dark background color */
+    color: #000; /* Text color */
+}
+
+.login, .register {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 80%; /* Adjust the width as needed */
+    max-width: 400px; /* Maximum width of the container */
+}
+
+    .login h2, .register h2 {
+        margin-bottom: 20px;
+    }
+
+    .login label, .register label {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .login input[type="email"],
+    .login input[type="password"],
+    .login input[type="submit"],
+    .register input[type="text"],
+    .register input[type="email"],
+    .register input[type="password"],
+    .register input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .login input[type="submit"],
+    .register input[type="submit"] {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+    }
+
+        .login input[type="submit"]:hover,
+        .register input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+    .register p {
+        margin-top: 20px;
+    }
