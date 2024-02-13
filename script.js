@@ -1031,6 +1031,11 @@ $(document).ready(function () {
         displayUserNotes()
     }
 
+    if (window.location.pathname === '/html/userArticles.html') {
+        /*ShowAllArticles()*/
+        
+    }
+
     $("#searchUser").click(function () {
         var searchInput = $("#searchInput").val();
 
@@ -1172,15 +1177,51 @@ $(document).ready(function () {
         });
     });
 
+   /* function ShowAllArticles() {
+        $.ajax({
+            url: '../html/php/showAllArticles.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function (results) {
+                var articleList = $('#articleListContainer');
 
+                var articlePath = results.map(function (item) {
+                    return item.htmlPath;
+                });
+
+                var articleNames = results.map(function (item) {
+                    return item.fileName;
+                });
+
+                var articleAuthor = results.map(function (item) {
+                    return item.author;
+                });
+
+                for (var i = 0; i < articleNames.length; i++) {
+                    (function (index) {
+                        var listItem = $('<li></li>').text(articleNames[index] + ". Written by: " + articleAuthor[index]);
+
+                        listItem.on('click', function (event) {
+                            event.preventDefault();
+                            window.location.href = articlePath[index];
+                        });
+
+                        articleList.append(listItem);
+                    })(i);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle any errors
+                console.error('Error:', error);
+            }
+        });
+    }*/
 
     
+  
 
 
-
-
-    /*sendEmailToEmployers();*/
-    function sendEmailToEmployers() {
+   /* function sendEmailToEmployers() {
         $.ajax({
             url: "../html/php/employers.php",
             type: "POST",
@@ -1191,7 +1232,7 @@ $(document).ready(function () {
                 console.error(xhr.responseText); 
             }
         });
-    }
+    }*/
 
 
     

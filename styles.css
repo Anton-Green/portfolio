@@ -150,3 +150,35 @@ a {
     background-size: cover;
     pointer-events: none;
 }
+
+
+
+#video-background video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+
+}
+
+#text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    color: white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; 
+
+    z-index: 1;
+}
+
+.dropdown {
+    position: sticky;
+    top: 0px;
+
+    z-index: 2;
+}
