@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Freehand&display=swap');
+    </style>
+
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
     <script src="../script.js" defer></script>
+
     <title>Anthony Greene's personal website, check out the works.</title>
     <meta name="description"
           content="Anthony Greene's personal website, check out the works of a young software developer.
           You can check code on Github: github.com/Anton-Green">
 
     <meta name="google-adsense-account" content="ca-pub-8979140253904296">
+
+
 </head>
 <body>
+    <div class="snow-container"></div>
 
     <div class="dropdown">
         <button class="dropbtn">Links</button>
@@ -36,16 +46,19 @@
         </div>
     </div>
 
-    <div class="animations">
+    <!--first block-->
+    <div style=" position: absolute; top: 10%; left: 10%; width: auto; height: auto;">
 
-        <p class="text">
+        <p style=" animation: animateText 3s infinite; font-family: 'Freehand', cursive; font-weight: 400; font-style: normal;">
             animation with css <br />
             can be used for hrefs <br />
         </p>
 
-        <p id="typing"></p>
+        <p id="typing" style="font-family: 'Protest Riot', sans-serif; font-weight: 400; font-style: normal;"></p>
 
-        <p></p>
+        <div class="snow-toggle">
+            <button id="toggleSnow">Snow effect</button>
+        </div>
     </div>
 
 

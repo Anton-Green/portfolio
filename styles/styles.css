@@ -7,6 +7,40 @@ body {
     font-size: 22px;
 }
 
+@keyframes slideRight {
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.text-style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: auto;
+    height: auto;
+    color: white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+    z-index: 9999;
+    animation: slideIn 2s ease forwards;
+    
+}
+
+.riot {
+    font-family: 'Protest Riot', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+}
+
+.hand {
+    font-family: 'Freehand', cursive;
+    font-weight: 400;
+    font-style: normal;
+}
 
 input[type="text"],
 input[type="password"],
@@ -27,6 +61,22 @@ textarea {
     text-align: center;
     align-items: center;
     grid-auto-flow: row;
+
+
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 30% 60%;
+    grid-gap: 50px;
+    /*padding: 20px;*/
+
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    top: 15%;
+    left: 5%;
 }
 
 .gallery {
@@ -74,6 +124,9 @@ ul, ol {
     }
 
     .grid-container {
+        grid-template-columns: 1fr;
+    }
+    .grid {
         grid-template-columns: 1fr;
     }
 }
@@ -166,32 +219,20 @@ a {
     pointer-events: none;
 }
 
-.backgroundVideo {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: cover;
 
-}
 
-#text-overlay {
 
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 
-    text-align: center;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -70%);
+    }
 
-    width:auto;
-    height:auto;
-
-    color: white;
-    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; 
-
-    z-index: 1;
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 .dropdown {
@@ -214,36 +255,6 @@ a {
 
 }
 
-.solutions-text h2 {
-    text-align: center;
-}
-
-
-
-
-
-
-
-
-
-
-.animations {
-    position: absolute;
-    top: 10%;
-    left: 10%;
-
-    width: auto;
-    height: auto;
-}
-
-
-
-.text {
-    animation: animateText 3s infinite;
-}
-
-
-
 @keyframes animateText {
     0% {
         transform: translateY(0);
@@ -260,3 +271,5 @@ a {
         opacity: 1;
     }
 }
+
+

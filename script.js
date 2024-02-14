@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var storedUser = getCookie('user');
+    //var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
 
     if (isSnowfallCookieValue === null) {
@@ -12,17 +12,6 @@ $(document).ready(function () {
 
     var numberOfSnowflakes = 200;
     var snowflakeInterval = 500;
-
-    var currentUrl = window.location.href;
-    var targetUrl = 'https://anthonyonokin.com/html/users.html';
-
-    if (currentUrl !== targetUrl) {
-        if (storedUser === null) {
-            window.location.href = '../html/users.html';
-
-            checkLoginStatus();
-        }
-    }
 
     //setCookie('cookieName', var, daysNum);
     //var name = getCookie('cookieName');
@@ -993,10 +982,10 @@ $(document).ready(function () {
         });
     });
 
-    if (storedUser) {
+    /*if (storedUser) {
         var user = JSON.parse(storedUser);
         $('#user-info').html('Welcome back, ' + user.username);
-    }
+    }*/
 
     if (window.location.pathname !== '/html/users.html') {
         checkLoginStatus()
@@ -1005,6 +994,7 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/index.html') {
         displayRandomCitation();
+        cursor();
     }
 
     if (window.location.pathname === '/html/userCabinet.html') {
@@ -1035,6 +1025,11 @@ $(document).ready(function () {
         /*ShowAllArticles()*/
         
     }
+
+    if (window.location.pathname === '/html/anim.html') {
+        typeWriter();
+    }
+
 
     $("#searchUser").click(function () {
         var searchInput = $("#searchInput").val();
@@ -1222,20 +1217,25 @@ $(document).ready(function () {
 
 
 
-    var i = 0;
-    var txt = 'Typing text example';
-    var speed = 50;
-    var typingElement = document.getElementById("typing");
 
     function typeWriter() {
-        if (i < txt.length) {
-            typingElement.innerHTML += txt.charAt(i);
-            i++;
-            setTimeout(typeWriter, speed);
+        var i = 0;
+        var txt = 'Typing text example';
+        var speed = 50;
+        var typingElement = document.getElementById("typing");
+
+        function type() {
+            if (i < txt.length) {
+                typingElement.innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
         }
+
+        type();
     }
 
-    typeWriter();
+
 
    /* function sendEmailToEmployers() {
         $.ajax({
@@ -1251,8 +1251,88 @@ $(document).ready(function () {
     }*/
 
 
+
+    function cursor() {
+        const cursorCanvas = document.getElementById("cursorCanvas");
+        const ctx = cursorCanvas.getContext('2d');
+
+        const pointer = {
+            x: .5 * window.innerWidth,
+            y: .5 * window.innerHeight,
+        };
+
+        const params = {
+            pointsNumber: 40,
+            widthFactor: .3,
+            mouseThreshold: .6,
+            spring: .4,
+            friction: .5
+        };
+
+        const trail = new Array(params.pointsNumber);
+        for (let i = 0; i < params.pointsNumber; i++) {
+            trail[i] = {
+                x: pointer.x,
+                y: pointer.y,
+                dx: 0,
+                dy: 0,
+            };
+        }
+
+        window.addEventListener("mousemove", e => {
+            updateMousePosition(e.pageX, e.pageY);
+        });
+        window.addEventListener("touchmove", e => {
+            updateMousePosition(e.targetTouches[0].pageX, e.targetTouches[0].pageY);
+        });
+
+        function updateMousePosition(eX, eY) {
+            pointer.x = eX;
+            pointer.y = eY;
+        }
+
+        setupCanvas();
+        update(0);
+        window.addEventListener("resize", setupCanvas);
+
+        function update(t) {
+            ctx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+            ctx.strokeStyle = 'white';
+            trail.forEach((p, pIdx) => {
+                const prev = pIdx === 0 ? pointer : trail[pIdx - 1];
+                const spring = pIdx === 0 ? .4 * params.spring : params.spring;
+                p.dx += (prev.x - p.x) * spring;
+                p.dy += (prev.y - p.y) * spring;
+                p.dx *= params.friction;
+                p.dy *= params.friction;
+                p.x += p.dx;
+                p.y += p.dy;
+            });
+
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(trail[0].x, trail[0].y);
+
+            for (let i = 1; i < trail.length - 1; i++) {
+                const xc = .5 * (trail[i].x + trail[i + 1].x);
+                const yc = .5 * (trail[i].y + trail[i + 1].y);
+                ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
+                ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
+                ctx.stroke();
+            }
+            ctx.lineTo(trail[trail.length - 1].x, trail[trail.length - 1].y);
+            ctx.stroke();
+
+            window.requestAnimationFrame(update);
+        }
+
+        function setupCanvas() {
+            cursorCanvas.width = window.innerWidth;
+            cursorCanvas.height = window.innerHeight;
+        }
+    }
     
-    
+  
 
 
 });
