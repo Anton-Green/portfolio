@@ -8,6 +8,18 @@ body {
 }
 
 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="message"],
+textarea {
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
 .grid-container {
     display: grid;
     grid-template-columns: 60% 40%;
@@ -53,19 +65,12 @@ ul, ol {
    list-style-position: inside;
 }
 
-.solutions-text li {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-}
+
 
 
 @media only screen and (max-width: 600px) {
     body {
-        font-size: 14px;
+        font-size: 10px;
     }
 
     .grid-container {
@@ -82,7 +87,9 @@ ul, ol {
     text-decoration: none;
     cursor: pointer;
     border: 2px solid #2c3e50;
+
     color: white;
+
     background-color: #34495e;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
@@ -93,8 +100,14 @@ ul, ol {
  }
 
 .dropbtn {
+    position:absolute;
+    left:95%;
+    top:5%;
+
     background-color: #34495e;
+
     color: white;
+
     padding: 16px;
     font-size: 16px;
     font-weight: bold;
@@ -111,7 +124,9 @@ ul, ol {
 }
 
 .dropdown-content a {
-    color: black;
+
+    color: white;
+
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -151,10 +166,8 @@ a {
     pointer-events: none;
 }
 
-
-
-#video-background video {
-    position: absolute;
+.backgroundVideo {
+    position: relative;
     top: 0;
     left: 0;
     width: 100vw;
@@ -164,11 +177,16 @@ a {
 }
 
 #text-overlay {
+
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     text-align: center;
+
+    width:auto;
+    height:auto;
 
     color: white;
     text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; 
@@ -177,8 +195,68 @@ a {
 }
 
 .dropdown {
-    position: sticky;
-    top: 0px;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    z-index: 1;
+}
 
-    z-index: 2;
+
+
+.solutions-text li {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+
+
+}
+
+.solutions-text h2 {
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+.animations {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+
+    width: auto;
+    height: auto;
+}
+
+
+
+.text {
+    animation: animateText 3s infinite;
+}
+
+
+
+@keyframes animateText {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-20px);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

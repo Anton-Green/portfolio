@@ -1217,9 +1217,25 @@ $(document).ready(function () {
         });
     }*/
 
-    
-  
 
+
+
+
+
+    var i = 0;
+    var txt = 'Typing text example';
+    var speed = 50;
+    var typingElement = document.getElementById("typing");
+
+    function typeWriter() {
+        if (i < txt.length) {
+            typingElement.innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+
+    typeWriter();
 
    /* function sendEmailToEmployers() {
         $.ajax({
