@@ -1332,7 +1332,17 @@ $(document).ready(function () {
         }
     }
     
-  
+    $(window).scroll(function () {
+        $('.slide-right-on-scroll').each(function () {
+            var position = $(this).offset().top;
+            var windowHeight = $(window).height();
+            var scroll = $(window).scrollTop();
+
+            if (position < scroll + windowHeight) {
+                $(this).addClass('active');
+            }
+        });
+    });
 
 
 });
