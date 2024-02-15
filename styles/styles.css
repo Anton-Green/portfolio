@@ -120,15 +120,15 @@ textarea {
 .grid {
     display: grid;
     grid-template-columns: 30% 60%;
-    grid-gap: 50px;
-    /*padding: 20px;*/
+
+
+    grid-auto-flow: row;
 
     width: auto;
     height: auto;
 
     position: absolute;
-    top: 15%;
-    left: 5%;
+
 }
 
 .gallery {

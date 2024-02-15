@@ -994,7 +994,7 @@ $(document).ready(function () {
 
     if (window.location.pathname === '/index.html') {
         displayRandomCitation();
-        cursor();
+        //cursor();
     }
 
     if (window.location.pathname === '/html/userCabinet.html') {
@@ -1257,27 +1257,23 @@ $(document).ready(function () {
         const ctx = cursorCanvas.getContext('2d');
 
         const pointer = {
-            x: .5 * window.innerWidth,
-            y: .5 * window.innerHeight,
+            x: 0.5 * window.innerWidth,
+            y: 0.5 * window.innerHeight,
         };
 
         const params = {
             pointsNumber: 40,
-            widthFactor: .3,
-            mouseThreshold: .6,
-            spring: .4,
-            friction: .5
+            widthFactor: 0.3,
+            spring: 0.4,
+            friction: 0.5
         };
 
-        const trail = new Array(params.pointsNumber);
-        for (let i = 0; i < params.pointsNumber; i++) {
-            trail[i] = {
-                x: pointer.x,
-                y: pointer.y,
-                dx: 0,
-                dy: 0,
-            };
-        }
+        const trail = new Array(params.pointsNumber).fill().map(() => ({
+            x: pointer.x,
+            y: pointer.y,
+            dx: 0,
+            dy: 0,
+        }));
 
         window.addEventListener("mousemove", e => {
             updateMousePosition(e.pageX, e.pageY);
@@ -1300,7 +1296,7 @@ $(document).ready(function () {
             ctx.strokeStyle = 'white';
             trail.forEach((p, pIdx) => {
                 const prev = pIdx === 0 ? pointer : trail[pIdx - 1];
-                const spring = pIdx === 0 ? .4 * params.spring : params.spring;
+                const spring = pIdx === 0 ? 0.4 * params.spring : params.spring;
                 p.dx += (prev.x - p.x) * spring;
                 p.dy += (prev.y - p.y) * spring;
                 p.dx *= params.friction;
@@ -1314,8 +1310,8 @@ $(document).ready(function () {
             ctx.moveTo(trail[0].x, trail[0].y);
 
             for (let i = 1; i < trail.length - 1; i++) {
-                const xc = .5 * (trail[i].x + trail[i + 1].x);
-                const yc = .5 * (trail[i].y + trail[i + 1].y);
+                const xc = 0.5 * (trail[i].x + trail[i + 1].x);
+                const yc = 0.5 * (trail[i].y + trail[i + 1].y);
                 ctx.quadraticCurveTo(trail[i].x, trail[i].y, xc, yc);
                 ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
                 ctx.stroke();
@@ -1331,6 +1327,8 @@ $(document).ready(function () {
             cursorCanvas.height = window.innerHeight;
         }
     }
+
+    cursor(); 
     
     $(window).scroll(function () {
         $('.slide-right-on-scroll').each(function () {
