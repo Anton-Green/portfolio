@@ -131,6 +131,19 @@ textarea {
 
 }
 
+.cardGrid {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-auto-flow: row;
+    width: auto;
+    height: auto;
+    position: absolute;
+    text-align: center;
+    top: 15%;
+    left: 5%;
+    grid-gap: 20px;
+}
+
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -170,7 +183,15 @@ ul, ol {
 
 
 
-@media only screen and (max-width: 600px) {
+
+
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-columns: 100%; 
+    }
+    .cardGrid {
+        grid-template-columns: 100%;
+    }
     body {
         font-size: 10px;
     }
@@ -178,9 +199,8 @@ ul, ol {
     .grid-container {
         grid-template-columns: 1fr;
     }
-    .grid {
-        grid-template-columns: 1fr;
-    }
+
+
 }
 
 .button {
@@ -351,3 +371,35 @@ a {
       
     }
 
+
+#menuButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999; /* Ensure button stays on top */
+}
+
+#menuContent {
+    display: none;
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 998; /* Ensure menu stays behind button */
+}
+
+    #menuContent ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        #menuContent ul li {
+            margin-bottom: 10px;
+        }
+
+            #menuContent ul li a {
+                text-decoration: none;
+                color: #333;
+            }

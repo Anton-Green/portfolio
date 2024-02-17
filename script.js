@@ -1342,5 +1342,7 @@ $(document).ready(function () {
         });
     });
 
-
+    $('#menuButton').click(function () {
+        $('#menuContent').toggle();
+    });
 });
