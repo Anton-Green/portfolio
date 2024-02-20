@@ -7,15 +7,22 @@ body {
     font-size: 22px;
 }
 
-@keyframes moveBg {
-    from {
-        background-position: 0 50%;
-    }
+.menu-div {
+    background-color:forestgreen;
 
-    to {
-        background-position: -1134px 50%;
-    }
+    position:fixed;
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:0;
 }
+
+.menu-div.active {
+    height: 100vh;
+}
+
+
 
 .carousel {
     --blur: 1px;
