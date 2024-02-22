@@ -3,38 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="../styles/styles.css">
-    <link rel="stylesheet" href="../styles/stylesForNightSky.css">
+    <title>Toggle Navigation Menu</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Freehand&display=swap');
+
+        .navigation-menu {
+            position: fixed;
+            top: 0;
+            left: -100%; 
+            width: 100%; 
+            height: 100%;
+            background-color: #fff; 
+            transition: left 0.5s ease; 
+            z-index: 1000;
+            overflow-y: auto; 
+        }
+
+            .navigation-menu.active {
+                left: 0; 
+            }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 999; 
+            display: none; 
+        }
+
+        .active .overlay {
+            display: block; 
+        }
+        
+        button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1001; 
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .menu-wrapper h2 {
+            margin-top: 0;
+        }
     </style>
-
-    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
-
-    <title>Anthony Greene's personal website, check out the works.</title>
-    <meta name="description"
-          content="Anthony Greene's personal website, check out the works of a young software developer.
-          You can check code on Github: github.com/Anton-Green">
-
-    <meta name="google-adsense-account" content="ca-pub-8979140253904296">
-
-
 </head>
 <body>
-    <div class="menu-div" id="menuContainer">
+    <button id="toggleButton">Toggle Menu</button>
 
+
+    <div id="navigation-menu" class="navigation-menu">
+        <div class="container">
+            <div class="menu-wrapper">
+                <h2>How can we help you?</h2>
+                <hr class="color-theme2">
+
+                <nav id="main-navigation">
+                    <ul class="main">
+                        <li class="highlight"><a href="https://www.pixelarmy.ca/website-design/"><span>Website Design</span></a></li>
+                        <li class="highlight"><a href="https://www.pixelarmy.ca/digital-marketing/"><span>Digital Marketing</span></a></li>
+                        <li class="highlight"><a href="https://www.pixelarmy.ca/seo-services/"><span>Ongoing Support &amp; SEO</span></a></li>
+                        <li class="highlight"><a href="https://www.pixelarmy.ca/projects/"><span>Project Portfolio</span></a></li>
+                    </ul>
+                    <ul class="sub">
+                        <li><a href="https://www.pixelarmy.ca/about/"><span>About Us</span></a></li>
+                        <li><a href="https://www.pixelarmy.ca/jobs-internships/"><span>Careers</span></a></li>
+                        <li><a href="https://www.pixelarmy.ca/contact/"><span>Contact Us</span></a></li>
+                        <li><a href="https://www.pixelarmy.ca/payments/"><span>Pay Your Invoice</span></a></li>
+                    </ul>
+                </nav>
+
+                <div class="nav-buttons">
+                    <a href="https://www.pixelarmy.ca/online-quote-request/" class="button"><span><strong>Let’s Get Started</strong></span></a>
+                </div>
+            </div>
+        </div>
     </div>
-    <button onclick="toggleMenu()">Toggle Menu</button>
+
+    <div class="overlay"></div> <!-- Transparent overlay -->
 
     <script>
-        function toggleMenu() {
-            var menuContainer = document.getElementById("menuContainer");
-            menuContainer.classList.toggle("active");
-        }
+        document.getElementById('toggleButton').addEventListener('click', function () {
+            document.getElementById('navigation-menu').classList.toggle('active');
+        });
     </script>
 </body>
 </html>

@@ -6,33 +6,41 @@ body {
     font-family: "Arial", Sans-serif;
     font-size: 22px;
 }
+/*nav menu*/
+.navigation-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    transition: left 0.5s ease;
+    z-index: 3;
+    overflow-y: auto;
 
-.menu-div {
-    background-color:forestgreen;
-
-    position:fixed;
-    top:0;
-    left:0;
-
-    width:100vw;
-    height:0;
+    background-color:darkgreen;
 }
 
-.menu-div.active {
-    height: 100vh;
+    .navigation-menu.active {
+        left: 0;
+    }
+/*carousel*/
+@keyframes moveBg {
+    from {
+        background-position: 0 50%;
+    }
+
+    to {
+        background-position: -1134px 50%;
+    }
 }
-
-
 
 .carousel {
-    --blur: 1px;
+    --blur: 6px;
     --contrast: 105%;
     --speed: 13s;
-    height: 200px;
+    height: 250px;
     width: 100%;
-
-    position: absolute;
-    top: 20%;
+    position: relative;
 }
 
     .carousel .mask {
@@ -49,10 +57,13 @@ body {
         animation: moveBg var(--speed) linear infinite;
         position: absolute;
         inset: 0;
-        background: url(../images/brands.png) 0 50% / 2268px 300px repeat-x;
+        background: url(../images/brands.png) 0 50% / 567px 75px repeat-x;
         -webkit-mask: linear-gradient(90deg, #0000 5px, #000 50px calc(100% - 50px), #0000 calc(100% - 5px));
     }
 
+
+
+/*anims for text */
 @keyframes slideRight {
     100% {
         opacity: 1;
@@ -71,8 +82,39 @@ body {
         transform: translateX(0);
     }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -70%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
 
 
+/*i dont remeber where i use that one*/
+@keyframes animateText {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-20px);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/*center text style*/
 .text-style {
     position: absolute;
     top: 50%;
@@ -83,11 +125,13 @@ body {
     height: auto;
     color: white;
     text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-    z-index: 9999;
+    z-index: 2;
     animation: slideIn 2s ease forwards;
     
 }
 
+
+/*some fonts*/
 .riot {
     font-family: 'Protest Riot', sans-serif;
     font-weight: 400;
@@ -101,6 +145,8 @@ body {
     font-style: normal;
 }
 
+
+/*styles for inputs*/
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -113,6 +159,8 @@ textarea {
     margin: 5px 0;
 }
 
+
+/*grid*/
 .grid-container {
     display: grid;
     grid-template-columns: 60% 40%;
@@ -151,6 +199,8 @@ textarea {
     grid-gap: 20px;
 }
 
+
+/*gallery grid*/
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -182,16 +232,13 @@ textarea {
    justify-content: center;
 }
 
+/*ul ol*/
 ul, ol {
     
    list-style-position: inside;
 }
 
-
-
-
-
-
+/*mobile*/
 @media screen and (max-width: 600px) {
     .grid {
         grid-template-columns: 100%; 
@@ -209,7 +256,7 @@ ul, ol {
 
 
 }
-
+/*button style*/
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -230,7 +277,8 @@ ul, ol {
 .button:hover {
     background-color: #1d2833;
  }
-
+/*dropdown styles*/
+/*i should rewrite it*/
 .dropbtn {
     position:absolute;
     left:95%;
@@ -289,31 +337,6 @@ a {
     background-color: black;
 }
 
-.snowflake {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-image: url('images/snowflake.png');
-    background-size: cover;
-    pointer-events: none;
-}
-
-
-
-
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translate(-50%, -70%);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
-
 .dropdown {
     position: fixed;
     top: 0%;
@@ -322,6 +345,15 @@ a {
 }
 
 
+/*snow anim*/
+.snowflake {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-image: url('images/snowflake.png');
+    background-size: cover;
+    pointer-events: none;
+}
 
 .solutions-text li {
     text-align: center;
@@ -334,24 +366,9 @@ a {
 
 }
 
-@keyframes animateText {
-    0% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    50% {
-        transform: translateY(-20px);
-        opacity: 0.5;
-    }
-
-    100% {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
 
 
+/*second block anim*/
 .wipe {
     transition: color 0.3s;
     position: relative;
@@ -378,35 +395,3 @@ a {
       
     }
 
-
-#menuButton {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 999; /* Ensure button stays on top */
-}
-
-#menuContent {
-    display: none;
-    position: fixed;
-    top: 60px;
-    right: 20px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 998; /* Ensure menu stays behind button */
-}
-
-    #menuContent ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-        #menuContent ul li {
-            margin-bottom: 10px;
-        }
-
-            #menuContent ul li a {
-                text-decoration: none;
-                color: #333;
-            }

@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    document.getElementById('toggleButton').addEventListener('click', function () {
+        document.getElementById('navigation-menu').classList.toggle('active');
+    });
 
     //var storedUser = getCookie('user');
     var isSnowfallCookieValue = getCookie('isSnowfallEnabled');
