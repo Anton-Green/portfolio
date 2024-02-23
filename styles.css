@@ -6,32 +6,6 @@ body {
     font-family: "Arial", Sans-serif;
     font-size: 22px;
 }
-
-@media screen and (max-width: 600px) {
-    .grid {
-        grid-template-columns: 100%;
-    }
-
-    .cardGrid {
-        grid-template-columns: 100%;
-    }
-
-    body {
-        font-size: 10px;
-    }
-
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-
-    .smallerForMobile {
-        width:25%;
-        height:25%;
-    }
-
-    .
-}
-
 /*button style*/
 .menu-button {
     display: inline-block;
@@ -79,7 +53,7 @@ body {
 }
 
 .carousel {
-    --blur: 1px;
+    --blur: 6px;
     --contrast: 105%;
     --speed: 13s;
     height: 250px;
@@ -283,7 +257,23 @@ ul, ol {
 }
 
 /*mobile*/
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-columns: 100%; 
+    }
+    .cardGrid {
+        grid-template-columns: 100%;
+    }
+    body {
+        font-size: 10px;
+    }
 
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+
+
+}
 
 
 /*dropdown styles*/

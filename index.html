@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../styles/stylesForNightSky.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
@@ -29,7 +29,9 @@
 
 
     <!--menu-->
-    <button style=" position:fixed; z-index:2000; right:0;" id="toggleButton">Toggle Menu</button>
+    <button class="menu-button" style=" position:fixed; z-index:2000; right:0;" id="toggleButton">
+        <img class="smallerForMobile" src="../images/menuImage.png" alt="menu img" style="height:50px; width:50px;"/>
+    </button>
 
     <div id="navigation-menu" class="navigation-menu">
         <div class="container">
@@ -81,7 +83,7 @@
         <!--canvas for cursor effect-->
         <canvas id="cursorCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
         <!--logo-->
-        <a href="../index.html"><img src="../images/logo.png" alt="logo" style="position: absolute; top: 5%; left: 5%; z-index: 1; height: 10%;" /></a>
+        <a href="../index.html"><img class="smallerForMobile" src="../images/I like this font.png" alt="logo" style="position: absolute; top: 5%; left: 2%; z-index: 1; height: 100px; width: 250px;" /></a>
         <!--unused func-->
         <!--<div id="citation">-->
         <!--citation of the day-->
@@ -89,7 +91,7 @@
     </div>
 
     <!--card block-->
-    <div style="position: relative; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; background-color: #181a1b; ">
+    <div style="position: relative; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; background-color: #181a1b;">
         <!--text-->
         <div class="slide-right-on-scroll" style="top: 2%; left: 35%; position: absolute; text-align: center; width: 30%; margin: 0 auto;">
             <h2 class="hand">Useful links</h2>
@@ -111,7 +113,7 @@
             <a href="https://www.linkedin.com/in/anthony-green-software-developer/" class="slide-right-on-scroll" style="text-decoration:none;">
                 <div class="wipe">
                     <h2 style="color:darkseagreen">Explore My LinkedIn <br /> <br /></h2>
-                    <img src="../images/linked.png" alt="LinkedIn" style="width:auto; height:auto" />
+                    <img src="../images/linkedin.png" alt="LinkedIn" style="width:auto; height:auto" />
                     <h3 style="color:gray">Discover My Journey <br /> <br /></h3>
                     <p class="riot">If you're interested in my career background, <br /><br /></p>
                     <p style="color:green;" class="riot">I highly suggest examining my LinkedIn profile for a detailed overview.</p>
@@ -119,11 +121,10 @@
             </a>
 
             <!--right div-->
-            <!--need to add menu link-->
-            <a href="--------------" class="slide-right-on-scroll" style="text-decoration:none;">
+            <a href="../index.html" class="slide-right-on-scroll" style="text-decoration:none;">
                 <div class="wipe">
                     <h2 style="color:darkseagreen">View My Portfolio <br /> <br /></h2>
-                    <img src="../images/favicon.ico" alt="LinkedIn" style="width:32px; height:32px" />
+                    <img src="../images/icon.png" alt="portfolio" style="width:32px; height:32px" />
                     <h3 style="color:gray">Explore My Creative Works <br /> <br /></h3>
                     <p class="riot">If you're intrigued by my artistic journey, <br /> <br /></p>
                     <p style="color:green;" class="riot">I highly recommend examining my portfolio for an in-depth showcase.</p>
@@ -159,9 +160,9 @@
     </div>
 
     <!--customers logo-->
-    <div style="position: relative; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; background-color: #181a1b; ">
+    <div style="position: relative; top: 0; left: 0; width: auto; height: auto; object-fit: cover; background-color: #181a1b; ">
         <!--text-->
-        <div class="text-style" style="top:10%;">
+        <div class="text-style" style="top:15%;">
             <h2 class="slide-right-on-scroll riot">customers brands slider:</h2>
             <img class="slide-right-on-scroll" src="../images/stick.png" alt="stick" style="max-width: 100%; height: auto;" />
         </div>
@@ -171,24 +172,6 @@
         </div>
 
     </div>
-
-
-
-
-
-    <!--div with links-->
-  
-    <!-- <ul>
-         <li><a href="https://github.com/Anton-Green/portfolio">Github</a></li>
-         <li><a href="https://www.linkedin.com/in/anthony-green-software-developer/">LinkedIn</a></li>
-         <li><a href="https://en.wikipedia.org/wiki/User:AnthonyGreen1/sandbox">Wiki</a></li>
-         <li><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/profile.php?id=100028965971633" target="_blank" rel="noopener noreferrer">Share on Facebook</a></li>
-     </ul>-->
-
-
-
-
-
 
 </body>
 </html>
